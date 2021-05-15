@@ -19,10 +19,11 @@ Node nodeCreate(copyNodeDataElement copyDataElement,
                 copyNodeKeyElement copyKeyElement,
                 freeNodeDataElement freeDataElement,
                 freeNodeKeyElement freeKeyElement, void* key, void* data){
-    if(copyDataElement == NULL || copyKeyElement == NULL || freeDataElement == NULL || freeKeyElement == NULL){
+    if(copyDataElement == NULL || copyKeyElement == NULL || freeDataElement == NULL || freeKeyElement == NULL
+        || key == NULL || data == NULL){
         return NULL;
     }
-    Node new_node = malloc(sizeof(Node));
+    Node new_node = malloc(sizeof(*new_node));
     if(!new_node){
         return NULL;
     }
@@ -61,7 +62,7 @@ Node nodeCopy (Node node){
     if (node == NULL){
         return NULL;
     }
-    Node node_copy = malloc (sizeof(Node));
+    Node node_copy = malloc (sizeof(*node_copy));
     if(node_copy == NULL){
         return NULL;
     }
@@ -106,5 +107,79 @@ NodeDataElement nodeGetData(Node node){
     }
     return data_copy;
 }
+
+NodeResult nodeSetKey(Node node, NodeKeyElement keyElement){
+    if(!node || !keyElement){
+        return NODE_NULL_ARGUMENT;
+    }
+    NodeKeyElement new_key=node->copyKeyFunc(keyElement);
+    if(!new_key){
+        return NODE_OUT_OF_MEMORY;
+    }
+    node->freeKeyFunc(node->key);
+    node->key=new_key;
+    return NODE_SUCCESS;
+}
+
+NodeResult nodeSetData(Node node, NodeDataElement dataElement){
+    if(!node || !dataElement){
+        return NODE_NULL_ARGUMENT;
+    }
+    NodeDataElement new_data=node->copyDataFunc(dataElement);
+    if(!new_data){
+        return NODE_OUT_OF_MEMORY;
+    }
+    node->freeDataFunc(node->data);
+    node->data=new_data;
+    return NODE_SUCCESS;
+}
+
+Node nodeGetNext(Node node){
+    if(!node){
+        return NULL;
+    }
+    if(!node->next){
+        return NULL;
+    }
+    return node->next;
+}
+
+Node nodeGetPrev(Node node){
+    if(!node){
+        return NULL;
+    }
+    if(!node->prev){
+        return NULL;
+    }
+    return node->prev;
+}
+
+NodeResult nodeSetNext(Node node, Node next_node){
+    if(!node){
+        return NODE_NULL_ARGUMENT;
+    }
+    if(!next_node){
+        node->next=NULL;
+    }
+    else{
+        node->next=next_node;
+    }
+    return NODE_SUCCESS;
+}
+
+NodeResult nodeSetPrev(Node node, Node prev_node){
+    if(!node){
+        return NODE_NULL_ARGUMENT;
+    }
+    if(!prev_node){
+        node->prev=NULL;
+    }
+    else{
+        node->prev=prev_node;
+    }
+    return NODE_SUCCESS;
+}
+
+
 
 

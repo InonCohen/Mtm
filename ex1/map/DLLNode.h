@@ -116,4 +116,76 @@ NodeKeyElement nodeGetKey(Node node);
 */
 NodeKeyElement nodeGetData(Node node);
 
+/**
+*	nodeSetKey: Changes the node's key.
+*
+* @param node - The node for which the key element is to be changed.
+* @param keyElement - The node's new key element.
+* @return
+* 	NODE_NULL_ARGUMENT if a NULL was sent as node or keyElement
+* 	NODE_OUT_OF_MEMORY if an allocation failed (Meaning the function for copying
+* 	an element failed)
+* 	NODE_SUCCESS the new key element had been inserted successfully
+*/
+NodeResult nodeSetKey(Node node, NodeKeyElement keyElement);
+
+/**
+*	nodeSetData: Changes the node's data.
+*
+* @param node - The node for which the data element is to be changed.
+* @param dataElement - The node's new data element.
+* @return
+* 	NODE_NULL_ARGUMENT if a NULL was sent as node or dataElement
+* 	NODE_OUT_OF_MEMORY if an allocation failed (Meaning the function for copying
+* 	an element failed)
+* 	NODE_SUCCESS the new data element had been inserted successfully
+*/
+NodeResult nodeSetData(Node node, NodeDataElement dataElement);
+
+
+/**
+*	nodeGetNext: Returns a pointer to the next node in the list.
+*
+* @param node - The node of which to get the next node.
+* @return
+*  NULL if a NULL pointer was sent or if the previous node is NULL.
+* 	A pointer to node's next node.
+*/
+Node nodeGetNext(Node node);
+
+/**
+*	nodeGetPrev: Returns a pointer to the previous node in the list.
+*
+* @param node - The node of which to get the previous node.
+* @return
+*  NULL if a NULL pointer was sent or if the next node is NULL.
+* 	A pointer to the node's previous node.
+*/
+Node nodeGetPrev(Node node);
+
+/**
+*	nodeSetNext: Changes the pointer to the next node in the list.
+*
+* @param node - The node of which to change the next node.
+* @param next_node - The new next node.
+* @return
+*  NODE_NULL_ARGUMENT if a NULL pointer was sent as node
+*  NODE_OUT_OF_MEMORY if the allocation failed.
+*  NODE_SUCCESS otherwise.
+*/
+NodeResult nodeSetNext(Node node, Node next_node);
+
+/**
+*	nodeSetPrev: Returns a pointer to the previous node in the list.
+*
+* @param node - The node of which to change the previous node.
+* @param prev_node - The new previous node.
+* @return
+*  NODE_NULL_ARGUMENT if a NULL pointer was sent as node
+*  NODE_SUCCESS otherwise.
+*/
+NodeResult nodeSetPrev(Node node, Node prev_node);
+
+
+
 #endif //EX1NEW_DLLNODE_H
