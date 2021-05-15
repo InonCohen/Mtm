@@ -7,5 +7,5 @@ set(CMAKE_C_FLAGS "${MTM_FLAGS_RELEASE}")
 
 
 link_directories(.)
-# add_executable(ex1 main.c)
+add_executable(ex1 main.c)
 target_link_libraries(ex1 libmap.a)
