@@ -19,8 +19,7 @@ Node nodeCreate(copyNodeDataElement copyDataElement,
                 copyNodeKeyElement copyKeyElement,
                 freeNodeDataElement freeDataElement,
                 freeNodeKeyElement freeKeyElement, void* key, void* data){
-    if(copyDataElement == NULL || copyKeyElement == NULL || freeDataElement == NULL || freeKeyElement == NULL
-        || key == NULL || data == NULL){
+    if(copyDataElement == NULL || copyKeyElement == NULL || freeDataElement == NULL || freeKeyElement == NULL){
         return NULL;
     }
     Node new_node = malloc(sizeof(*new_node));
@@ -31,19 +30,29 @@ Node nodeCreate(copyNodeDataElement copyDataElement,
     new_node->copyKeyFunc = copyKeyElement;
     new_node->freeDataFunc = freeDataElement;
     new_node->freeKeyFunc = freeKeyElement;
-    void* new_key = copyKeyElement(key);
-    if(new_key == NULL){
-        free(new_node);
-        return NULL;
+    if(!key){
+        new_node->key=NULL;
     }
-    void* new_data = copyDataElement(data);
-    if(new_data == NULL){
-        free(new_key);
-        free(new_node);
-        return NULL;
+    else{
+        void* new_key = copyKeyElement(key);
+        if(new_key == NULL){
+            free(new_node);
+            return NULL;
+        }
+        new_node->key = new_key;
     }
-    new_node->key = new_key;
-    new_node->data = new_data;
+    if(!data){
+        new_node->data=NULL;
+    }
+    else {
+        void *new_data = copyDataElement(data);
+        if (new_data == NULL) {
+            free(new_node->key);
+            free(new_node);
+            return NULL;
+        }
+        new_node->data = new_data;
+    }
     new_node->next = NULL;
     new_node->prev = NULL;
     return new_node;
