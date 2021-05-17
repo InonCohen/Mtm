@@ -188,4 +188,5 @@ NodeResult nodeSetPrev(Node node, Node prev_node);
 
 
 
+
 #endif //EX1NEW_DLLNODE_H

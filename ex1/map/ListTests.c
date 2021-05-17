@@ -55,6 +55,18 @@ int compareInts (void* int1, void* int2){
     return (*(int*)int1 - *(int*)int2);
 }
 
+int compareListNodes(Node node1, Node node2){
+    if(!node1 || !node2){
+        return BAD_KEY;
+    }
+    int* key1 = (int*)nodeGetKey(node1);
+    int* key2 = (int*)nodeGetKey(node2);
+    int res =  compareInts(key1, key2);
+    free(key1);
+    free(key2);
+    return res;
+}
+
 void printNode(Node node){
     if(!node){
         printf("Wha wha.. something went wrong while trying to print node\n");
@@ -80,29 +92,49 @@ void printNode(Node node){
    free(data);
 }
 
-//void printList(DoublyLinkedList list){
-//    if(!list){
-//        return;
-//    }
-//    int size=listGetSize(list);
-//    printNode(listGetFirst(list));
-//    for(int i=1;i<size;i++){
-//        Node temp
-//        printNode(nodeGetNext(list));
-//    }
-//}
+void printList(DoublyLinkedList list){
+    if(!list){
+        return;
+    }
+    int size=listGetSize(list);
+    Node iter = listGetFirst(list);
+    for(int i=0;i<size;i++){
+        if(i==0){
+            printf("\n\nHEAD\n\n");
+        }
+        if(i==size-1){
+            printf("\n\nTAIL\n\n");
+        }
+        printNode(iter);
+        iter= nodeGetNext(iter);
+    }
+}
 
 
 int main() {
-    char* data1 = "Hello World", *data2="Hello New World!";
+    char* data1 = "Hello World", *data2="Hello New World!", *data3 ="A whole new world!!!";
     int key1 = 1, key2 = 2;
     Node node1 = nodeCreate(copyString, copyInt, freeString, freeInt, &key1, data1);
     Node node2 = nodeCreate(copyString, copyInt, freeString, freeInt, &key2, data2);
-    DoublyLinkedList list1 = listCreate(copyString, copyInt, freeString, freeInt, compareInts);
+    DoublyLinkedList list1 = listCreate(nodeCopy, nodeDestroy, compareListNodes);
+    ListResult res1 = listInsert(list1, node1);
+    printf("Insert1 outcome: %d\n", res1);
+    res1 = listInsert(list1, node2);
+    printf("Insert2 outcome: %d\n", res1);
+    nodeDestroy(node1);
+    nodeDestroy(node2);
+    printList(list1);
+    Node node3 = nodeCreate(copyString, copyInt, freeString, freeInt, &key2, data3);
+    res1=listInsert(list1, node3);
+    printf("\nReplace outcome: %d\n", res1);
+    printList(list1);
+    DoublyLinkedList list2 = listCopy(list1);
+    printf("\nPrinting list2\n");
+    printList(list2);
     listDestroy(list1);
-
-    //TODO: check GetFirst, build GetNext, then build copyFunc, then the rest. Estimation: 6 hours
-    //TODO: Build the MAP.C. Estimation: 2 hours.
-
+    printf("\nPrinting list2 AGAIN\n");
+    printList(list2);
+    nodeDestroy(node3);
+    listDestroy(list2);
     return 0;
 }

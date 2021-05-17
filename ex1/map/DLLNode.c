@@ -62,6 +62,12 @@ void nodeDestroy(Node node){
     if(node == NULL){
         return;
     }
+    if(node->prev){
+        nodeSetNext(node->prev, node->next);
+    }
+    if(node->next){
+        nodeSetPrev(node->next, node->prev);
+    }
     node->freeKeyFunc(node->key);
     node->freeDataFunc(node->data);
     free(node);
@@ -84,19 +90,22 @@ Node nodeCopy (Node node){
         free(node_copy);
         return NULL;
     }
-    node_copy->data = node->copyDataFunc(node->data);
+    node_copy->data = node_copy->copyDataFunc(node->data);
     if (node_copy->data == NULL){
         node_copy->freeKeyFunc(node_copy->key);
         free(node_copy);
         return NULL;
     }
-    node_copy->next = node->next;
-    node_copy->prev = node->prev;
+//    node_copy->next = node->next;
+//    node_copy->prev = node->prev;
     return node_copy;
 }
 
 NodeKeyElement nodeGetKey(Node node){
     if(!node){
+        return NULL;
+    }
+    if(!(node->key)){
         return NULL;
     }
     NodeKeyElement key_copy = node->copyKeyFunc(node->key);
@@ -144,10 +153,10 @@ NodeResult nodeSetData(Node node, NodeDataElement dataElement){
 }
 
 Node nodeGetNext(Node node){
-    if(!node){
+    if(node == NULL){
         return NULL;
     }
-    if(!node->next){
+    if(node->next == NULL){
         return NULL;
     }
     return node->next;
@@ -188,6 +197,7 @@ NodeResult nodeSetPrev(Node node, Node prev_node){
     }
     return NODE_SUCCESS;
 }
+
 
 
 
