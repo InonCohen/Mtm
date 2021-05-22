@@ -3,6 +3,7 @@
 #include <string.h>
 #include "DLLNode.h"
 #include "LinkedList.h"
+#include "map.h"
 
 #define BAD_KEY -999
 
@@ -110,31 +111,56 @@ void printList(DoublyLinkedList list){
     }
 }
 
+void printMap(Map map){
+    int size = mapGetSize(map);
+    MapKeyElement iter = mapGetFirst(map);
+    for(int i=0;i<size;i++){
+        int key = *(int*)iter;
+        printf("Key: %d, ", key);
+        MapDataElement data_iter=mapGet(map, iter);
+        char* data = (char*)data_iter;
+        printf("Data: %s\n", data);
+        freeInt(iter);
+        iter = mapGetNext(map);
+    }
+    freeInt(iter);
+}
+
 
 int main() {
-    char* data1 = "Hello World", *data2="Hello New World!", *data3 ="A whole new world!!!";
-    int key1 = 1, key2 = 2;
-    Node node1 = nodeCreate(copyString, copyInt, freeString, freeInt, compareInts, &key1, data1);
-    Node node2 = nodeCreate(copyString, copyInt, freeString, freeInt, compareInts, &key2, data2);
-    DoublyLinkedList list1 = listCreate(nodeCopy, nodeDestroy, nodeCompare);
-    ListResult res1 = listInsert(list1, node1);
-    printf("Insert1 outcome: %d\n", res1);
-    res1 = listInsert(list1, node2);
-    printf("Insert2 outcome: %d\n", res1);
-    nodeDestroy(node1);
-    nodeDestroy(node2);
-    printList(list1);
-    Node node3 = nodeCreate(copyString, copyInt, freeString, freeInt, compareInts, &key2, data3);
-    res1=listInsert(list1, node3);
-    printf("\nReplace outcome: %d\n", res1);
-    printList(list1);
-    DoublyLinkedList list2 = listCopy(list1);
-    printf("\nPrinting list2\n");
-    printList(list2);
-    listDestroy(list1);
-    printf("\nPrinting list2 AGAIN\n");
-    printList(list2);
-    nodeDestroy(node3);
-    listDestroy(list2);
+    Map map1 = mapCreate(copyString, copyInt, freeString, freeInt, compareInts);
+    if(!map1){
+        printf("map1 creation failed\n");
+        return 1;
+    }
+    int key1 = 1, key2 = 2, key3 = 3;
+    char* data1 = "hello", *data2 = "new", *data3 = "world";
+    MapResult res = mapPut(map1, &key1, data1);
+    if(res != MAP_SUCCESS){
+        printf("insert1 failed with code %d\n", res);
+    }
+    res = mapPut(map1, &key2, data2);
+    if(res != MAP_SUCCESS){
+        printf("insert 2 failed with code %d\n", res);
+    }
+    res = mapPut(map1, &key3, data3);
+    if(res != MAP_SUCCESS){
+        printf("insert 3 failed with code %d\n", res);
+    }
+    printf("\n\n--PRINTING MAP1--\n\n");
+    printMap(map1);
+    Map map2 = mapCopy(map1);
+    if(!map2){
+        printf("map2 creation failed\n");
+        return 1;
+    }
+    printf("\n\n--PRINTING MAP2 BEFORE CLEARING MAP1--\n\n");
+    printMap(map2);
+    printf("--PRINTING MAP1 AFTER CLEARANCE--\n\n");
+    mapClear(map1);
+    printf("\n\n--PRINTING MAP2 AFTER CLEARING MAP1--\n\n");
+    printMap(map2);
+    mapDestroy(map1);
+    mapDestroy(map2);
     return 0;
 }

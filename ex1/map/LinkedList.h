@@ -102,21 +102,36 @@ int listGetSize(DoublyLinkedList list);
 
 /**
 *	listGetFirst: Sets the internal iterator (also called current node) to
-*	the first node in the list and returns a copy of it. There doesn't
+*	the first node in the list and returns it. There doesn't
  *	need to be an internal order of the nodes so the "first" node is the
  *	list's head's next that is available in the list. Use this to start iterating over the list.
 *	To continue iteration use listGetNext
 *
-* @param list - The list for which to set the iterator and return a copy of the first
-* 		node.
+* @param list - The list for which to set the iterator and returns the first node.
 * @return
-* 	NULL if a NULL pointer was sent or the list is empty or allocation fails
+* 	NULL if a NULL pointer was sent or the list is empty
 * 	The first node of the list otherwise
 */
 Node listGetFirst(DoublyLinkedList list);
 
+
+Node listGetHead (DoublyLinkedList list);
 /**
-*	listGetNext: Advances the list iterator to the next node and returns a copy of it.
+*	listGetFirstCopy: Sets the internal iterator (also called current node) to
+*	the first node in the list and returns A COPY of it. There doesn't
+ *	need to be an internal order of the nodes so the "first" node is the
+ *	list's head's next that is available in the list. Use this to start iterating over the list.
+*	To continue iteration use listGetNext
+*
+* @param list - The list for which to set the iterator and return a copy of the first node.
+* @return
+* 	NULL if a NULL pointer was sent or the list is empty or allocation fails
+* 	A copy of the first node of the list otherwise
+*/
+Node listGetFirstCopy(DoublyLinkedList list);
+
+/**
+*	listGetNext: Advances the list iterator to the next node and returns it.
 *	The next node is the smallest node of the nodes that are
 *   greater than the current node.
 * @param list - The list for which to advance the iterator
@@ -126,6 +141,18 @@ Node listGetFirst(DoublyLinkedList list);
 * 	The next node in the list in case of success
 */
 Node listGetNext(DoublyLinkedList list);
+
+/**
+*	listGetNextCopy: Advances the list iterator to the next node and returns a copy of it.
+*	The next node is the smallest node of the nodes that are
+*   greater than the current node.
+* @param list - The list for which to advance the iterator
+* @return
+* 	NULL if reached the end of the list, or the iterator is at an invalid state,
+* 	or a NULL sent as argument or allocation fails
+* 	A copy of the next node in the list in case of success
+*/
+Node listGetNextCopy(DoublyLinkedList list);
 
 /**
 *	listInsert: Gives a node to be inserted to the list.
@@ -173,5 +200,9 @@ ListResult listRemove(DoublyLinkedList list, Node node);
 * 	true - if the node was found in the map.
 */
 bool listContains(DoublyLinkedList list, Node node);
+
+Node listGetNode(DoublyLinkedList list, Node node);
+
+ListResult listClear (DoublyLinkedList list);
 
 #endif //EX1NEW_LINKEDLIST_H

@@ -42,7 +42,7 @@ ListResult listRemove(DoublyLinkedList list, Node node){
     if(!listContains(list, node)){
         return LIST_ITEM_DOES_NOT_EXIST;
     }
-    Node iter = listGetFirst(list);
+    Node iter = listGetHead(list);
     while(iter!=NULL){
         if(list->compNodesFunc(iter, node) == 0){
             if(iter==list->head){
@@ -64,11 +64,7 @@ void listDestroy(DoublyLinkedList list){
     if(!list){
         return;
     }
-    int num_of_nodes=list->size;
-    for(int i=0;i<num_of_nodes;i++){
-
-        listRemove(list, list->head);
-    }
+    listClear(list);
     free(list);
 }
 
@@ -85,7 +81,7 @@ DoublyLinkedList listCopy(DoublyLinkedList list){
     list_copy->compNodesFunc=list->compNodesFunc;
     list_copy->size=0;
     int size = list->size;
-    Node iter = listGetFirst(list);
+    Node iter = listGetHead(list);
     ListResult res;
     for(int i=0;i<size;i++){
         res = listInsert(list_copy, iter);
@@ -127,6 +123,32 @@ Node listGetFirst(DoublyLinkedList list){
     return list->head;
 }
 
+//Node listGetFirstCopy(DoublyLinkedList list){
+//    if(!list){
+//        return NULL;
+//    }
+//    return nodeCopy(listGetFirst(list));
+//}
+
+Node listGetNext(DoublyLinkedList list){
+    if(!list){
+        return NULL;
+    }
+    Node iter = list->head;
+    for(int i=0;i<list->iterator;i++){
+        iter = nodeGetNext(iter);
+    }
+    (list->iterator)++;
+    return iter;
+}
+
+//Node listGetNextCopy(DoublyLinkedList list){
+//    if(!list){
+//        return NULL;
+//    }
+//    return nodeCopy(listGetNext(list));
+//}
+
 bool listContains(DoublyLinkedList list, Node node){
     if(!list || !node){
         return false;
@@ -149,12 +171,13 @@ Node findFollowing(DoublyLinkedList list, Node node){
     int diff = list->compNodesFunc(list->head, node);
     assert(diff != 0);
     if(diff>0){
-        return listGetFirst(list);
+        return listGetHead(list);
     }
     Node iter = list->head;
     while(iter!=NULL){
         if(list->compNodesFunc(iter, node) < 0){
             iter = nodeGetNext(iter);
+            continue;
         }
         break;
     }
@@ -172,11 +195,11 @@ Node findAntecedent(DoublyLinkedList list, Node node){
     return (following == NULL)? list->tail: nodeGetPrev(following);
 }
 
-Node listGet (DoublyLinkedList list, Node node){
+Node listGetNode (DoublyLinkedList list, Node node){
     if(!list || !node){
         return NULL;
     }
-    Node iter = listGetFirst(list);
+    Node iter = listGetHead(list);
     while(iter){
         if(list->compNodesFunc(iter,node)==0){
             return iter;
@@ -190,7 +213,7 @@ static ListResult listReplace(DoublyLinkedList list, Node node) {
     if (list == NULL || node == NULL) {
         return LIST_NULL_ARGUMENT;
     }
-    Node to_replace = listGet(list, node);
+    Node to_replace = listGetNode(list, node);
     ListResult res = listRemove(list, to_replace);
     if(res != LIST_SUCCESS){
         return res;
@@ -243,6 +266,19 @@ ListResult listInsert(DoublyLinkedList list, Node node){
     return LIST_SUCCESS;
 }
 
+ListResult listClear (DoublyLinkedList list){
+    if(list == NULL){
+        return LIST_NULL_ARGUMENT;
+    }
+    int size = listGetSize(list);
+    for(int i=0;i<size;i++){
 
+        listRemove(list, list->head);
+    }
+    if(list->size!=0){
+        return LIST_ERROR;
+    }
+    return LIST_SUCCESS;
+}
 
 
