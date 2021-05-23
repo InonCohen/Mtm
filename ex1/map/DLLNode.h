@@ -53,6 +53,14 @@ typedef void(*freeNodeDataElement)(NodeDataElement);
 /** Type of function for deallocating a key element of the node */
 typedef void(*freeNodeKeyElement)(NodeKeyElement);
 
+/**
+* Type of function used by the node to identify equal key elements.
+* This function should return:
+* 		A positive integer if the first element is greater;
+* 		0 if they're equal;
+*		A negative integer if the second element is greater.
+*/
+typedef int(*compareNodeKeyElements)(NodeKeyElement, NodeKeyElement);
 
 /**
 * nodeCreate: Allocates a new empty node.
@@ -74,7 +82,8 @@ typedef void(*freeNodeKeyElement)(NodeKeyElement);
 Node nodeCreate(copyNodeDataElement copyDataElement,
               copyNodeKeyElement copyKeyElement,
               freeNodeDataElement freeDataElement,
-              freeNodeKeyElement freeKeyElement, void* key, void* data);
+              freeNodeKeyElement freeKeyElement,
+              compareNodeKeyElements compKeyElements, void* key, void* data);
 
 /**
 * nodeDestroy: Deallocates an existing node. Clears all elements by using the
@@ -186,6 +195,9 @@ NodeResult nodeSetNext(Node node, Node next_node);
 */
 NodeResult nodeSetPrev(Node node, Node prev_node);
 
+int nodeCompare (Node node1, Node node2);
+
+void nodeFreeKey(Node node, NodeKeyElement key);
 
 
 #endif //EX1NEW_DLLNODE_H

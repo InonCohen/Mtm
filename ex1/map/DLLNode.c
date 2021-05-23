@@ -9,6 +9,7 @@ struct Node_t{
     freeNodeKeyElement freeKeyFunc;
     copyNodeDataElement copyDataFunc;
     freeNodeDataElement freeDataFunc;
+    compareNodeKeyElements compKeysFunc;
     void* key;
     void* data;
     Node next;
@@ -18,8 +19,10 @@ struct Node_t{
 Node nodeCreate(copyNodeDataElement copyDataElement,
                 copyNodeKeyElement copyKeyElement,
                 freeNodeDataElement freeDataElement,
-                freeNodeKeyElement freeKeyElement, void* key, void* data){
-    if(copyDataElement == NULL || copyKeyElement == NULL || freeDataElement == NULL || freeKeyElement == NULL){
+                freeNodeKeyElement freeKeyElement,
+                compareNodeKeyElements compKeyElements, void* key, void* data){
+    if(copyDataElement == NULL || copyKeyElement == NULL || freeDataElement == NULL ||
+    freeKeyElement == NULL || compKeyElements == NULL){
         return NULL;
     }
     Node new_node = malloc(sizeof(*new_node));
@@ -30,6 +33,7 @@ Node nodeCreate(copyNodeDataElement copyDataElement,
     new_node->copyKeyFunc = copyKeyElement;
     new_node->freeDataFunc = freeDataElement;
     new_node->freeKeyFunc = freeKeyElement;
+    new_node->compKeysFunc = compKeyElements;
     if(!key){
         new_node->key=NULL;
     }
@@ -62,6 +66,7 @@ void nodeDestroy(Node node){
     if(node == NULL){
         return;
     }
+    Node temp;
     node->freeKeyFunc(node->key);
     node->freeDataFunc(node->data);
     free(node);
@@ -79,27 +84,31 @@ Node nodeCopy (Node node){
     node_copy->copyDataFunc = node->copyDataFunc;
     node_copy->freeKeyFunc = node->freeKeyFunc;
     node_copy->freeDataFunc = node->freeDataFunc;
+    node_copy->compKeysFunc = node->compKeysFunc;
     node_copy->key = node->copyKeyFunc(node->key);
-    if (node_copy->key == NULL){
+    if (node->key != NULL && node_copy->key == NULL){
         free(node_copy);
         return NULL;
     }
-    node_copy->data = node->copyDataFunc(node->data);
-    if (node_copy->data == NULL){
+    node_copy->data = node_copy->copyDataFunc(node->data);
+    if (node->data != NULL && node_copy->data == NULL){
         node_copy->freeKeyFunc(node_copy->key);
         free(node_copy);
         return NULL;
     }
-    node_copy->next = node->next;
-    node_copy->prev = node->prev;
+    node_copy->next = NULL;
+    node_copy->prev = NULL;
     return node_copy;
 }
 
 NodeKeyElement nodeGetKey(Node node){
-    if(!node){
+    if(node == NULL){
         return NULL;
     }
-    NodeKeyElement key_copy = node->copyKeyFunc(node->key);
+    if(node->key == NULL){
+        return NULL;
+    }
+    NodeKeyElement key_copy = (node->copyKeyFunc)(node->key);
     if(!key_copy){
         return NULL;
     }
@@ -110,11 +119,7 @@ NodeDataElement nodeGetData(Node node){
     if(!node){
         return NULL;
     }
-    NodeDataElement data_copy = node->copyDataFunc(node->data);
-    if(!data_copy){
-        return NULL;
-    }
-    return data_copy;
+    return node->data;
 }
 
 NodeResult nodeSetKey(Node node, NodeKeyElement keyElement){
@@ -144,10 +149,7 @@ NodeResult nodeSetData(Node node, NodeDataElement dataElement){
 }
 
 Node nodeGetNext(Node node){
-    if(!node){
-        return NULL;
-    }
-    if(!node->next){
+    if(node == NULL){
         return NULL;
     }
     return node->next;
@@ -188,6 +190,31 @@ NodeResult nodeSetPrev(Node node, Node prev_node){
     }
     return NODE_SUCCESS;
 }
+
+int nodeCompare (Node node1, Node node2){
+    if(node1 == NULL || node2 == NULL){
+        return -1;
+    }
+    NodeKeyElement key1 = nodeGetKey(node1);
+    if(!key1){
+        return -1;
+    }
+    NodeKeyElement key2 = nodeGetKey(node2);
+    if(!key2){
+        node1->freeKeyFunc(key1);
+        return -1;
+    }
+    int res = node1->compKeysFunc(key1,key2);
+    node1->freeKeyFunc(key1);
+    node2->freeKeyFunc(key2);
+    return res;
+
+}
+
+void nodeFreeKey(Node node, NodeKeyElement key){
+    node->freeKeyFunc(key);
+}
+
 
 
 
