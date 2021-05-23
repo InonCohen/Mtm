@@ -197,5 +197,7 @@ NodeResult nodeSetPrev(Node node, Node prev_node);
 
 int nodeCompare (Node node1, Node node2);
 
+void nodeFreeKey(Node node, NodeKeyElement key);
+
 
 #endif //EX1NEW_DLLNODE_H

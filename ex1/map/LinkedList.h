@@ -201,7 +201,7 @@ ListResult listRemove(DoublyLinkedList list, Node node);
 */
 bool listContains(DoublyLinkedList list, Node node);
 
-Node listGetNode(DoublyLinkedList list, Node node);
+Node listGetNode(DoublyLinkedList list, NodeKeyElement keyElement);
 
 ListResult listClear (DoublyLinkedList list);
 

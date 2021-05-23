@@ -50,9 +50,16 @@ Map mapCreate(copyMapDataElements copyDataElement,
 }
 
 void mapDestroy(Map map){
-    nodeDestroy(map->nodePrototype);
-    listDestroy(map->list);
-    free(map);
+    if(!map){
+        return;
+    }
+    if(map->nodePrototype){
+        nodeDestroy(map->nodePrototype);
+    }
+   if(map->list){
+       listDestroy(map->list);
+   }
+   free(map);
 }
 
 Map mapCopy(Map map){
@@ -152,10 +159,11 @@ MapDataElement mapGet(Map map, MapKeyElement keyElement){
     if(res != NODE_SUCCESS){
         return NULL;
     }
-    if(!listContains(map->list, map->nodePrototype)){
+    if(!(mapContains(map, keyElement))){
         return NULL;
     }
-    Node node_of_data = listGetNode(map->list, map->nodePrototype);
+
+    Node node_of_data = listGetNode(map->list, keyElement);
     if(!node_of_data){
         return NULL;
     }
@@ -187,7 +195,6 @@ MapResult mapRemove(Map map, MapKeyElement keyElement) {
     if (!mapContains(map, keyElement)) {
         return MAP_ITEM_DOES_NOT_EXIST;
     }
-
     NodeResult res1 = nodeSetKey(map->nodePrototype, keyElement);
     if(res1 != NODE_SUCCESS){
         return res1;

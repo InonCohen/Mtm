@@ -46,11 +46,15 @@ ListResult listRemove(DoublyLinkedList list, Node node){
     while(iter!=NULL){
         if(list->compNodesFunc(iter, node) == 0){
             if(iter==list->head){
-                list->head= nodeGetNext(list->head);
+                list->head = nodeGetNext(list->head);
             }
             if(iter==list->tail){
                 list->tail= nodeGetPrev(list->tail);
             }
+            Node previous = nodeGetPrev(iter);
+            Node following = nodeGetNext(iter);
+            nodeSetPrev(following, previous);
+            nodeSetNext(previous, following);
             list->freeNodeFunc(iter);
             list->size--;
             return LIST_SUCCESS;
@@ -195,16 +199,22 @@ Node findAntecedent(DoublyLinkedList list, Node node){
     return (following == NULL)? list->tail: nodeGetPrev(following);
 }
 
-Node listGetNode (DoublyLinkedList list, Node node){
-    if(!list || !node){
+Node listGetNode (DoublyLinkedList list, NodeKeyElement keyElement){
+    if(!list || !keyElement){
         return NULL;
     }
     Node iter = listGetHead(list);
+    Node to_compare = nodeCopy(iter);
+    if(!to_compare){
+        return NULL;
+    }
+    nodeSetKey(to_compare,keyElement);
     while(iter){
-        if(list->compNodesFunc(iter,node)==0){
+        if(list->compNodesFunc(iter,to_compare)==0){
+            nodeDestroy(to_compare);
             return iter;
         }
-        iter= nodeGetNext(iter);
+        iter = nodeGetNext(iter);
     }
     return NULL;
 }
@@ -213,7 +223,9 @@ static ListResult listReplace(DoublyLinkedList list, Node node) {
     if (list == NULL || node == NULL) {
         return LIST_NULL_ARGUMENT;
     }
-    Node to_replace = listGetNode(list, node);
+    NodeKeyElement key = nodeGetKey(node);
+    Node to_replace = listGetNode(list, key);
+    nodeFreeKey(node, key);
     ListResult res = listRemove(list, to_replace);
     if(res != LIST_SUCCESS){
         return res;

@@ -156,10 +156,12 @@ int main() {
     }
     printf("\n\n--PRINTING MAP2 BEFORE CLEARING MAP1--\n\n");
     printMap(map2);
-    printf("--PRINTING MAP1 AFTER CLEARANCE--\n\n");
-    mapClear(map1);
+    printf("\n\n--PRINTING MAP1 AFTER REMOVING HEAD--\n\n");
+    mapRemove(map1,&key1);
+    printMap(map1);
     printf("\n\n--PRINTING MAP2 AFTER CLEARING MAP1--\n\n");
     printMap(map2);
+
     mapDestroy(map1);
     mapDestroy(map2);
     return 0;

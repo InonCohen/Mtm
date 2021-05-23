@@ -66,12 +66,7 @@ void nodeDestroy(Node node){
     if(node == NULL){
         return;
     }
-    if(node->prev){
-        nodeSetNext(node->prev, node->next);
-    }
-    if(node->next){
-        nodeSetPrev(node->next, node->prev);
-    }
+    Node temp;
     node->freeKeyFunc(node->key);
     node->freeDataFunc(node->data);
     free(node);
@@ -107,13 +102,13 @@ Node nodeCopy (Node node){
 }
 
 NodeKeyElement nodeGetKey(Node node){
-    if(!node){
+    if(node == NULL){
         return NULL;
     }
-    if(!(node->key)){
+    if(node->key == NULL){
         return NULL;
     }
-    NodeKeyElement key_copy = node->copyKeyFunc(node->key);
+    NodeKeyElement key_copy = (node->copyKeyFunc)(node->key);
     if(!key_copy){
         return NULL;
     }
@@ -214,6 +209,10 @@ int nodeCompare (Node node1, Node node2){
     node2->freeKeyFunc(key2);
     return res;
 
+}
+
+void nodeFreeKey(Node node, NodeKeyElement key){
+    node->freeKeyFunc(key);
 }
 
 
