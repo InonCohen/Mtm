@@ -71,6 +71,7 @@ DoublyLinkedList listCreate(copyNode copyNodeElement,
                 freeNode freeNodeElement,
                 compareNodes compareNodeElements);
 
+
 /**
 * listDestroy: Deallocates an existing list. Clears all elements by using the
 * stored free functions.
@@ -79,6 +80,7 @@ DoublyLinkedList listCreate(copyNode copyNodeElement,
 * 		done
 */
 void listDestroy(DoublyLinkedList list);
+
 
 /**
 * listCopy: Creates a copy of target list.
@@ -91,6 +93,7 @@ void listDestroy(DoublyLinkedList list);
 */
 DoublyLinkedList listCopy(DoublyLinkedList list);
 
+
 /**
 * listGetSize: Returns the number of elements in a list
 * @param list - The list which size is requested
@@ -100,63 +103,65 @@ DoublyLinkedList listCopy(DoublyLinkedList list);
 */
 int listGetSize(DoublyLinkedList list);
 
+
 /**
-*	listGetFirst: Sets the internal iterator (also called current node) to
-*	the first node in the list and returns it. There doesn't
- *	need to be an internal order of the nodes so the "first" node is the
- *	list's head's next that is available in the list. Use this to start iterating over the list.
-*	To continue iteration use listGetNext
-*
-* @param list - The list for which to set the iterator and returns the first node.
+* listGetHead: Returns a pointer to the first node in the list
+* @param list - The list which head is requested
 * @return
-* 	NULL if a NULL pointer was sent or the list is empty
-* 	The first node of the list otherwise
+* 	NULL if a NULL pointer was sent.
+* 	Otherwise a pointer to the head of the list.
 */
-Node listGetFirst(DoublyLinkedList list);
-
-
 Node listGetHead (DoublyLinkedList list);
-/**
-*	listGetFirstCopy: Sets the internal iterator (also called current node) to
-*	the first node in the list and returns A COPY of it. There doesn't
- *	need to be an internal order of the nodes so the "first" node is the
- *	list's head's next that is available in the list. Use this to start iterating over the list.
-*	To continue iteration use listGetNext
-*
-* @param list - The list for which to set the iterator and return a copy of the first node.
-* @return
-* 	NULL if a NULL pointer was sent or the list is empty or allocation fails
-* 	A copy of the first node of the list otherwise
-*/
-Node listGetFirstCopy(DoublyLinkedList list);
+
 
 /**
-*	listGetNext: Advances the list iterator to the next node and returns it.
-*	The next node is the smallest node of the nodes that are
-*   greater than the current node.
-* @param list - The list for which to advance the iterator
+* listGetTail: Returns a pointer to the last node in the list
+* @param list - The list which tail is requested
 * @return
-* 	NULL if reached the end of the list, or the iterator is at an invalid state,
-* 	or a NULL sent as argument or allocation fails
-* 	The next node in the list in case of success
+* 	NULL if a NULL pointer was sent.
+* 	Otherwise a pointer to the tail of the list.
 */
-Node listGetNext(DoublyLinkedList list);
+Node listGetTail (DoublyLinkedList list);
+
 
 /**
-*	listGetNextCopy: Advances the list iterator to the next node and returns a copy of it.
-*	The next node is the smallest node of the nodes that are
-*   greater than the current node.
-* @param list - The list for which to advance the iterator
+* listGetNode: Returns a copy of the node that has the key equal
+*               to keyElement in the list
+* @param list - The list which node is requested
+* @param keyElement - The required key, indicating the wanted node
 * @return
-* 	NULL if reached the end of the list, or the iterator is at an invalid state,
-* 	or a NULL sent as argument or allocation fails
-* 	A copy of the next node in the list in case of success
+* 	NULL if a NULL pointer was sent, or no matching result found in
+*       list, or an allocation failed.
+* 	Otherwise a copy of the node which key equals keyElement.
 */
-Node listGetNextCopy(DoublyLinkedList list);
+Node listGetNode(DoublyLinkedList list, NodeKeyElement keyElement);
+
+
+/**
+* findAntecedent: Returns a pointer to the given node's previous node in the list
+* @param list - The list in which the required node exists
+* @param node - The node of which the previous node is the required node
+* @return
+* 	NULL if a NULL pointer was sent.
+* 	Otherwise a pointer to the previous node of node.
+*/
+Node findAntecedent(DoublyLinkedList list, Node node);
+
+
+/**
+* findFollowing: Returns a pointer to the given node's next node in the list
+* @param list - The list in which the required node exists
+* @param node - The node of which the next node is the required node
+* @return
+* 	NULL if a NULL pointer was sent.
+* 	Otherwise a pointer to the next node of node.
+*/
+Node findFollowing(DoublyLinkedList list, Node node);
+
 
 /**
 *	listInsert: Gives a node to be inserted to the list.
-*  Iterator's value is undefined after this operation.
+*   Iterator's value is undefined after this operation.
 *
 * @param list - The list for which to insert the node
 * @param node - The node which needs to be inserted
@@ -168,6 +173,7 @@ Node listGetNextCopy(DoublyLinkedList list);
 * 	LIST_SUCCESS the node had been inserted successfully
 */
 ListResult listInsert(DoublyLinkedList list, Node node);
+
 
 /**
 * 	listRemove: Removes a node from the list. The node is found using the
@@ -187,12 +193,13 @@ ListResult listInsert(DoublyLinkedList list, Node node);
 */
 ListResult listRemove(DoublyLinkedList list, Node node);
 
+
 /**
-* listContains: Checks if a node exists in the list. The node will be
-* considered in the list if one of the nodes in the list is determined equal
-* using the comparison function used to initialize the list.
+* listContains: Checks if a node exists in the list. The node will be considered
+*               to be in the list if one of the nodes in the list is determined
+*               equal using the comparison function used to initialize the list.
 *
-* @param list - The map to search in
+* @param list - The map to search in.
 * @param node - The node to look for. Will be compared using the
 * 		comparison function.
 * @return
@@ -201,8 +208,46 @@ ListResult listRemove(DoublyLinkedList list, Node node);
 */
 bool listContains(DoublyLinkedList list, Node node);
 
-Node listGetNode(DoublyLinkedList list, NodeKeyElement keyElement);
 
+/**
+* listClear: Removes all nodes from target list.
+* The elements are deallocated using the stored free function.
+* @param list
+* 	Target list to remove all element from.
+* @return
+* 	LIST_NULL_ARGUMENT - if a NULL pointer was sent.
+* 	MAP_SUCCESS - Otherwise.
+*/
 ListResult listClear (DoublyLinkedList list);
+
+
+/**
+*	listGetFirst: Sets the internal iterator (also called current node) to
+*	the first node in the list and returns it. The nodes are inserted sorted,
+*	and so there is an internal order of the nodes such that the "first" node
+*	is the list's head node, which is first in the list.
+*	Use this to start iterating over the list. To continue iteration use listGetNext
+*
+* @param list - The list for which to set the iterator and return the first node.
+* @return
+* 	NULL if a NULL pointer was sent or the list is empty
+* 	The first node of the list otherwise
+*/
+Node listGetFirst(DoublyLinkedList list);
+
+
+/**
+*	listGetNext: Advances the list iterator to the next node and returns it.
+*	The next node is the smallest node of the nodes that are greater than the
+*   current node. Since the list is ordered, the next node is the current node's
+*   immediate consecutive node.
+* @param list - The list for which to advance the iterator
+* @return
+* 	NULL if reached the end of the list, or the iterator is at an invalid state,
+* 	or a NULL sent as argument or allocation fails
+* 	The next node in the list in case of success
+*/
+Node listGetNext(DoublyLinkedList list);
+
 
 #endif //EX1NEW_LINKEDLIST_H

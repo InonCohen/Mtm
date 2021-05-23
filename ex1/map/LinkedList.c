@@ -15,6 +15,8 @@ struct DoublyLinkedList_t{
     int iterator;
 };
 
+static ListResult listReplace(DoublyLinkedList list, Node node);
+
 DoublyLinkedList listCreate(copyNode copyNodeElement,
                             freeNode freeNodeElement,
                             compareNodes compareNodeElements){
@@ -35,34 +37,6 @@ DoublyLinkedList listCreate(copyNode copyNodeElement,
     return list;
 }
 
-ListResult listRemove(DoublyLinkedList list, Node node){
-    if(!list || !node){
-        return LIST_NULL_ARGUMENT;
-    }
-    if(!listContains(list, node)){
-        return LIST_ITEM_DOES_NOT_EXIST;
-    }
-    Node iter = listGetHead(list);
-    while(iter!=NULL){
-        if(list->compNodesFunc(iter, node) == 0){
-            if(iter==list->head){
-                list->head = nodeGetNext(list->head);
-            }
-            if(iter==list->tail){
-                list->tail= nodeGetPrev(list->tail);
-            }
-            Node previous = nodeGetPrev(iter);
-            Node following = nodeGetNext(iter);
-            nodeSetPrev(following, previous);
-            nodeSetNext(previous, following);
-            list->freeNodeFunc(iter);
-            list->size--;
-            return LIST_SUCCESS;
-        }
-        iter= nodeGetNext(iter);
-    }
-    return LIST_ITEM_DOES_NOT_EXIST;
-}
 
 void listDestroy(DoublyLinkedList list){
     if(!list){
@@ -119,53 +93,35 @@ Node listGetTail (DoublyLinkedList list){
     return list->tail;
 }
 
-Node listGetFirst(DoublyLinkedList list){
-    if(!list){
+Node listGetNode (DoublyLinkedList list, NodeKeyElement keyElement){
+    if(!list || !keyElement){
         return NULL;
     }
-    list->iterator=1;
-    return list->head;
-}
-
-//Node listGetFirstCopy(DoublyLinkedList list){
-//    if(!list){
-//        return NULL;
-//    }
-//    return nodeCopy(listGetFirst(list));
-//}
-
-Node listGetNext(DoublyLinkedList list){
-    if(!list){
+    Node iter = listGetHead(list);
+    Node to_compare = nodeCopy(iter);
+    if(!to_compare){
         return NULL;
     }
-    Node iter = list->head;
-    for(int i=0;i<list->iterator;i++){
+    nodeSetKey(to_compare,keyElement);
+    while(iter){
+        if(list->compNodesFunc(iter,to_compare)==0){
+            nodeDestroy(to_compare);
+            return iter;
+        }
         iter = nodeGetNext(iter);
     }
-    (list->iterator)++;
-    return iter;
+    return NULL;
 }
 
-//Node listGetNextCopy(DoublyLinkedList list){
-//    if(!list){
-//        return NULL;
-//    }
-//    return nodeCopy(listGetNext(list));
-//}
-
-bool listContains(DoublyLinkedList list, Node node){
-    if(!list || !node){
-        return false;
+Node findAntecedent(DoublyLinkedList list, Node node){
+    if(list == NULL || node == NULL){
+        return NULL;
     }
-    int size=list->size;
-    Node iter = list->head;
-    for(int i=0;i<size;i++){
-        if(0==list->compNodesFunc(iter, node)){
-            return true;
-        }
-        iter= nodeGetNext(iter);
+    Node following = findFollowing(list, node);
+    if(following == list->head){
+        return NULL;
     }
-    return false;
+    return (following == NULL)? list->tail: nodeGetPrev(following);
 }
 
 Node findFollowing(DoublyLinkedList list, Node node){
@@ -187,52 +143,6 @@ Node findFollowing(DoublyLinkedList list, Node node){
     }
     return iter;
 }
-
-Node findAntecedent(DoublyLinkedList list, Node node){
-    if(list == NULL || node == NULL){
-        return NULL;
-    }
-    Node following = findFollowing(list, node);
-    if(following == list->head){
-        return NULL;
-    }
-    return (following == NULL)? list->tail: nodeGetPrev(following);
-}
-
-Node listGetNode (DoublyLinkedList list, NodeKeyElement keyElement){
-    if(!list || !keyElement){
-        return NULL;
-    }
-    Node iter = listGetHead(list);
-    Node to_compare = nodeCopy(iter);
-    if(!to_compare){
-        return NULL;
-    }
-    nodeSetKey(to_compare,keyElement);
-    while(iter){
-        if(list->compNodesFunc(iter,to_compare)==0){
-            nodeDestroy(to_compare);
-            return iter;
-        }
-        iter = nodeGetNext(iter);
-    }
-    return NULL;
-}
-
-static ListResult listReplace(DoublyLinkedList list, Node node) {
-    if (list == NULL || node == NULL) {
-        return LIST_NULL_ARGUMENT;
-    }
-    NodeKeyElement key = nodeGetKey(node);
-    Node to_replace = listGetNode(list, key);
-    nodeFreeKey(node, key);
-    ListResult res = listRemove(list, to_replace);
-    if(res != LIST_SUCCESS){
-        return res;
-    }
-    return listInsert(list, node);
-}
-
 
 ListResult listInsert(DoublyLinkedList list, Node node){
     if(!list || !node){
@@ -278,6 +188,50 @@ ListResult listInsert(DoublyLinkedList list, Node node){
     return LIST_SUCCESS;
 }
 
+ListResult listRemove(DoublyLinkedList list, Node node){
+    if(!list || !node){
+        return LIST_NULL_ARGUMENT;
+    }
+    if(!listContains(list, node)){
+        return LIST_ITEM_DOES_NOT_EXIST;
+    }
+    Node iter = listGetHead(list);
+    while(iter!=NULL){
+        if(list->compNodesFunc(iter, node) == 0){
+            if(iter==list->head){
+                list->head = nodeGetNext(list->head);
+            }
+            if(iter==list->tail){
+                list->tail= nodeGetPrev(list->tail);
+            }
+            Node previous = nodeGetPrev(iter);
+            Node following = nodeGetNext(iter);
+            nodeSetPrev(following, previous);
+            nodeSetNext(previous, following);
+            list->freeNodeFunc(iter);
+            list->size--;
+            return LIST_SUCCESS;
+        }
+        iter= nodeGetNext(iter);
+    }
+    return LIST_ITEM_DOES_NOT_EXIST;
+}
+
+bool listContains(DoublyLinkedList list, Node node){
+    if(!list || !node){
+        return false;
+    }
+    int size=list->size;
+    Node iter = list->head;
+    for(int i=0;i<size;i++){
+        if(0==list->compNodesFunc(iter, node)){
+            return true;
+        }
+        iter= nodeGetNext(iter);
+    }
+    return false;
+}
+
 ListResult listClear (DoublyLinkedList list){
     if(list == NULL){
         return LIST_NULL_ARGUMENT;
@@ -293,4 +247,52 @@ ListResult listClear (DoublyLinkedList list){
     return LIST_SUCCESS;
 }
 
+Node listGetFirst(DoublyLinkedList list){
+    if(!list){
+        return NULL;
+    }
+    list->iterator=1;
+    return list->head;
+}
+
+Node listGetNext(DoublyLinkedList list){
+    if(!list){
+        return NULL;
+    }
+    Node iter = list->head;
+    for(int i=0;i<list->iterator;i++){
+        iter = nodeGetNext(iter);
+    }
+    (list->iterator)++;
+    return iter;
+}
+
+/**
+*	listReplace: Gives a node in the list a different data.
+*   Iterator's value is undefined after this operation.
+*
+* @param list - The list in which exists a node with key equal to given node,
+*               and which needs to be replaced by the given node.
+* @param node - The node to be inserted to the list, after removing a node
+*               with an equal key.
+*               A copy of the node containing the new data will be inserted
+* @return
+* 	LIST_NULL_ARGUMENT if a NULL was sent as list or node
+* 	LIST_OUT_OF_MEMORY if an allocation failed (meaning the function for copying
+* 	a node failed)
+* 	LIST_SUCCESS the node had been inserted successfully
+*/
+static ListResult listReplace(DoublyLinkedList list, Node node) {
+    if (list == NULL || node == NULL) {
+        return LIST_NULL_ARGUMENT;
+    }
+    NodeKeyElement key = nodeGetKey(node);
+    Node to_replace = listGetNode(list, key);
+    nodeFreeKey(node, key);
+    ListResult res = listRemove(list, to_replace);
+    if(res != LIST_SUCCESS){
+        return res;
+    }
+    return listInsert(list, node);
+}
 
