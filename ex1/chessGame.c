@@ -31,14 +31,20 @@ ChessGame chessGameCopy(ChessGame game){
         return NULL;
     }
 
-    if ((newChessGame, chessGame) == CHESS_OUT_OF_MEMORY) {
+
+    if (addAllOrDestroy(newChessGame, chessGame) == CHESS_OUT_OF_MEMORY) {
         return NULL;
     }
     newGame->iterator = chessGame->iterator;
     return newGame;
 }
 
-void chessGameDestroy(ChessGame);
+void chessGameDestroy(ChessGame game){
+    if(!game){
+        return;
+    }
+    free(game);
+}
 
 int getChessGameID(ChessGame chessGame){
     return itoa(chessGame->tournament_id)+SEP+itoa(chessGame->player1)+SEP+itoa(chessGame->player2);
