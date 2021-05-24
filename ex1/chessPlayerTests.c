@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "Player.h"
+#include "chessPlayer.h"
 
 void testMemoryOfCreateAndDestroy(){
     Player player1 = playerCreate(12);
