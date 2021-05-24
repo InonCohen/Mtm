@@ -66,7 +66,6 @@ void nodeDestroy(Node node){
     if(node == NULL){
         return;
     }
-    Node temp;
     node->freeKeyFunc(node->key);
     node->freeDataFunc(node->data);
     free(node);
@@ -208,14 +207,8 @@ int nodeCompare (Node node1, Node node2){
     node1->freeKeyFunc(key1);
     node2->freeKeyFunc(key2);
     return res;
-
 }
 
 void nodeFreeKey(Node node, NodeKeyElement key){
     node->freeKeyFunc(key);
 }
-
-
-
-
-
