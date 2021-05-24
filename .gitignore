@@ -1,4 +1,9 @@
-/ex1/map/cmake-build-debug/
+### JetBrains ###
+.idea/
 /ex1/map/.idea/
-/ex1/cmake-build-debug/
 /ex1/.idea/
+
+### Build Files
+/ex1/map/cmake-build-debug/
+/ex1/cmake-build-debug/
+/ex1/CMakeLists.txt
