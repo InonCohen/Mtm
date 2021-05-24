@@ -38,7 +38,12 @@ ChessGame chessGameCopy(ChessGame game){
     return newGame;
 }
 
-void chessGameDestroy(ChessGame);
+void chessGameDestroy(ChessGame game){
+    if(!game){
+        return;
+    }
+    free(game);
+}
 
 int getChessGameID(ChessGame chessGame){
     return itoa(chessGame->tournament_id)+SEP+itoa(chessGame->player1)+SEP+itoa(chessGame->player2);
