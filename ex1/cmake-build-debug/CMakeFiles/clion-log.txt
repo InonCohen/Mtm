@@ -1,16 +1,26 @@
 /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /Users/ohadbenacot/CLionProjects/Mtm/ex1
 -- Configuring done
-CMake Error at CMakeLists.txt:10 (add_executable):
-  Cannot find source file:
+CMake Warning (dev) in CMakeLists.txt:
+  Policy CMP0081 is not set: Relative paths not allowed in LINK_DIRECTORIES
+  target property.  Run "cmake --help-policy CMP0081" for policy details.
+  Use the cmake_policy command to set the policy and suppress this warning.
 
-    main.c
+  Found relative path while evaluating link directories of "ex1":
 
-  Tried extensions .c .C .c++ .cc .cpp .cxx .cu .m .M .mm .h .hh .h++ .hm
-  .hpp .hxx .in .txx .f .F .for .f77 .f90 .f95 .f03 .ispc
+    "."
 
+This warning is for project developers.  Use -Wno-dev to suppress it.
 
-CMake Error at CMakeLists.txt:10 (add_executable):
-  No SOURCES given to target: ex1
+CMake Warning (dev) in CMakeLists.txt:
+  Policy CMP0081 is not set: Relative paths not allowed in LINK_DIRECTORIES
+  target property.  Run "cmake --help-policy CMP0081" for policy details.
+  Use the cmake_policy command to set the policy and suppress this warning.
 
+  Found relative path while evaluating link directories of "ex1":
 
-CMake Generate step failed.  Build files cannot be regenerated correctly.
+    "."
+
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Generating done
+-- Build files have been written to: /Users/ohadbenacot/CLionProjects/Mtm/ex1/cmake-build-debug
