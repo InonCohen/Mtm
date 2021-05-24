@@ -1,4 +1,12 @@
-/ex1/map/cmake-build-debug/
-/ex1/map/.idea/
+### JetBrains ###
+/.idea/
+/ex1/.idea
+/ex1/map/.idea
+
+### Build ###
+/ex1/CMakeLists.txt
 /ex1/cmake-build-debug/
-/ex1/.idea/
+/ex1/map/cmake-build-debug/
+
+### Exercise Instructions ###
+*.pdf
