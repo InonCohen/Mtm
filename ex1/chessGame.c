@@ -31,7 +31,7 @@ ChessGame chessGameCopy(ChessGame game){
         return NULL;
     }
 
-    if (addAllOrDestroy(newChessGame, chessGame) == CHESS_OUT_OF_MEMORY) {
+    if ((newChessGame, chessGame) == CHESS_OUT_OF_MEMORY) {
         return NULL;
     }
     newGame->iterator = chessGame->iterator;

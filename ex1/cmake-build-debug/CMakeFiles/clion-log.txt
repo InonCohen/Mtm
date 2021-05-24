@@ -1,26 +1,4 @@
 /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /Users/ohadbenacot/CLionProjects/Mtm/ex1
-CMake Warning (dev) at CMakeLists.txt:8 (link_directories):
-  This command specifies the relative path
-
-    .
-
-  as a link directory.
-
-  Policy CMP0015 is not set: link_directories() treats paths relative to the
-  source dir.  Run "cmake --help-policy CMP0015" for policy details.  Use the
-  cmake_policy command to set the policy and suppress this warning.
-This warning is for project developers.  Use -Wno-dev to suppress it.
-
-CMake Warning (dev) in CMakeLists.txt:
-  No cmake_minimum_required command is present.  A line of code such as
-
-    cmake_minimum_required(VERSION 3.19)
-
-  should be added at the top of the file.  The version specified may be lower
-  if you wish to support older CMake versions for this project.  For more
-  information run "cmake --help-policy CMP0000".
-This warning is for project developers.  Use -Wno-dev to suppress it.
-
 -- Configuring done
 CMake Warning (dev) in CMakeLists.txt:
   Policy CMP0081 is not set: Relative paths not allowed in LINK_DIRECTORIES
