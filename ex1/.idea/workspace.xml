@@ -13,12 +13,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1ec39254-4ddf-4482-b2ca-29199260e439" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chessGame.c" beforeDir="false" afterPath="$PROJECT_DIR$/chessGame.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chessGame.h" beforeDir="false" afterPath="$PROJECT_DIR$/chessGame.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,6 +26,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RESET_MODE" value="MIXED" />
   </component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
@@ -104,7 +101,7 @@
       <workItem from="1621185541978" duration="8308000" />
       <workItem from="1621705517684" duration="1463000" />
       <workItem from="1621708595837" duration="191000" />
-      <workItem from="1621708909894" duration="4797000" />
+      <workItem from="1621708909894" duration="10210000" />
     </task>
     <task id="LOCAL-00001" summary="download most updated files from csl3 server.">
       <created>1621702529565</created>
@@ -125,6 +122,31 @@
         <entry key="MAIN">
           <value>
             <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="HEAD" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="implementBaseADTFunctions" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="main" />
+                </option>
+              </RecentGroup>
+            </list>
           </value>
         </entry>
       </map>
