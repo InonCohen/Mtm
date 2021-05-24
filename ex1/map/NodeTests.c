@@ -47,11 +47,11 @@ void* copyInt (void* to_copy){
     return new_int;
 }
 
-int compareInts (int* int1, int* int2){
+int compareInts (void* int1, void* int2){
     if(int1 == NULL || int2 == NULL){
         return BAD_KEY;
     }
-    return (*int1 - *int2);
+    return (*(int*)int1 - *(int*)int2);
 }
 
 void printNode(char* name, Node node){
@@ -84,7 +84,7 @@ void printNode(char* name, Node node){
 int main() {
     char* data1 = "Hello World", *data2="Hello New World!";
     int key1 = 1, key2 = 2;
-    Node node1 = nodeCreate(copyString, copyInt, freeString, freeInt, &key1, data1);
+    Node node1 = nodeCreate(copyString, copyInt, freeString, freeInt, compareInts, &key1, data1);
     printf("\n\nFIRST PRINTING\n\n");
     printNode("Node1", node1);
     Node node2 = nodeCopy(node1);

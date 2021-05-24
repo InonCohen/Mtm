@@ -1,3 +1,6 @@
-# ignore JetBrains files
+# Ignore JetBrains files
 \.idea
 \cmake-build-debug
+
+# Ignore file instruction
+*.pdf
