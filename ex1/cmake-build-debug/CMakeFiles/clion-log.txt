@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /Users/ohadbenacot/CLionProjects/Mtm/ex1
 -- The C compiler identification is AppleClang 12.0.5.12050022
 -- Detecting C compiler ABI info
@@ -5,6 +6,9 @@
 -- Check for working C compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc - skipped
 -- Detecting C compile features
 -- Detecting C compile features - done
+=======
+"C:\Program Files\JetBrains\CLion 2019.2.5\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" C:\Users\Inon\CLionProjects\Mtm\ex1
+>>>>>>> main
 -- Configuring done
 -- Generating done
 -- Build files have been written to: /Users/ohadbenacot/CLionProjects/Mtm/ex1/cmake-build-debug
