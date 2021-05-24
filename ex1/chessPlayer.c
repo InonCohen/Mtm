@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "Player.h"
+#include "chessPlayer.h"
 #include "map.h"
 #include "chessGame.h"
 
@@ -131,7 +131,7 @@ int playerGetLevel(Player player){
 }
 Map playerGetGames(Player player){
     if(!player){
-        return BAD_INPUT;
+        return NULL;
     }
     return player->games;
 }

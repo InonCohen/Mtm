@@ -3,4 +3,4 @@ project(ex1 C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(ex1 PlayerTests.c Player.c)
+add_executable(ex1 PlayerTests.c chessPlayer.c chessGame.c)

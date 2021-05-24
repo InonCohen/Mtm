@@ -14,6 +14,8 @@
 # EXTERNAL cache entries
 ########################
 
+:UNINITIALIZED=======
+
 //Path to a program.
 CMAKE_ADDR2LINE:FILEPATH=C:/TDM-GCC-64/bin/addr2line.exe
 
@@ -123,9 +125,7 @@ CMAKE_NM:FILEPATH=C:/TDM-GCC-64/bin/nm.exe
 //Path to a program.
 CMAKE_OBJCOPY:FILEPATH=C:/TDM-GCC-64/bin/objcopy.exe
 
-//Path to a program.
-<<<<<<< HEAD
-CMAKE_OBJDUMP:FILEPATH=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/objdump
+CMAKE_OBJDUMP:FILEPATH=C:/TDM-GCC-64/bin/objdump.exe
 
 //Build architectures for OSX
 CMAKE_OSX_ARCHITECTURES:STRING=
@@ -137,9 +137,6 @@ CMAKE_OSX_DEPLOYMENT_TARGET:STRING=
 //The product will be built against the headers and libraries located
 // inside the indicated SDK.
 CMAKE_OSX_SYSROOT:PATH=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk
-=======
-CMAKE_OBJDUMP:FILEPATH=C:/TDM-GCC-64/bin/objdump.exe
->>>>>>> main
 
 //Value Computed by CMake
 CMAKE_PROJECT_DESCRIPTION:STATIC=
