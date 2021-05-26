@@ -1,6 +1,6 @@
 #ifndef PLAYER_H
 #define PLAYER_H
-
+#include "chessDefs.h"
 #include "map.h"
 
 typedef enum {
@@ -20,9 +20,9 @@ typedef enum {
     PLAYER_SAVE_FAILURE,
     PLAYER_SUCCESS
 } PlayerResult ;
-
-/** Type for defining the Player */
-typedef struct Player_t *Player;
+//
+///** Type for defining the Player */
+//typedef struct chess_player_t *Player;
 
 
 /**

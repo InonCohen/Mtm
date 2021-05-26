@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "chessPlayer.h"
+#include "chessDefs.h"
 #include "map.h"
 #include "chessGame.h"
 
 #define BAD_INPUT -1
 
 
-struct Player_t{
+struct chess_player_t{
     int ID;
     Map games;//keys: int tourIDopponentID, data: chessGame
     int wins;
@@ -131,7 +132,7 @@ int playerGetLevel(Player player){
 }
 Map playerGetGames(Player player){
     if(!player){
-        return BAD_INPUT;
+        return NULL;
     }
     return player->games;
 }

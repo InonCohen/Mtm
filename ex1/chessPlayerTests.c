@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "map.h"
 #include "chessPlayer.h"
 
 void testMemoryOfCreateAndDestroy(){
@@ -10,5 +11,5 @@ int main(){
     printf("\n\nTesting No Memory problems in basic Allocations and Destruction\n\n ");
     testMemoryOfCreateAndDestroy();
     return 0;
-};
+}
 
