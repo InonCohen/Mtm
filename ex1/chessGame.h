@@ -1,9 +1,10 @@
 #ifndef EX1_CHESSGAME_H
 #define EX1_CHESSGAME_H
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
 #include "chessDefs.h"
 #include "chessSystem.h"
-#include "chessSystem.h"
-#include "chessDefs.h"
 
 typedef enum {
     GAME_OUT_OF_MEMORY,

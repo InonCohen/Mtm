@@ -2,10 +2,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "chessGameCopy.h"
+#include "strUtils.h"
+#include "chessGame.h"
+#include "chessGame.h"
+#include "chessSystem.h"
+#include "chessPlayer.h"
 
 
-#define SEP "-"
 #define SEP_CHAR '-'
 #define BAD_INPUT -1
 #define MORE_LENGTH 3
