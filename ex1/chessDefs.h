@@ -5,6 +5,6 @@
 typedef struct chess_game_t *ChessGame;
 
 /** Type for defining the Player */
-typedef struct Player_t* Player;
+typedef struct chess_player_t *ChessPlayer;
 
 #endif //EX1_CHESSDEFS_H

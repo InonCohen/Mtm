@@ -1,14 +1,22 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include "map.h"
 #include "chessSystem.h"
 #include "map.h"
 #include "chessPlayer.h"
 #include "chessGameCopy.h"
 #include "chessTournament.h"
 
-struct ChessSystem{
+
+
+struct chess_system_t{
     Map tournaments; // Key: int id,  Data: Tournament tour
+
 //    Map Games; // Key: char* id,  Data: Game game
     Map Players; // Key: int id,  Data: Player
+
 };
+
 /*
  * Required to function:
  *              - Tournaments ADT copy, destroy funcs
@@ -153,10 +161,13 @@ static bool chessGameInTournament(Tournament tournament, char* game_id){
 }
 
 ChessResult chessAddTournament (ChessSystem chess, int tournament_id,
-                                int max_games_per_player, const char* tournament_location);
+                                int max_games_per_player, const char* tournament_location){
+    return CHESS_SUCCESS;
+}
 
 ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
                          int second_player, Winner winner, int play_time){
+
     if(!chess){
         return CHESS_NULL_ARGUMENT;
     }
@@ -172,16 +183,29 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
         return CHESS_TOURNAMENT_ENDED;
     }
     return tournamentAddGame(tournament, first_player, second_player,play_time, winner);
+
 }
 
-ChessResult chessRemoveTournament (ChessSystem chess, int tournament_id);
+ChessResult chessRemovePlayer(ChessSystem chess, int player_id){
+    return CHESS_SUCCESS;
+}
 
-ChessResult chessRemovePlayer(ChessSystem chess, int player_id);
+ChessResult chessEndTournament (ChessSystem chess, int tournament_id){
+    return CHESS_SUCCESS;
+}
 
-ChessResult chessEndTournament (ChessSystem chess, int tournament_id);
+double chessCalculateAveragePlayTime (ChessSystem chess, int player_id, ChessResult* chess_result){
+    return 0;
+}
 
-double chessCalculateAveragePlayTime (ChessSystem chess, int player_id, ChessResult* chess_result);
+ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file){
+    return CHESS_SUCCESS;
+}
 
-ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file);
+ChessResult chessSaveTournamentStatistics (ChessSystem chess, char* path_file){
+    return CHESS_SUCCESS;
+}
 
-ChessResult chessSaveTournamentStatistics (ChessSystem chess, char* path_file);
+int main(){
+
+}

@@ -1,6 +1,7 @@
 #ifndef EX1_CHESSGAME_H
 #define EX1_CHESSGAME_H
-
+#include "chessDefs.h"
+#include "chessSystem.h"
 #include "chessSystem.h"
 #include "chessDefs.h"
 
@@ -40,5 +41,6 @@ Winner gameGetWinner(ChessGame game);
 GameResult gameUpdateLoser(char* game_id, Player player);
 
 void gameSetWinner(ChessGame game, Winner winner);
+
 
 #endif //EX1_CHESSGAME_H

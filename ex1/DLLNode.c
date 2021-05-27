@@ -138,7 +138,7 @@ NodeResult nodeSetData(Node node, NodeDataElement dataElement){
     if(!node || !dataElement){
         return NODE_NULL_ARGUMENT;
     }
-    NodeDataElement new_data=(node->copyDataFunc(dataElement));
+    NodeDataElement new_data=node->copyDataFunc(dataElement);
     if(!new_data){
         return NODE_OUT_OF_MEMORY;
     }

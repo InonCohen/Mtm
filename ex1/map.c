@@ -131,13 +131,14 @@ MapResult mapPut(Map map, MapKeyElement keyElement, MapDataElement dataElement){
     }
     NodeResult res = nodeSetKey(map->nodePrototype, keyElement);
     if(res != NODE_SUCCESS){
-        return res;
+
+        return (MapResult) res;
     }
     res = nodeSetData(map->nodePrototype, dataElement);
     if(res != NODE_SUCCESS){
-        return res;
+        return (MapResult) res;
     }
-    return listInsert(map->list, map->nodePrototype);
+    return (MapResult) listInsert(map->list, map->nodePrototype);
 }
 
 /**
@@ -197,11 +198,13 @@ MapResult mapRemove(Map map, MapKeyElement keyElement) {
     }
     NodeResult res1 = nodeSetKey(map->nodePrototype, keyElement);
     if(res1 != NODE_SUCCESS){
-        return res1;
+
+        return (MapResult) res1;
     }
     Node to_remove = listGetNode(map->list, keyElement);
     ListResult res2 = listRemove(map->list, to_remove);
-    return res2;
+    return (MapResult) res2;
+
 }
 
 MapKeyElement mapGetFirst(Map map){
@@ -235,6 +238,7 @@ MapResult mapClear(Map map){
     if(map == NULL){
         return MAP_NULL_ARGUMENT;
     }
-    return listClear(map->list);
+
+    return (MapResult) listClear(map->list);
 }
 
