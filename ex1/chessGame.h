@@ -25,21 +25,21 @@ typedef enum {
 } GameResult ;
 
 
-ChessGame gameCreate(unsigned int game_id, Player player1, Player player2, int play_time, Winner winner);
+ChessGame gameCreate(int game_id, char* player1_id, char* player2_id, int play_time, Winner winner);
 
 ChessGame gameCopy(ChessGame game);
 
 void gameDestroy(ChessGame game);
 
-Player gameGetPlayer1(ChessGame game);
+char* gameGetPlayer1ID(ChessGame game);
 
-Player gameGetPlayer2(ChessGame game);
+char* gameGetPlayer2ID(ChessGame game);
 
 char* gameGetID(ChessGame game);
 
 Winner gameGetWinner(ChessGame game);
 
-GameResult gameUpdateLoser(char* game_id, Player player);
+GameResult gameUpdateLoser(char* game_id, ChessPlayer player);
 
 void gameSetWinner(ChessGame game, Winner winner);
 
