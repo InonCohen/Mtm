@@ -1,69 +1,30 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "chessPlayer.h"
 #include "map.h"
+#include "chessDefs.h"
+#include "chessGameMap.h"
 #include "chessGame.h"
+#include "chessPlayer.h"
 
-#define BAD_INPUT -1
 
-
-struct Player_t{
+struct chess_player_t{
     int ID;
-    Map games;//keys: int tourIDopponentID, data: chessGame
     int wins;
     int losses;
     int draws;
     int level;
     int total_time;
+    Map games;//keys: int, data: chessGame
 };
 
-void gamesMapKeyDestroy(void* to_free){
-    if(to_free == NULL){
-        return;
-    }
-    chessGameDestroy(*(ChessGame*)to_free);
-}
 
-void gamesMapDataDestroy(void* to_free){
-    free(to_free);
-}
-
-void* gamesMapKeyCopy (void* to_copy){
-    if(to_copy == NULL){
-        return NULL;
-    }
-    int* new_int = malloc(sizeof(int));
-    if(!new_int){
-        return NULL;
-    }
-    *new_int = (*(int*)to_copy);
-    return new_int;
-}
-
-void* gamesMapDataCopy (void* to_copy) {
-    if(to_copy == NULL){
-        return NULL;
-    }
-    ChessGame copy = chessGameCopy(*(ChessGame*)to_copy);
-    if(!copy){
-        return NULL;
-    }
-    return (void*)copy;
-}
-
-int compareGamesMapKeys (void* int1, void* int2){
-    if(int1 == NULL || int2 == NULL){
-        return BAD_INPUT;
-    }
-    return (*(int*)int1 - *(int*)int2);
-}
-
-Player playerCreate(int id){
-    Player new_player = malloc(sizeof(*new_player));
+ChessPlayer playerCreate(int id){
+    ChessPlayer new_player = malloc(sizeof(*new_player));
     if(!new_player){
         return NULL;
     }
-    Map map = mapCreate(gamesMapDataCopy, gamesMapKeyCopy, gamesMapDataDestroy, gamesMapKeyDestroy, compareGamesMapKeys);
+    Map map = mapCreate(gamesMapCopyData, mapCopyStringKey, gamesMapFreeData, mapFreeStringKey,
+                        mapCompareStringKeys);
     if(!map){
         free (new_player);
         return NULL;
@@ -77,7 +38,7 @@ Player playerCreate(int id){
     return new_player;
 }
 
-void playerDestroy(Player player){
+void playerDestroy(ChessPlayer player){
     if(!player){
         return;
     }
@@ -87,11 +48,11 @@ void playerDestroy(Player player){
     free(player);
 }
 
-Player playerCopy(Player player){
+ChessPlayer playerCopy(ChessPlayer player){
     if(!player){
         return NULL;
     }
-    Player copy = malloc(sizeof(*copy));
+    ChessPlayer copy = malloc(sizeof(*copy));
     if(!copy){
         return NULL;
     }
@@ -111,31 +72,31 @@ Player playerCopy(Player player){
     return copy;
 }
 
-int playerGetID(Player player){
+int playerGetID(ChessPlayer player){
     if(!player){
         return BAD_INPUT;
     }
     return player->ID;
 }
-int playerGetPlayingTime(Player player){
+int playerGetPlayingTime(ChessPlayer player){
     if(!player){
         return BAD_INPUT;
     }
     return player->total_time;
 }
-int playerGetLevel(Player player){
+int playerGetLevel(ChessPlayer player){
     if(!player){
         return BAD_INPUT;
     }
     return player->level;
 }
-Map playerGetGames(Player player){
+Map playerGetGames(ChessPlayer player){
     if(!player){
-        return BAD_INPUT;
+        return NULL;
     }
     return player->games;
 }
-int playerGetNumOfGames(Player player){
+int playerGetNumOfGames(ChessPlayer player){
     if(!player){
         return BAD_INPUT;
     }
@@ -144,19 +105,19 @@ int playerGetNumOfGames(Player player){
     }
     return mapGetSize(player->games);
 }
-int playerGetNumOfWins(Player player){
+int playerGetNumOfWins(ChessPlayer player){
     if(!player){
         return BAD_INPUT;
     }
     return player->wins;
 }
-int playerGetNumOfLosses(Player player){
+int playerGetNumOfLosses(ChessPlayer player){
     if(!player){
         return BAD_INPUT;
     }
     return player->losses;
 }
-int playerGetNumOfDraws(Player player){
+int playerGetNumOfDraws(ChessPlayer player){
     if(!player){
         return BAD_INPUT;
     }
