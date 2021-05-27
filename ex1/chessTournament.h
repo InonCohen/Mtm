@@ -28,9 +28,8 @@ int tournamentGetMaxGamesPerPlayer(ChessTournament tournament);
 
 bool tournamentIsOver(ChessTournament tournament);
 
-int tournamentGetSumPointsOfPlayer(int player_id);
+int tournamentGetSumPointsOfPlayer(ChessTournament tournament, char *player_id);
 
-int tournamentCountLosingGames(int player_id);
-
+int tournamentCountLosingGames(ChessTournament tournament, char *player_id);
 
 #endif //EX1_CHESSTOURNAMENT_H

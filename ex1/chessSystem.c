@@ -8,8 +8,7 @@
 
 struct chess_system_t{
     Map tournaments; // Key: int id,  Data: Tournament tour
-    Map Games; // Key: char* id,  Data: Game game
-    Map Players; // Key: int id,  Data: Player
+    Map players; // Key: int id,  Data: Player
 };
 
 /*
@@ -23,7 +22,6 @@ ChessSystem chessCreate(){
     if(!system){
         return NULL;
     }
-    ChessTournament foo = malloc(sizeof (*foo));
 
     Map tournaments = malloc(sizeof(*tournaments));
     if(!tournaments){

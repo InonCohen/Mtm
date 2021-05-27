@@ -1,5 +1,5 @@
-#ifndef PLAYER_H
-#define PLAYER_H
+#ifndef EX1_CHESSPLAYER_H
+#define EX1_CHESSPLAYER_H
 #include "chessDefs.h"
 #include "map.h"
 
@@ -22,7 +22,8 @@ typedef enum {
 } PlayerResult ;
 //
 ///** Type for defining the Player */
-//typedef struct chess_player_t *Player;
+// In the meantime, defined in: chessDefs.h
+// typedef struct chess_player_t *chessPlayer;
 
 
 /**
@@ -32,7 +33,7 @@ typedef enum {
  * @return A new player in case of success, and NULL otherwise (e.g.
  *     in case of an allocation error)
  */
-Player playerCreate(int id);
+ChessPlayer playerCreate(int id);
 
 /**
  * playerDestroy: free a player from memory, while updating played
@@ -41,7 +42,7 @@ Player playerCreate(int id);
  * @param player - the player to free from memory. A NULL value is
  *     allowed, and in that case the function does nothing.
  */
-void playerDestroy(Player player);
+void playerDestroy(ChessPlayer player);
 
 /**
 * playerCopy: Creates a copy of the target player.
@@ -49,18 +50,18 @@ void playerDestroy(Player player);
 * @param node - Target player.
 * @return
 * 	NULL if a NULL was sent or a memory allocation failed.
-* 	A Player containing the same elements as player otherwise.
+* 	A ChessPlayer containing the same elements as player otherwise.
 */
-Player playerCopy(Player player);
+ChessPlayer playerCopy(ChessPlayer player);
 
-int playerGetID(Player player);
-int playerGetPlayingTime(Player player);
-int playerGetLevel(Player player);
-Map playerGetGames(Player player);
-int playerGetNumOfGames(Player player);
-int playerGetNumOfWins(Player player);
-int playerGetNumOfLosses(Player player);
-int playerGetNumOfDraws(Player player);
+int playerGetID(ChessPlayer player);
+int playerGetPlayingTime(ChessPlayer player);
+int playerGetLevel(ChessPlayer player);
+Map playerGetGames(ChessPlayer player);
+int playerGetNumOfGames(ChessPlayer player);
+int playerGetNumOfWins(ChessPlayer player);
+int playerGetNumOfLosses(ChessPlayer player);
+int playerGetNumOfDraws(ChessPlayer player);
 
 
 ///**
@@ -189,4 +190,4 @@ int playerGetNumOfDraws(Player player);
 //
 
 
-#endif //MAP_PLAYER_H
+#endif //EX1_CHESSPLAYER_H
