@@ -42,7 +42,7 @@ int tournamentGetID(ChessTournament tournament);
  */
 Map tournamentGetGames(ChessTournament tournament);
 
-TournamentResult tournamentAddGame(Tournament tournament, int first_player, int second_player,int play_time, Winner winner);
+TournamentResult tournamentAddGame(ChessTournament tournament, int first_player, int second_player,int play_time, Winner winner);
 
 int countLosingGames(int playerID);
 
