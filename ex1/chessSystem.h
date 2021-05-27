@@ -4,6 +4,8 @@
 #include <stdio.h>
 #define BAD_INPUT -1
 
+
+
 typedef enum {
     CHESS_OUT_OF_MEMORY,
     CHESS_NULL_ARGUMENT,
