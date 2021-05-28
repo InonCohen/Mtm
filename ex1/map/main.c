@@ -3,7 +3,7 @@
 #include <string.h>
 #include <time.h>
 // MAKE SURE TO HAVE THESE FILES AS WELL AS map.c IN THE CURRENT FOLDER AND THAT YOUR COMPILE THE TESTER WITH YOUR map.c
-#include "test_utilities.h"
+#include "test/test_utilities.h"
 #include "map.h"
 
 

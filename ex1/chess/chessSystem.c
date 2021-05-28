@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "map.h"
+#include "../map/map.h"
 #include "chessSystem.h"
-#include "map.h"
+#include "../map/map.h"
 #include "chessPlayer.h"
 #include "chessGameCopy.h"
 #include "chessTournament.h"

@@ -1,12 +1,8 @@
 ### JetBrains ###
-/.idea/
-/ex1/.idea
-/ex1/map/.idea
+**/.idea
 
 ### Build ###
-/ex1/chess/CMakeLists.txt
-/ex1/cmake-build-debug/
-/ex1/map/cmake-build-debug/
+**/cmake-build-debug/
 
 ### Exercise Instructions ###
 *.pdf

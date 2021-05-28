@@ -1,4 +1,4 @@
-#include "../test_utilities.h"
+#include "test_utilities.h"
 #include <stdlib.h>
 #include "../mtm_map/map.h"
 
@@ -125,7 +125,7 @@ bool testIterator() {
     return true;
 }
 
-/*The functions for the tests should be added here*/
+/*The functions for the test should be added here*/
 bool (*tests[]) (void) = {
         testMapCreateDestroy,
         testMapAddAndSize,

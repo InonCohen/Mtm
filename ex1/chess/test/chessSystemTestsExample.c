@@ -1,8 +1,8 @@
 #include <stdlib.h>
-#include "../chessSystem.h"
-#include "../test_utilities.h"
+#include "../map/chessSystem.h"
+#include "../../map/test/test_utilities.h"
 
-/*The number of tests*/
+/*The number of test*/
 #define NUMBER_TESTS 4
 
 
@@ -39,10 +39,10 @@ bool testChessAddGame(){
 }
 
 bool testChessPrintLevelsAndTournamentStatistics(){
-    FILE* file_levels = fopen("./tests/player_levels_your_output.txt", "w");
+    FILE* file_levels = fopen("./test/player_levels_your_output.txt", "w");
     if(!file_levels){
-        printf("test failed to open file, make sure you have the folder tests in the same folder with chessSystem"
-               "excutable file and you have write permissions for the file /tests/player_levels_your_output.txt");
+        printf("test failed to open file, make sure you have the folder test in the same folder with chessSystem"
+               "excutable file and you have write permissions for the file /test/player_levels_your_output.txt");
         return false;
     }
     ChessSystem chess = chessCreate();
@@ -55,7 +55,7 @@ bool testChessPrintLevelsAndTournamentStatistics(){
     ASSERT_TEST(chessAddGame(chess, 1, 3, 4, DRAW, 400) == CHESS_SUCCESS);
     ASSERT_TEST(chessEndTournament(chess, 1) == CHESS_SUCCESS);
     ASSERT_TEST(chessSavePlayersLevels(chess, file_levels) == CHESS_SUCCESS);
-    ASSERT_TEST(chessSaveTournamentStatistics(chess, "./tests/tournament_statistics_your_output.txt") == CHESS_SUCCESS);
+    ASSERT_TEST(chessSaveTournamentStatistics(chess, "./test/tournament_statistics_your_output.txt") == CHESS_SUCCESS);
     chessDestroy(chess);
     fclose(file_levels);
     return true;
@@ -63,7 +63,7 @@ bool testChessPrintLevelsAndTournamentStatistics(){
 
 
 
-/*The functions for the tests should be added here*/
+/*The functions for the test should be added here*/
 bool (*tests[]) (void) = {
         testChessAddTournament,
         testChessRemoveTournament,
