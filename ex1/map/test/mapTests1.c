@@ -1,4 +1,4 @@
-#include "map.h"
+#include "../map.h"
 #include "test_utilities.h"
 #include <stdlib.h>
 
@@ -490,7 +490,7 @@ bool nullTests()
 	return true;
 }
 
-/*The functions for the tests should be added here*/
+/*The functions for the test should be added here*/
 bool (*tests[])(void) =
 	{
 		testMapCreateDestroy,

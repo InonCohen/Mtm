@@ -1,7 +1,7 @@
 #ifndef EX1_CHESSTOURNAMENT_H
 #define EX1_CHESSTOURNAMENT_H
 #include <stdbool.h>
-#include "map.h"
+#include "../map/map.h"
 
 /** Type for representing a chess game in a tournament */
 typedef struct chess_tournament_t *ChessTournament;
@@ -42,7 +42,7 @@ int tournamentGetID(ChessTournament tournament);
  */
 Map tournamentGetGames(ChessTournament tournament);
 
-TournamentResult tournamentAddGame(Tournament tournament, int first_player, int second_player,int play_time, Winner winner);
+TournamentResult tournamentAddGame(ChessTournament tournament, int first_player, int second_player,int play_time, Winner winner);
 
 int countLosingGames(int playerID);
 

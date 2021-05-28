@@ -1,7 +1,7 @@
 #ifndef EX1_CHESSPLAYER_H
 #define EX1_CHESSPLAYER_H
 #include "chessDefs.h"
-#include "map.h"
+#include "../map/map.h"
 
 typedef enum {
     PLAYER_OUT_OF_MEMORY,

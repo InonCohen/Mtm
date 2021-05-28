@@ -5,7 +5,7 @@
 #include <stdio.h>
 
 /**
- * These macros are here to help you create tests more easily and keep them
+ * These macros are here to help you create test more easily and keep them
  * clear.
  *
  * The basic idea with unit-testing is create a test function for every real

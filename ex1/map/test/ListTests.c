@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "DLLNode.h"
-#include "LinkedList.h"
+#include "../DLLNode.h"
+#include "../LinkedList.h"
 
 #define BAD_KEY -999
 

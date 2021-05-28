@@ -8,47 +8,48 @@
 #include "chessPlayer.h"
 
 #define ID_SEP "-"
+#define BAD_INPUT -1
 
 struct chess_game_t{
     char* id;
     int tournament_id;
-    int player1;
-    int player2;
-
+    char* player1_id;
+    char* player2_id;
     int play_time;
     Winner game_winner;
 };
 
-static char* createGameID(int player1, int player2, int tournament_id){
-    if(!player1 || !player2 || !tournament_id){
+static char* createGameID(char* player1_id, char* player2_id, int tournament_id){
+    if(!player1_id || !player2_id || tournament_id <= 0){
         return NULL;
     }
-    char* id1 = castIntToString((int) player1);
-    char* id2 = castIntToString((int) player2);
-    char* tournament_id_str= castIntToString((int) tournament_id) ;
+    // TODO: Implement: char* chessSystem->createPlayerID(chessPlayer player)
+    char* tournament_id_str= castIntToString((int) tournament_id);
     int len1, len2, len3;
-    len1=(int)strlen(id1);
-    len2=(int)strlen(id2);
+    len1=(int)strlen(player1_id);
+    len2=(int)strlen(player2_id);
     len3=(int)strlen(tournament_id_str);
-    char* game_id = malloc(len1 + strlen(ID_SEP) + len2  + strlen(ID_SEP) + len3 + 1);
+    int size = len1 + strlen(ID_SEP) + len2  + strlen(ID_SEP) + len3 + strlen(ID_SEP);
+    char* game_id = malloc(size);
     if(!game_id){
         return NULL;
     }
+    nullifyString(game_id, size);
     game_id = strcat(game_id,tournament_id_str);
     game_id = strcat(game_id, ID_SEP);
-    game_id = strcat(game_id,(player1<player2)? id1: id2);
+    game_id = strcat(game_id,strcmp(player1_id,player2_id) < 0 ? player1_id: player2_id);
     game_id = strcat(game_id, ID_SEP);
-    game_id = strcat(game_id,(player1<player2)? id2: id1);
+    game_id = strcat(game_id,strcmp(player1_id,player2_id) > 0 ? player1_id: player2_id);
     return game_id;
 }
 
-ChessGame gameCreate(int tournament_id, int player1, int player2,
+ChessGame gameCreate(int tournament_id, char* player1_id, char* player2_id,
                           int play_time, Winner winner){
-    if(tournament_id<=0||player1<=0||player2 <=0||play_time<0||(winner!=FIRST_PLAYER && winner!=SECOND_PLAYER)){
+    if(tournament_id<=0||!player1_id||!player2_id||play_time<0||(winner!=FIRST_PLAYER && winner!=SECOND_PLAYER)){
         return NULL;
     }
-    if(player1 == player2){
-
+    //TODO: Add check for: "chessPlayer.c->extractNumericID(char* player_id) <= 0"
+    if(player1_id == player2_id){
         return NULL;
     }
     ChessGame result = malloc(sizeof (*result));
@@ -58,9 +59,21 @@ ChessGame gameCreate(int tournament_id, int player1, int player2,
     result->game_winner = winner;
     result->play_time =  play_time;
     result-> tournament_id = tournament_id;
-    result->player1 = player1;
-    result->player2 = player2;
-    char* game_id = createGameID(player1, player2, tournament_id);
+    result->player1_id = malloc(strlen(player1_id) + 1);
+    if(!result->player1_id) {
+        free(result);
+        return NULL;
+    }
+
+    result->player2_id = malloc(strlen(player1_id) + 1);
+    if(!result->player2_id){
+        free(result->player1_id);
+        free(result);
+        return NULL;
+    }
+    strcpy(result->player1_id, player1_id);
+    strcpy(result->player2_id, player2_id);
+    char* game_id = createGameID(player1_id, player2_id, tournament_id);
     if(!game_id){
         return NULL;
     }
@@ -78,8 +91,8 @@ ChessGame gameCopy(ChessGame game){
         return NULL;
     }
 
-    new_game->player1 = game->player1;
-    new_game->player2 = game->player2;
+    new_game->player1_id = game->player1_id;
+    new_game->player2_id = game->player2_id;
     new_game->tournament_id = game->tournament_id;
     new_game->play_time = game->play_time;
     new_game->game_winner = game->game_winner;
@@ -111,18 +124,26 @@ char* gameGetID(ChessGame chessGame){
     }
     return chessGame->id;
 }
-Player chessGameGetPlayer1(ChessGame game){
+
+int gameGetTournamentID(ChessGame game){
     if(!game){
-        return NULL;
+        return BAD_INPUT;
     }
-    return game->player1;
+    return game->tournament_id;
 }
 
-Player chessGameGetPlayer2(ChessGame game){
+char* gameGetPlayer1ID(ChessGame game){
     if(!game){
         return NULL;
     }
-    return game->player2;
+    return game->player1_id;
+}
+
+char* gameGetPlayer2ID(ChessGame game){
+    if(!game){
+        return NULL;
+    }
+    return game->player2_id;
 }
 
 char* chessGameGetID(ChessGame game){
@@ -132,17 +153,39 @@ char* chessGameGetID(ChessGame game){
     return game->id;
 }
 
+int gameGetPlayTime(ChessGame game){
+    if(!game){
+        return BAD_INPUT;
+    }
+    return game->play_time;
+}
+
 Winner chessGameGetWinner(ChessGame game){
     if(!game){
         return BAD_INPUT;
     }
     return game->game_winner;
 }
-//static GameResult getIDsFromGameID(char* game_id, int* id1, int* id2){
-//    if(!game_id || !id1 || !id2){
+
+void gameSetWinner(ChessGame game, Winner winner){
+    if(!game || (winner!= FIRST_PLAYER && winner!= SECOND_PLAYER)){
+        return;
+    }
+    game->game_winner = winner;
+}
+/**
+ * extractPlayersIDsFromGameID
+ * @param game_id
+ * @param player1_id: An empty <int> pointer to which player1_id is to be input.
+ * @param player2_id: An empty <int> pointer to which player2_id is to be input.
+ * @return
+ */
+// TODO: Update extractPlayersIDsFromGameID by the new player ID structure.
+//static GameResult extractPlayersIDsFromGameID(char* game_id, int* player1_id, int* player2_id){
+//    if(!game_id || !player1_id || !player2_id){
 //        return GAME_NULL_ARGUMENT;
 //    }
-//    int size = strlen(game_id);
+//    int size = (int)strlen(game_id);
 //    char* id1_str = malloc(size);
 //    if(!id1_str){
 //        return GAME_OUT_OF_MEMORY;
@@ -155,8 +198,13 @@ Winner chessGameGetWinner(ChessGame game){
 //    nullifyString(id1_str, size);
 //    nullifyString(id2_str, size);
 //    int id2_flag = 0;
-//    for(int i=0;i<size;i++){
-//        if(game_id[i]==SEP_CHAR){
+//    int i=0;
+//
+//    // Goto the first char after ID_SEP
+//    while(game_id[i++] != ID_SEP[0]);
+//    // Fill player1_id &&player2_id
+//    for(;i<size;i++){
+//        if(game_id[i] == ID_SEP[0]){
 //            id2_flag++;
 //            continue;
 //        }
@@ -164,14 +212,15 @@ Winner chessGameGetWinner(ChessGame game){
 //            break;
 //        }
 //        if(!id2_flag){
-//            strcat(id1_str,game_id[i]);
+//            strncat(id1_str, &game_id[i], 1);
 //        }
-//        strcat(id2_str,game_id[i]);
+//        strncat(id2_str, &game_id[i], 1);
 //    }
-//    *id1 = atoi(id1_str);
-//    *id2 = atoi(id2_str);
+//    *player1_id = atoi(id1_str);
+//    *player2_id = atoi(id2_str);
 //    free(id1_str);
 //    free(id2_str);
+//    return GAME_SUCCESS;
 //}
 
 void chessGameSetWinner(ChessGame game, Winner winner){
@@ -181,13 +230,14 @@ void chessGameSetWinner(ChessGame game, Winner winner){
     game->game_winner = winner;
 }
 
-//GameResult chessGameUpdateLoser(char* game_id, Player player){
+// TODO: Update chessGameUpdateLoser by the new player ID structure.
+//GameResult chessGameUpdateLoser(char* game_id, ChessPlayer player){
 //    if(!game_id || !player){
 //        return GAME_NULL_ARGUMENT;
 //    }
 //    int loser_id = playerGetID(player);
-//    int* id1, *id2;
-//    getIDsFromGameID(game_id, id1, id2);
+//    char **id1, **id2;
+//    extractPlayersIDsFromGameID(game_id, id1, id2);
 //    if(*id1 != loser_id && *id2 != loser_id){
 //        return GAME_PLAYER_NOT_EXIST;
 //    }

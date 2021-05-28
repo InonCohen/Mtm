@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "map.h"
+#include "../map/map.h"
 #include "chessDefs.h"
 #include "chessGameMap.h"
 #include "chessGame.h"
