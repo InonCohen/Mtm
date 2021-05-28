@@ -33,7 +33,7 @@ typedef enum {
  * @return A new player in case of success, and NULL otherwise (e.g.
  *     in case of an allocation error)
  */
-ChessPlayer playerCreate(int id);
+ChessPlayer playerCreate(char* id);
 
 /**
  * playerDestroy: free a player from memory, while updating played
@@ -54,7 +54,7 @@ void playerDestroy(ChessPlayer player);
 */
 ChessPlayer playerCopy(ChessPlayer player);
 
-int playerGetID(ChessPlayer player);
+char* playerGetID(ChessPlayer player);
 int playerGetPlayingTime(ChessPlayer player);
 int playerGetLevel(ChessPlayer player);
 Map playerGetGames(ChessPlayer player);

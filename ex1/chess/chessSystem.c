@@ -11,10 +11,8 @@
 
 struct chess_system_t{
     Map tournaments; // Key: int id,  Data: Tournament tour
-
-//    Map Games; // Key: char* id,  Data: Game game
     Map Players; // Key: int id,  Data: Player
-
+    int ended_tournaments;
 };
 
 /*
@@ -63,7 +61,6 @@ static char* castIntToString(unsigned int num){
     return str;
 }
 
-
 char* createGameID(unsigned int player1_id, unsigned int player2_id, unsigned int tournament){
     if(player1_id<0 || player2_id<0 || tournament<0 || player1_id == player2_id){
         return NULL;
@@ -100,51 +97,6 @@ char* createGameID(unsigned int player1_id, unsigned int player2_id, unsigned in
     return game_id;
 }
 
-ChessSystem chessCreate(){
-    ChessSystem system = malloc(sizeof(*system));
-    if(!system){
-        return NULL;
-    }
-    Map tournaments = mapCreate(tournamentCreate, tournamentMapKeyCopy, tournamentDestroy, tournamentMapKeyFree, tournamentMapKeyComp);
-    if(!tournaments){
-        free(system);
-        return NULL;
-    }
-//    Map games = malloc(sizeof(*games));
-//    if(!games){
-//        free(tournaments);
-//        free(system);
-//        return NULL;
-//    }
-    Map players = mapCreate(playerCopy, );
-    if(!players){
-        free(games);
-        free(tournaments);
-        free(system);
-        return NULL;
-    }
-    system->tournaments = tournaments;
-    system->games = games;
-    system->players = players;
-    return system;
-}
-
-void chessDestroy(ChessSystem chess){
-    if(!chess){
-        return;
-    }
-    if(chess->tournaments){
-        mapDestroy(chess->tournaments);
-    }
-    if(chess->games){
-        mapDestroy(chess->games);
-    }
-    if(chess->players){
-        mapDestroy(chess->players);
-    }
-    free(chess);
-}
-
 static bool chessGameInTournament(Tournament tournament, char* game_id){
     if(!tournament || !game_id){
         return false;
@@ -158,6 +110,49 @@ static bool chessGameInTournament(Tournament tournament, char* game_id){
         }
     }
     return false;
+}
+
+static char* convertIntIdToCharId(Map players, int id){
+    if(!players || id<=0){
+        return NULL;
+    }
+    if()
+
+}
+
+ChessSystem chessCreate(){
+    ChessSystem system = malloc(sizeof(*system));
+    if(!system){
+        return NULL;
+    }
+    Map tournaments = mapCreate(tournamentCreate, tournamentMapKeyCopy, tournamentDestroy, tournamentMapKeyFree, tournamentMapKeyComp);
+    if(!tournaments){
+        free(system);
+        return NULL;
+    }
+    Map players = mapCreate(playerCopy, );
+    if(!players){
+        mapDestroy(tournaments);
+        free(system);
+        return NULL;
+    }
+    system->tournaments = tournaments;
+    system->players = players;
+    system->ended_tournaments = 0;
+    return system;
+}
+
+void chessDestroy(ChessSystem chess){
+    if(!chess){
+        return;
+    }
+    if(chess->tournaments){
+        mapDestroy(chess->tournaments);
+    }
+    if(chess->players){
+        mapDestroy(chess->players);
+    }
+    free(chess);
 }
 
 ChessResult chessAddTournament (ChessSystem chess, int tournament_id,
@@ -182,7 +177,11 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
     if(tournamentIsOver(tournament)){
         return CHESS_TOURNAMENT_ENDED;
     }
-    return tournamentAddGame(tournament, first_player, second_player,play_time, winner);
+
+    TournamentResult res = tournamentAddGame(tournament, first_player, second_player,play_time, winner);
+    if(res == TOURNAMENT_SUCCESS){
+        if(!mapContains(chess->players)
+    }
 
 }
 

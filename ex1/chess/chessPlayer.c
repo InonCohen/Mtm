@@ -1,5 +1,7 @@
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
 #include "../map/map.h"
 #include "chessDefs.h"
 #include "chessGameMap.h"
@@ -8,33 +10,43 @@
 
 
 struct chess_player_t{
-    int ID;
+    char* id;
+    Map games;//keys: char*, data: chessGame
     int wins;
     int losses;
     int draws;
     int level;
     int total_time;
-    Map games;//keys: int, data: chessGame
+    bool is_deleted;
 };
 
 
-ChessPlayer playerCreate(int id){
+ChessPlayer playerCreate(char* id){
     ChessPlayer new_player = malloc(sizeof(*new_player));
     if(!new_player){
         return NULL;
     }
-    Map map = mapCreate(gamesMapCopyData, mapCopyStringKey, gamesMapFreeData, mapFreeStringKey,
+    Map games = mapCreate(gamesMapCopyData, mapCopyStringKey, gamesMapFreeData, mapFreeStringKey,
                         mapCompareStringKeys);
-    if(!map){
-        free (new_player);
+    if(!games){
+        free(new_player);
         return NULL;
     }
-    new_player->ID = id;
+    int id_length = strlen(id);
+    new_player->id = malloc(id_length+1);
+    if(!new_player->id){
+        mapDestroy(games);
+        free(new_player);
+        return NULL;
+    }
+    strcpy(new_player->id, id);
+    new_player->games = games;
     new_player->wins = 0;
     new_player->losses = 0;
     new_player->draws = 0;
     new_player->level = 0;
     new_player->total_time = 0;
+    new_player->is_deleted = false;
     return new_player;
 }
 
@@ -45,6 +57,7 @@ void playerDestroy(ChessPlayer player){
     if(player->games){
         mapDestroy(player->games);
     }
+    free(player->id);
     free(player);
 }
 
@@ -52,31 +65,39 @@ ChessPlayer playerCopy(ChessPlayer player){
     if(!player){
         return NULL;
     }
-    ChessPlayer copy = malloc(sizeof(*copy));
-    if(!copy){
+    ChessPlayer player_copy = malloc(sizeof(*player_copy));
+    if(!player_copy){
         return NULL;
     }
-    if(!player->games){
-        copy->games = mapCopy(player->games);
-        if(!copy->games){
-            free(copy);
+    if(player->games){
+        player_copy->games = mapCopy(player->games);
+        if(!player_copy->games){
+            free(player_copy);
             return NULL;
         }
     }
-    copy->ID = player->ID;
-    copy->wins = player->wins;
-    copy->losses = player->losses;
-    copy->draws = player->draws;
-    copy->level = player->level;
-    player->total_time = player->total_time;
-    return copy;
+    int id_length = strlen(player->id);
+    player_copy->id = malloc(id_length+1);
+    if(!player_copy->id){
+        mapDestroy(player->games);
+        free(player_copy);
+        return NULL;
+    }
+    strcpy(player_copy->id,player->id);
+    player_copy->wins = player->wins;
+    player_copy->losses = player->losses;
+    player_copy->draws = player->draws;
+    player_copy->level = player->level;
+    player_copy->total_time = player->total_time;
+    player_copy->is_deleted = player->is_deleted;
+    return player_copy;
 }
 
-int playerGetID(ChessPlayer player){
+char* playerGetID(ChessPlayer player){
     if(!player){
-        return BAD_INPUT;
+        return NULL;
     }
-    return player->ID;
+    return player->id;
 }
 int playerGetPlayingTime(ChessPlayer player){
     if(!player){

@@ -3,7 +3,7 @@
 
 ### Build ###
 **/cmake-build-debug/
-
+/ex1/chess/CMakeLists.txt
 ### Exercise Instructions ###
 *.pdf
 /ex1/.idea/
