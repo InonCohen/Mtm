@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "DLLNode.h"
+#include "../DLLNode.h"
 
 #define BAD_KEY -999
 

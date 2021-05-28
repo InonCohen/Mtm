@@ -1,5 +1,5 @@
-#include "map.h"
-#include "test_utilities.h"
+#include "../map.h"
+#include "../test_utilities.h"
 #include <stdlib.h>
 
 #define NUMBER_TESTS 12
