@@ -2,6 +2,7 @@
 #define EX1_CHESSTOURNAMENT_H
 #include <stdbool.h>
 #include "../map/map.h"
+#include "chessSystem.h"
 
 /** Type for representing a chess game in a tournament */
 typedef struct chess_tournament_t *ChessTournament;

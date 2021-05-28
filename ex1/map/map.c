@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "map.h"
-#include "../chess/LinkedList.h"
+#include "LinkedList.h"
 
 #define BAD_INT -1
 
