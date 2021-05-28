@@ -4,7 +4,7 @@
 /ex1/map/.idea
 
 ### Build ###
-/ex1/CMakeLists.txt
+/ex1/chess/CMakeLists.txt
 /ex1/cmake-build-debug/
 /ex1/map/cmake-build-debug/
 
