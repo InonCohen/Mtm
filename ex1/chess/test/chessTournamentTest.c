@@ -1,62 +1,49 @@
 #include <stdbool.h>
-#include <stdlib.h>
+#include "test_utilities.h"
 #include "../chessTournament.h"
 
 
-bool testTournamentCreate(int tournament_id,int tournament_max_games_per_player, char* tournament_location,
-                         ChessTournament* tournamentPtr){
-    ChessTournament tournament = tournamentCreate(tournament_id, tournament_max_games_per_player, tournament_location);
-    if(!tournament){
-        return false;
-    }
-    *tournamentPtr = tournament;
+bool testTournamentCreate(){
+    int TOURNAMENT_ID = 1;
+    int TOURNAMENT_MAX_GAMES_PER_PLAYER = 5;
+    char* TOURNAMENT_LOCATION = "Belgium";
+
+    ChessTournament new_tournament = tournamentCreate(TOURNAMENT_ID,
+                                                      TOURNAMENT_MAX_GAMES_PER_PLAYER, TOURNAMENT_LOCATION);
+    ASSERT_TEST_WITH_FREE(new_tournament, tournamentDestroy);
+    return true;
+}
+/**
+ * Using tournamentCreate, tournamentDestroy and should be called after them are tested.
+ * @return true if copy action was succeeded, false otherwise.
+ */
+bool testTournamentCopy(){
+    int TOURNAMENT_ID = 1;
+    int TOURNAMENT_MAX_GAMES_PER_PLAYER = 5;
+    char* TOURNAMENT_LOCATION = "Belgium";
+
+    ChessTournament src_tournament = tournamentCreate(TOURNAMENT_ID,
+                                                      TOURNAMENT_MAX_GAMES_PER_PLAYER, TOURNAMENT_LOCATION);
+    ASSERT_TEST_WITH_FREE(src_tournament, tournamentDestroy);
+    ChessTournament dst_tournament = tournamentCopy(src_tournament);
+    ASSERT_TEST_WITH_FREE(dst_tournament, tournamentDestroy);
+
     return true;
 }
 
-bool testTournamentCopy(ChessTournament to_copy, ChessTournament* tournamentPtr){
-    ChessTournament new_tournament = tournamentCopy(to_copy);
-    if(!new_tournament){
-        return false;
-    }
-    *tournamentPtr = new_tournament;
+bool testTournamentGetSumPointsOfPlayer(){
     return true;
 }
 
-bool testTournamentDestroy(ChessTournament tournament){
-    tournamentDestroy(tournament);
-    return true;
-}
-
-bool testTournamentGetSumPointsOfPlayer(ChessTournament tournament, char* player_id){
-    int sum_points = tournamentGetSumPointsOfPlayer(tournament, player_id);
-    if(!sum_points){
-        return false;
-    }
-    return true;
-}
-
-bool testTournamentCountLosingGames(ChessTournament tournament, char* player_id){
-    int counter = tournamentCountLosingGames(tournament, player_id);
-    if(!counter){
-        return false;
-    }
+bool testTournamentCountLosingGames(){
     return true;
 }
 
 int main(){
-    int TOURNAMENT_ID = 1;
-    int TOURNAMENT_MAX_GAMES_PER_PLAYER = 5;
-    char* TOURNAMENT_LOCATION = "Belgium";
-    char* PLAYER_ID = "1_1";
-    ChessTournament *ptr1 = NULL, *ptr2 = NULL;
-
-    testTournamentCreate(TOURNAMENT_ID, TOURNAMENT_MAX_GAMES_PER_PLAYER, TOURNAMENT_LOCATION, ptr1);
-    testTournamentCopy(*ptr1, ptr2);
-    testTournamentDestroy(*ptr1);
-    testTournamentCreate(TOURNAMENT_ID,TOURNAMENT_MAX_GAMES_PER_PLAYER,TOURNAMENT_LOCATION, ptr2);
-    testTournamentGetSumPointsOfPlayer(*ptr2, PLAYER_ID);
-    testTournamentCountLosingGames(*ptr2, PLAYER_ID);
-    testTournamentDestroy(*ptr2);
+    ASSERT_TEST(testTournamentCreate);
+    ASSERT_TEST(testTournamentCopy);
+    ASSERT_TEST(testTournamentGetSumPointsOfPlayer);
+    ASSERT_TEST(testTournamentCountLosingGames);
 
     return 0;
 }

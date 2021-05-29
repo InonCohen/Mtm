@@ -27,8 +27,7 @@ typedef enum {
     TOURNAMENT_SUCCESS
 } TournamentResult ;
 
-ChessTournament tournamentCreate(int tournament_id, int max_games_per_player, char* tournament_location);
-
+ChessTournament tournamentCreate(int tournament_id, int max_games_per_player, const char* tournament_location);
 
 ChessTournament tournamentCopy(ChessTournament tournament);
 
@@ -44,10 +43,6 @@ int tournamentGetID(ChessTournament tournament);
  */
 Map tournamentGetGames(ChessTournament tournament);
 
-TournamentResult tournamentAddGame(ChessTournament tournament, char* player1_id, char* player2_id,int play_time, Winner winner);
-
-int countLosingGames(int playerID);
-
 char* tournamentGetTournamentLocation(ChessTournament tournament);
 
 int tournamentGetMaxGamesPerPlayer(ChessTournament tournament);
@@ -55,6 +50,9 @@ int tournamentGetMaxGamesPerPlayer(ChessTournament tournament);
 bool tournamentIsOver(ChessTournament tournament);
 
 int tournamentGetSumPointsOfPlayer(ChessTournament tournament, char *player_id);
+
+TournamentResult tournamentAddGame(ChessTournament tournament, char* player1_id, char* player2_id,
+                                   int play_time, Winner winner);
 
 int tournamentCountLosingGames(ChessTournament tournament, char *player_id);
 
