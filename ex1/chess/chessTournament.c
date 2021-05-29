@@ -111,6 +111,8 @@ int tournamentGetSumPointsOfPlayer(ChessTournament tournament, PlayerID player_i
 int tournamentCountLosingGames(ChessTournament tournament, char* player_id){
     return 0;
 }
+
+// TODO: Implement gameIdentifier and then implement: gameSamePlayers, getGameIdentifier, tournamentAddGame
 /**
  * tournamentAddGame: Add a game into tournament. Game and Tournament validity check is made by Chess System ADT.
  *  Do:
@@ -125,8 +127,16 @@ int tournamentCountLosingGames(ChessTournament tournament, char* player_id){
  * @return
  */
 TournamentResult tournamentAddGame(ChessTournament tournament, ChessGame game){
-    char* game_id = game->id;
-    mapGet(tournament->tournament_games, );
+    if(!tournament || !game){
+        return TOURNAMENT_INVALID_ID;
+    }
+    char* game_id = gameGetID(game);
+    if (mapGet(tournament->tournament_games, game_id)){
+        return TOURNAMENT_GAME_ALREADY_EXISTS;
+    }
+    mapPut(tournament->tournament_games, game_id, game);
+    // TODO: step 2 and step 3.
+
     return TOURNAMENT_SUCCESS;
 }
 
@@ -150,7 +160,4 @@ TournamentResult tournamentAddGame(ChessTournament tournament, ChessGame game){
 //    }
 //    return false;
 //}
-
-
-
 
