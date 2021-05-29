@@ -2,8 +2,8 @@
 #define EX1_CHESSTOURNAMENT_H
 #include <stdbool.h>
 #include "chessSystem.h"
+#include "chessDefs.h"
 #include "../map/map.h"
-#include "chessSystem.h"
 
 /** Type for representing a chess game in a tournament */
 typedef struct chess_tournament_t *ChessTournament;
@@ -51,8 +51,7 @@ bool tournamentIsOver(ChessTournament tournament);
 
 int tournamentGetSumPointsOfPlayer(ChessTournament tournament, char *player_id);
 
-TournamentResult tournamentAddGame(ChessTournament tournament, char* player1_id, char* player2_id,
-                                   int play_time, Winner winner);
+TournamentResult tournamentAddGame(ChessTournament tournament, ChessGame game);
 
 int tournamentCountLosingGames(ChessTournament tournament, char *player_id);
 
