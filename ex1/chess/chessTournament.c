@@ -117,10 +117,7 @@ int tournamentGetMaxGamesPerPlayer(ChessTournament tournament){
 }
 
 bool tournamentIsOver(ChessTournament tournament){
-    if(tournament->tournament_winner_player_id == NO_PLAYER_ID){
-        return false;
-    }
-    return true;
+    return tournament->tournament_winner_player_id == NO_PLAYER_ID;
 }
 
 int tournamentGetSumPointsOfPlayer(ChessTournament tournament, char* player_id){
@@ -142,7 +139,7 @@ int tournamentCountLosingGames(ChessTournament tournament, char* player_id){
  * @param winner
  * @return
  */
-TournamentResult tournamentAddGame(ChessTournament tournament, char* player1_id, char* player2_id,
+TournamentResult tournamentAddGame(ChessTournament tournament, PlayerID player1_id, PlayerID player2_id,
                                    int play_time, Winner winner){
     if(!tournament){
         return TOURNAMENT_NULL_ARGUMENT;

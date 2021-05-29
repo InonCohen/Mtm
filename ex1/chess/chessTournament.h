@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include "chessSystem.h"
 #include "../map/map.h"
-#include "chessSystem.h"
+#include "chessPlayerID.h"
 
 /** Type for representing a chess game in a tournament */
 typedef struct chess_tournament_t *ChessTournament;
@@ -49,9 +49,9 @@ int tournamentGetMaxGamesPerPlayer(ChessTournament tournament);
 
 bool tournamentIsOver(ChessTournament tournament);
 
-int tournamentGetSumPointsOfPlayer(ChessTournament tournament, char *player_id);
+int tournamentGetSumPointsOfPlayer(ChessTournament tournament, PlayerID player_id);
 
-TournamentResult tournamentAddGame(ChessTournament tournament, char* player1_id, char* player2_id,
+TournamentResult tournamentAddGame(ChessTournament tournament, PlayerID player1_id, PlayerID player2_id,
                                    int play_time, Winner winner);
 
 int tournamentCountLosingGames(ChessTournament tournament, char *player_id);
