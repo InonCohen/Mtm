@@ -4,7 +4,6 @@
 #include "chessTournament.h"
 #include "chessMapUtils.h"
 #include "chessGame.h"
-#include "chessDefs.h"
 #include "chessPlayer.h"
 
 #define NO_PLAYER_ID 0
@@ -37,15 +36,14 @@ ChessTournament tournamentCreate(int tournament_id, int max_games_per_player, co
         free(result);
         return NULL;
     }
-    // TODO: Include chessMapUtils and send it as an argument in
-    Map count_games_for_player = mapCreate()
-    if(!count_games_for_player){
+    Map games_counter_of_players = mapCreate(intCopyFunc, intCopyFunc, intFreeFunc, intFreeFunc, intCompFunc);
+    if(!games_counter_of_players){
         free(result);
         return NULL;
     }
 
     result->tournament_games = tournament_games;
-    result->games_counter_of_players = count_games_for_player;
+    result->games_counter_of_players = games_counter_of_players;
     result->tournament_id = tournament_id;
     result->tournament_winner_player_id = NO_PLAYER_ID;
     result->tournament_location = malloc(strlen(tournament_location)+1);
@@ -114,8 +112,9 @@ int tournamentCountLosingGames(ChessTournament tournament, char* player_id){
     return 0;
 }
 /**
- * tournamentAddGame
- *  1. Add game to GameMap
+ * tournamentAddGame: Add a game into tournament. Game and Tournament validity check is made by Chess System ADT.
+ *  Do:
+ *  1. Add game into tournament_games
  *  2. Update player map
  *  3. Update player counter
  * @param tournament
@@ -126,17 +125,8 @@ int tournamentCountLosingGames(ChessTournament tournament, char* player_id){
  * @return
  */
 TournamentResult tournamentAddGame(ChessTournament tournament, ChessGame game){
-    if(!tournament){
-        return TOURNAMENT_NULL_ARGUMENT;
-    }
-    if(!game){
-
-    }
-    if(tournament->tournament_id <= 0 || playerIDGetIntID(game->pla) <= 0 || playerIDGetIntID(player2_id)<=0 ||
-            playerIDGetFullID(player1_id) == playerIDGetFullID(player2_id)) {
-        return TOURNAMENT_INVALID_ID;
-    }
-    mapPut(tournament->tournament_games,)
+    char* game_id = game->id;
+    mapGet(tournament->tournament_games, );
     return TOURNAMENT_SUCCESS;
 }
 

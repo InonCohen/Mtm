@@ -1,8 +1,9 @@
 #ifndef EX1_CHESSTOURNAMENT_H
 #define EX1_CHESSTOURNAMENT_H
 #include <stdbool.h>
-#include "chessSystem.h"
 #include "../map/map.h"
+#include "chessSystem.h"
+#include "chessTournament.h"
 #include "chessPlayerID.h"
 
 /** Type for representing a chess game in a tournament */
