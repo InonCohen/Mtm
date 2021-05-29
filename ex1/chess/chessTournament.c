@@ -48,8 +48,8 @@ ChessTournament tournamentCreate(int tournament_id, int max_games_per_player, co
     result->tournament_id = tournament_id;
     result->tournament_winner_player_id = NO_PLAYER_ID;
     result->tournament_location = malloc(strlen(tournament_location)+1);
-    result->max_games_per_player = max_games_per_player;
     strcpy(result->tournament_location, tournament_location);
+    result->max_games_per_player = max_games_per_player;
 
     return result;
 }
@@ -108,13 +108,15 @@ bool tournamentIsOver(ChessTournament tournament){
     return true;
 }
 
-int tournamentGetSumPointsOfPlayer(ChessTournament tournament, PlayerID player_id){
+int tournamentGetSumPointsOfPlayer(ChessTournament tournament, char* player_id){
     return 0;
 }
 
 int tournamentCountLosingGames(ChessTournament tournament, char* player_id){
     return 0;
 }
+
+// TODO: Implement gameIdentifier and then implement: gameSamePlayers, getGameIdentifier, tournamentAddGame
 /**
  * tournamentAddGame
  *  1. Add game to GameMap
@@ -163,6 +165,48 @@ TournamentResult tournamentAddGame(ChessTournament tournament, ChessGame game){
 //    return false;
 //}
 
-
-
-
+TournamentResult tournamentAddGame(ChessTournament tournament, char* player1_id, char* player2_id,
+                                   int play_time, Winner winner){
+    if(!tournament){
+        return TOURNAMENT_NULL_ARGUMENT;
+    }
+    if(tournament->tournament_id <= 0 || player1_id <= 0 || second_player<=0 || player1_id == second_player){
+        return TOURNAMENT_INVALID_ID;
+    }
+    int identifier = getGameIdentifier(tournament, player1_id, second_player);
+    char* game_id = createGameID(player1_id, second_player, tournament->tournament_id, identifier);
+    if(!game_id){
+        return TOURNAMENT_OUT_OF_MEMORY;
+    }
+    if(mapContains(tournament->games, game_id){
+       ChessGame game = mapGet(tournament->games, game_id);
+       if (!(gamePlayerIsDeleted(game))){
+           return TOURNAMENT_GAME_ALREADY_EXIST;
+       }
+    }
+    if(play_time<0){
+        return TOURNAMENT_INVALID_PLAY_TIME;
+    }
+    if(mapContains(tournament->players, player1) || mapContains(tournament->players, player2) ){
+        Player player1_ptr = mapGet(tournament->players, player1);
+        Player player2_ptr = mapGet(tournament->players, player2);
+        if(player1_ptr && tournament->max_games_per_player = mapGetSize(playerGetGames(player1_ptr))){
+            return TOURNAMENT_EXCEEDED_GAMES;
+        }
+        if(player2_ptr && tournament->max_games_per_player = mapGetSize(playerGetGames(player2_ptr))){
+            return TOURNAMENT_EXCEEDED_GAMES;
+        }
+    }
+    ChessGame to_add = gameCreate(game_id, tournament->tournament_id, player1, player2, play_time, winner);
+    if(!to_add){
+        free(game_id);
+        return TOURNAMENT_OUT_OF_MEMORY;
+    }
+    free(game_id);
+    MapResult res = mapPut(tournament->games, to_add);
+    gameDestroy(to_add);
+    if(res != MAP_SUCCESS){
+        return TOURNAMENT_OUT_OF_MEMORY;
+    }
+    return TOURNAMENT_SUCCESS;
+}

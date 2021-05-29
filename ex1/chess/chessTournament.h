@@ -51,7 +51,19 @@ bool tournamentIsOver(ChessTournament tournament);
 
 int tournamentGetSumPointsOfPlayer(ChessTournament tournament, char *player_id);
 
+<<<<<<< Updated upstream
 TournamentResult tournamentAddGame(ChessTournament tournament, ChessGame game);
+=======
+TournamentResult tournamentAddGame(ChessTournament tournament, char* player1_id, char* player2_id,
+                                   int play_time, Winner winner);
+/**
+ * tournamentRemovePlayer: remove a player from
+ * @param player_id
+ */
+void tournamentRemovePlayer(int player_id)
+
+//int countLosingGames(int playerID);
+>>>>>>> Stashed changes
 
 int tournamentCountLosingGames(ChessTournament tournament, char *player_id);
 
