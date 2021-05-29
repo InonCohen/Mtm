@@ -1,9 +1,16 @@
 #ifndef EX1_CHESSTOURNAMENT_H
 #define EX1_CHESSTOURNAMENT_H
 #include <stdbool.h>
+<<<<<<< HEAD
+#include "../map/map.h"
+#include "chessSystem.h"
+#include "chessTournament.h"
+#include "chessPlayerID.h"
+=======
 #include "chessSystem.h"
 #include "chessDefs.h"
 #include "../map/map.h"
+>>>>>>> main
 
 /** Type for representing a chess game in a tournament */
 typedef struct chess_tournament_t *ChessTournament;
@@ -49,8 +56,11 @@ int tournamentGetMaxGamesPerPlayer(ChessTournament tournament);
 
 bool tournamentIsOver(ChessTournament tournament);
 
-int tournamentGetSumPointsOfPlayer(ChessTournament tournament, char *player_id);
+int tournamentGetSumPointsOfPlayer(ChessTournament tournament, PlayerID player_id);
 
+<<<<<<< HEAD
+TournamentResult tournamentAddGame(ChessTournament tournament, ChessGame game);
+=======
 <<<<<<< Updated upstream
 TournamentResult tournamentAddGame(ChessTournament tournament, ChessGame game);
 =======
@@ -64,6 +74,7 @@ void tournamentRemovePlayer(int player_id)
 
 //int countLosingGames(int playerID);
 >>>>>>> Stashed changes
+>>>>>>> main
 
 int tournamentCountLosingGames(ChessTournament tournament, char *player_id);
 

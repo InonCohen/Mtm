@@ -1,8 +1,11 @@
 #ifndef EX1_CHESSPLAYERID_H
 #define EX1_CHESSPLAYERID_H
-#include "chessDefs.h"
+
+/** Type for defining a player ID*/
+typedef struct chess_player_id *PlayerID;
 
 PlayerID playerIDCreate(int id, int version);
+
 void playerIDDestroy (PlayerID player_id);
 PlayerID playerIDCopy(PlayerID player_id);
 char* playerIDGetFullID(PlayerID player_id);
