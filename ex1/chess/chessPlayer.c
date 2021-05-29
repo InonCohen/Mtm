@@ -8,20 +8,23 @@
 #include "chessGame.h"
 #include "chessPlayer.h"
 
+#define WIN_WEIGHT 6
+#define LOSE_WEIGHT (-10)
+#define DRAW_WEIGHT 2
 
 struct chess_player_t{
-    char* id;
+    PlayerID id;
     Map games;//keys: char*, data: chessGame
     int wins;
     int losses;
     int draws;
-    int level;
+    double level;
     int total_time;
     bool is_deleted;
 };
 
 
-ChessPlayer playerCreate(char* id){
+ChessPlayer playerCreate(PlayerID id){
     ChessPlayer new_player = malloc(sizeof(*new_player));
     if(!new_player){
         return NULL;
@@ -93,7 +96,7 @@ ChessPlayer playerCopy(ChessPlayer player){
     return player_copy;
 }
 
-char* playerGetID(ChessPlayer player){
+PlayerID playerGetID(ChessPlayer player){
     if(!player){
         return NULL;
     }
@@ -143,4 +146,60 @@ int playerGetNumOfDraws(ChessPlayer player){
         return BAD_INPUT;
     }
     return player->draws;
+}
+bool playerIsDeleted(ChessPlayer player){
+    if(!player){
+        return false;
+    }
+    return player->is_deleted;
+}
+
+void updatePlayerLevel(ChessPlayer player){
+    if(!player){
+        return;
+    }
+    int total_games = mapGetSize(player->games);
+    if(total_games == 0){
+        player->level = 0;
+        return;
+    }
+    int player_score = WIN_WEIGHT*player->wins+LOSE_WEIGHT*player->losses+DRAW_WEIGHT*player->draws;
+    player->level = (double)player_score/(double)total_games;
+}
+
+void updatePlayerAccordingToGame(ChessPlayer player, GamePlayerOutcome old_outcome, GamePlayerOutcome new_outcome) {
+    if (!player) {
+        return;
+    }
+    if (old_outcome == new_outcome) {
+        return;
+    }
+    if (new_outcome == WINNER) {
+        if (old_outcome == LOSER) {
+            player->losses--;
+        }
+        else{
+            player->draws--;
+        }
+        player->wins++;
+    }
+    else if(new_outcome == LOSER){
+        if(old_outcome == WINNER){
+            player->wins--;
+        }
+        else{
+            player->draws--;
+        }
+        player->losses++;
+    }
+    else{
+        if(old_outcome == WINNER){
+            player->wins--;
+        }
+        else{
+            player->losses--;
+        }
+        player->draws++;
+    }
+    updatePlayerLevel(player);
 }
