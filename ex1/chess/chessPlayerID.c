@@ -94,3 +94,10 @@ char* playerIDGetStringVersion(PlayerID player_id){
     }
     return player_id->version_str;
 }
+
+int playerIDCompare(PlayerID id1, PlayerID id2){
+    if(!id1 || !id2){
+        return BAD_INPUT;
+    }
+    return strcmp(playerIDGetFullID(id1), playerIDGetFullID(id2));
+}

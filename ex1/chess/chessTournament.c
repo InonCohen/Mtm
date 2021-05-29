@@ -2,8 +2,8 @@
 #include <string.h>
 #include "../map/map.h"
 #include "chessTournament.h"
-#include "chessDefs.h"
-#include "chessGameMap.h"
+#include "chessMapUtils.h"
+#include "chessGame.h"
 #include "chessPlayer.h"
 
 #define NO_PLAYER_ID 0
