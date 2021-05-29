@@ -30,7 +30,7 @@ typedef enum {
     TIER
 }GamePlayerOutcome;
 
-ChessGame gameCreate(int game_id, char* player1_id, char* player2_id, int play_time, Winner winner);
+ChessGame gameCreate(int tournament_id, char* player1_id, char* player2_id, int play_time, Winner winner);
 
 ChessGame gameCopy(ChessGame game);
 

@@ -2,7 +2,8 @@
 #include <string.h>
 #include "strUtils.h"
 #include "chessGame.h"
-#include "chessGameMap.h"
+#include "chessTournament.h"
+#include "chessMapUtils.h"
 
 /**
  *
@@ -68,5 +69,42 @@ int mapCompareStringKeys (void* key1, void* key2){
         return BAD_INPUT;
     }
     return strcmp((char*)key1, (char*)key2);
+}
+
+MapKeyElement intCopyFunc(MapKeyElement key) {
+    if(!key) {
+        return NULL;
+    }
+    int* new_key = malloc(sizeof(*new_key));
+    if(!new_key) {
+        return NULL;
+    }
+    *new_key = *(int*)key;
+    return (void*)new_key;
+}
+
+void intFreeFunc(MapKeyElement key) {
+    free((int*)key);
+}
+
+int intCompFunc(MapKeyElement key1, MapKeyElement key2) {
+    if(!key1 || !key2) {
+        return BAD_INPUT;
+    }
+    return *(int*)key1-*(int*)key2;
+}
+
+MapDataElement tournamentsMapCopyData(MapDataElement data){
+    if(!data){
+        return NULL;
+    }
+    return tournamentCopy((ChessTournament)data);
+}
+
+void tournamentsMapDestroyData (MapDataElement data){
+    if(!data){
+        return;
+    }
+    tournamentDestroy((ChessTournament)(data));
 }
 /*End: Internal map's utility functions of mapElement */

@@ -66,6 +66,9 @@ int playerGetNumOfWins(ChessPlayer player);
 int playerGetNumOfLosses(ChessPlayer player);
 int playerGetNumOfDraws(ChessPlayer player);
 bool playerIsDeleted(ChessPlayer player);
+PlayerResult playerAddGame(ChessPlayer player, ChessGame game);
+PlayerResult playerRemoveGame(ChessPlayer player, ChessGame game);
+
 
 
 ///**

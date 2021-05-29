@@ -51,8 +51,7 @@ bool tournamentIsOver(ChessTournament tournament);
 
 int tournamentGetSumPointsOfPlayer(ChessTournament tournament, PlayerID player_id);
 
-TournamentResult tournamentAddGame(ChessTournament tournament, PlayerID player1_id, PlayerID player2_id,
-                                   int play_time, Winner winner);
+TournamentResult tournamentAddGame(ChessTournament tournament, ChessGame game);
 
 int tournamentCountLosingGames(ChessTournament tournament, char *player_id);
 

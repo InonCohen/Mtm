@@ -1,5 +1,3 @@
-#include <assert.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "strUtils.h"
@@ -7,13 +5,11 @@
 #include "chessSystem.h"
 #include "chessPlayer.h"
 
-#define BAD_INPUT -1
-
 struct chess_game_t{
     char* id;
     int tournament_id;
-    char* player1_id;
-    char* player2_id;
+    PlayerID player1_id;
+    PlayerID player2_id;
     int play_time;
     Winner game_winner;
     bool player_deleted;
