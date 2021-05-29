@@ -10,4 +10,5 @@ int playerIDGetIntID(PlayerID player_id);
 char* playerIDGetStringID(PlayerID player_id);
 int playerIDGetIntVersion(PlayerID player_id);
 char* playerIDGetStringVersion(PlayerID player_id);
+int playerIDCompare(PlayerID id1, PlayerID id2);
 #endif //EX1_CHESSPLAYERID_H
