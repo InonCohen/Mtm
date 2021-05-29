@@ -7,8 +7,6 @@
 #include "chessSystem.h"
 #include "chessPlayer.h"
 
-#define BAD_INPUT -1
-
 struct chess_game_t{
     char* id;
     int tournament_id;

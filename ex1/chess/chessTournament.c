@@ -4,7 +4,7 @@
 #include "strUtils.h"
 #include "chessSystem.h"
 #include "chessTournament.h"
-#include "chessGameMap.h"
+#include "chessMapUtils.h"
 #include "chessGame.h"
 #include "chessPlayer.h"
 
