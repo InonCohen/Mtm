@@ -7,6 +7,7 @@
 #include "chessGameMap.h"
 #include "chessGame.h"
 #include "chessPlayer.h"
+#include "chessPlayerID.h"
 
 #define WIN_WEIGHT 6
 #define LOSE_WEIGHT (-10)
@@ -29,21 +30,25 @@ ChessPlayer playerCreate(PlayerID id){
     if(!new_player){
         return NULL;
     }
-    Map games = mapCreate(gamesMapCopyData, mapCopyStringKey, gamesMapFreeData, mapFreeStringKey,
+    new_player->id = playerIDCopy(id);{
+        if(!new_player->id){
+            free(new_player);
+            return NULL;
+        }
+    }
+    new_player->games = mapCreate(gamesMapCopyData, mapCopyStringKey, gamesMapFreeData, mapFreeStringKey,
                         mapCompareStringKeys);
-    if(!games){
+    if(!new_player->games){
+        playerIDDestroy(new_player->id);
         free(new_player);
         return NULL;
     }
-    int id_length = strlen(id);
-    new_player->id = malloc(id_length+1);
     if(!new_player->id){
-        mapDestroy(games);
+        playerIDDestroy(new_player->id);
+        mapDestroy(new_player->games);
         free(new_player);
         return NULL;
     }
-    strcpy(new_player->id, id);
-    new_player->games = games;
     new_player->wins = 0;
     new_player->losses = 0;
     new_player->draws = 0;
@@ -60,7 +65,9 @@ void playerDestroy(ChessPlayer player){
     if(player->games){
         mapDestroy(player->games);
     }
-    free(player->id);
+    if(player->id){
+        playerIDDestroy(player->id);
+    }
     free(player);
 }
 
@@ -79,14 +86,12 @@ ChessPlayer playerCopy(ChessPlayer player){
             return NULL;
         }
     }
-    int id_length = strlen(player->id);
-    player_copy->id = malloc(id_length+1);
+    player_copy->id = playerIDCopy(player->id);
     if(!player_copy->id){
         mapDestroy(player->games);
         free(player_copy);
         return NULL;
     }
-    strcpy(player_copy->id,player->id);
     player_copy->wins = player->wins;
     player_copy->losses = player->losses;
     player_copy->draws = player->draws;
@@ -102,13 +107,21 @@ PlayerID playerGetID(ChessPlayer player){
     }
     return player->id;
 }
+
+char* playerGetIDString(ChessPlayer player){
+    if(!player || !player->id){
+        return NULL;
+    }
+    return playerIDGetFullID(player->id);
+}
+
 int playerGetPlayingTime(ChessPlayer player){
     if(!player){
         return BAD_INPUT;
     }
     return player->total_time;
 }
-int playerGetLevel(ChessPlayer player){
+double playerGetLevel(ChessPlayer player){
     if(!player){
         return BAD_INPUT;
     }

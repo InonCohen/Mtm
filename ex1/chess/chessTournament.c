@@ -116,12 +116,6 @@ Map tournamentGetGames(ChessTournament tournament){
     return tournament->tournament_games;
 }
 
-void freeAll(void* elem1, void* elem2, void* elem3, void* elem4){
-    free(elem1);
-    free(elem2);
-    free(elem3);
-    free(elem4);
-}
 // TODO: Implement gameIdentifier and then implement: gameSamePlayers, getGameIdentifier, tournamentAddGame
 /**
  *
