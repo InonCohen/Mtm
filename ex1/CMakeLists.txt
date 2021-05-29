@@ -7,7 +7,7 @@ project(EX1 VERSION 0.1.0 LANGUAGES C)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # Define variables containing compiler flags for gcc
-set(MTM_FLAGS_DEBUG "-std=c99 --pedantic-errors -Wall -Werror")
+set(MTM_FLAGS_DEBUG "-std=c99 --pedantic-errors -Wall -Werror -g")
 set(MTM_FLAGS_RELEASE "${MTM_FLAGS_DEBUG} -DNDEBUG")
 # Set the flags for gcc
 set(CMAKE_C_FLAGS ${MTM_FLAGS_RELEASE})
@@ -35,16 +35,10 @@ set(TEST_C_FILES
 ## If needed, add libaries and set target properties.
 ## Notice that this part will have duplicate problems with "include_directories" section!
 #add_library(map ./map)
-#add_library(chess ./chess)
-#add_library(chess_test ./chess/test)
 #set_target_properties(map PROPERTIES LINKER_LANGUAGE C)
-#set_target_properties(chess PROPERTIES LINKER_LANGUAGE C)
-#set_target_properties(chess_test PROPERTIES LINKER_LANGUAGE C)
 
-add_executable(chess_exe ${CHESS_C_FILES} ${MAP_C_FILES} ${TEST_C_FILES})
+add_executable(chessSystem ${CHESS_C_FILES} ${MAP_C_FILES} ${TEST_C_FILES})
 
 ## If libaries were builded, link all libaries and BUILD
 #target_link_libraries(chess_exe PUBLIC map)
-#target_link_libraries(chess_exe PUBLIC chess)
-#target_link_libraries(chess_exe PUBLIC chess_test)
 
