@@ -57,8 +57,9 @@ void playerDestroy(ChessPlayer player);
 ChessPlayer playerCopy(ChessPlayer player);
 
 PlayerID playerGetID(ChessPlayer player);
+char* playerGetIDString(ChessPlayer player);
 int playerGetPlayingTime(ChessPlayer player);
-int playerGetLevel(ChessPlayer player);
+double playerGetLevel(ChessPlayer player);
 Map playerGetGames(ChessPlayer player);
 int playerGetNumOfGames(ChessPlayer player);
 int playerGetNumOfWins(ChessPlayer player);
