@@ -7,7 +7,6 @@
 #include "chessSystem.h"
 #include "chessPlayer.h"
 
-#define ID_SEP "-"
 #define BAD_INPUT -1
 
 struct chess_game_t{
@@ -17,7 +16,10 @@ struct chess_game_t{
     char* player2_id;
     int play_time;
     Winner game_winner;
+    bool player_deleted;
 };
+
+
 
 static char* createGameID(char* player1_id, char* player2_id, int tournament_id){
     if(!player1_id || !player2_id || tournament_id <= 0){
@@ -59,6 +61,7 @@ ChessGame gameCreate(int tournament_id, char* player1_id, char* player2_id,
     result->game_winner = winner;
     result->play_time =  play_time;
     result-> tournament_id = tournament_id;
+    result->player_deleted = false;
     result->player1_id = malloc(strlen(player1_id) + 1);
     if(!result->player1_id) {
         free(result);
@@ -228,6 +231,10 @@ void chessGameSetWinner(ChessGame game, Winner winner){
         return;
     }
     game->game_winner = winner;
+}
+
+bool gamePlayerIsDeleted(ChessGame game){
+    return game->player_deleted;
 }
 
 // TODO: Update chessGameUpdateLoser by the new player ID structure.

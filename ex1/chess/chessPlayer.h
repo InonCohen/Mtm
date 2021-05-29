@@ -3,6 +3,8 @@
 #include "chessDefs.h"
 #include "../map/map.h"
 
+
+
 typedef enum {
     PLAYER_OUT_OF_MEMORY,
     PLAYER_NULL_ARGUMENT,
@@ -33,7 +35,7 @@ typedef enum {
  * @return A new player in case of success, and NULL otherwise (e.g.
  *     in case of an allocation error)
  */
-ChessPlayer playerCreate(char* id);
+ChessPlayer playerCreate(PlayerID id);
 
 /**
  * playerDestroy: free a player from memory, while updating played
@@ -54,7 +56,7 @@ void playerDestroy(ChessPlayer player);
 */
 ChessPlayer playerCopy(ChessPlayer player);
 
-char* playerGetID(ChessPlayer player);
+PlayerID playerGetID(ChessPlayer player);
 int playerGetPlayingTime(ChessPlayer player);
 int playerGetLevel(ChessPlayer player);
 Map playerGetGames(ChessPlayer player);
@@ -62,6 +64,7 @@ int playerGetNumOfGames(ChessPlayer player);
 int playerGetNumOfWins(ChessPlayer player);
 int playerGetNumOfLosses(ChessPlayer player);
 int playerGetNumOfDraws(ChessPlayer player);
+bool playerIsDeleted(ChessPlayer player);
 
 
 ///**

@@ -24,6 +24,11 @@ typedef enum {
     GAME_SUCCESS
 } GameResult ;
 
+typedef enum {
+    WINNER,
+    LOSER,
+    TIER
+}GamePlayerOutcome;
 
 ChessGame gameCreate(int game_id, char* player1_id, char* player2_id, int play_time, Winner winner);
 
@@ -42,6 +47,8 @@ Winner gameGetWinner(ChessGame game);
 GameResult gameUpdateLoser(char* game_id, ChessPlayer player);
 
 void gameSetWinner(ChessGame game, Winner winner);
+
+bool gamePlayerIsDeleted(ChessGame game);
 
 
 #endif //EX1_CHESSGAME_H

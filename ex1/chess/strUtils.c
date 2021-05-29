@@ -43,3 +43,21 @@ char* castIntToString(int num){
     return str;
 }
 
+char* createEmptyString(size_t size){
+    if(size <= 0){
+        return NULL;
+    }
+    char* str = malloc(size);
+    if(!str){
+        return NULL;
+    }
+    nullifyString(str, size);
+    return str;
+}
+
+void freeAll(void* elem1,void* elem2,void* elem3,void* elem4){
+    free(elem1);
+    free(elem2);
+    free(elem3);
+    free(elem4);
+}
