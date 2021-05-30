@@ -59,8 +59,4 @@ TournamentResult tournamentAddGame(ChessTournament tournament, ChessGame game);
  */
 void tournamentRemovePlayer(int player_id);
 
-//int countLosingGames(int playerID);
-
-int tournamentCountLosingGames(ChessTournament tournament, char *player_id);
-
 #endif //EX1_CHESSTOURNAMENT_H

@@ -1,4 +1,6 @@
 #include <stdbool.h>
+#include <string.h>
+#include <ctype.h>
 #include "test_utilities.h"
 #include "../chessTournament.h"
 #include "../chessGame.h"
@@ -61,12 +63,33 @@ bool testTournamentCountLosingGames(){
     return true;
 }
 
+static bool tournamentLocationIsValid(const char* tournament_name){
+    if (!isupper(tournament_name[0])){
+        return false;
+    }
+    for (int i = 1; i < strlen(tournament_name) ;i++){
+        if (!(isspace(tournament_name[i]) || islower(tournament_name[i]))){
+            return false;
+        }
+    }
+    return true;
+}
+
+bool testTournamentLocationIsValid(){
+    char *valid_str = "Belgium";
+    char *invalid_str = "belgium";
+    ASSERT_TEST(tournamentLocationIsValid(valid_str));
+    ASSERT_TEST(!tournamentLocationIsValid(invalid_str));
+    return true;
+}
+
+
 int main(){
     RUN_TEST(testTournamentCreate, "testTournamentCreate");
     RUN_TEST(testTournamentCopy, "testTournamentCopy");
     RUN_TEST(testTournamentAddGame, "testTournamentAddGame");
     RUN_TEST(testTournamentGetSumPointsOfPlayer, "testTournamentGetSumPointsOfPlayer");
     RUN_TEST(testTournamentCountLosingGames, "testTournamentCountLosingGames");
-
+    RUN_TEST(testTournamentLocationIsValid, "testTournamentLocationIsValid");
     return 0;
 }

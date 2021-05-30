@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <ctype.h>
 #include <string.h>
 #include "../map/map.h"
 #include "chessTournament.h"
@@ -16,6 +17,15 @@ struct chess_tournament_t{
     Map games_counter_of_players;
 };
 /**
+ * tournamentLocationIsValid: Check if a tournament name is valid, by the following rules:
+ *  - Starts with a capital letter.
+ *  - Following letters can be only lowercase or space.
+ * @param tournament_name: Tournament name to check
+ * @return true if name isvalid, false otherwise.
+ */
+static bool tournamentLocationIsValid(const char* tournament_name);
+
+/**
  *
  * @param to_copy
  * @return
@@ -24,11 +34,14 @@ ChessTournament tournamentCreate(int tournament_id, int max_games_per_player, co
     if(tournament_id <= 0 || max_games_per_player <= 0) {
         return NULL;
     }
+    if(!tournamentLocationIsValid(tournament_location)){
+        return NULL;
+    }
+
     ChessTournament result = malloc(sizeof (*result));
     if(!result){
         return NULL;
     }
-
     Map tournament_games = mapCreate(gamesMapCopyData, mapCopyStringKey, gamesMapFreeData,
                                      mapFreeStringKey, mapCompareStringKeys);
     if(!tournament_games){
@@ -52,6 +65,7 @@ ChessTournament tournamentCreate(int tournament_id, int max_games_per_player, co
 
     return result;
 }
+
 ChessTournament tournamentCopy(ChessTournament to_copy){
     if(!to_copy){
         return NULL;
@@ -72,7 +86,7 @@ ChessTournament tournamentCopy(ChessTournament to_copy){
         tournamentDestroy(new_tournament);
         return NULL;
     }
-    Map games_counter_of_players = mapCopy(to_copy->tournament_games);
+    Map games_counter_of_players = mapCopy(to_copy->games_counter_of_players);
     if(!games_counter_of_players){
         mapDestroy(tournament_games);
         tournamentDestroy(new_tournament);
@@ -83,7 +97,7 @@ ChessTournament tournamentCopy(ChessTournament to_copy){
     new_tournament->max_games_per_player = to_copy->max_games_per_player;
     new_tournament->tournament_winner_player_id = to_copy->tournament_winner_player_id;
     strcpy(new_tournament->tournament_location, to_copy->tournament_location);
-    new_tournament->tournament_games = games_counter_of_players;
+    new_tournament->tournament_games = tournament_games;
     new_tournament->games_counter_of_players = games_counter_of_players;
 
     return new_tournament;
@@ -94,6 +108,7 @@ void tournamentDestroy(ChessTournament tournament){
         return;
     }
     mapDestroy(tournament->tournament_games);
+    mapDestroy(tournament->games_counter_of_players);
     free(tournament->tournament_location);
     free(tournament);
 }
@@ -102,16 +117,20 @@ int tournamentGetID(ChessTournament tournament){
     return tournament->tournament_id;
 }
 
+int tournamentGetMaxGamesPerPlayer(ChessTournament tournament){
+    return tournament->max_games_per_player;
+}
+
 Map tournamentGetGames(ChessTournament tournament){
+    return tournament->tournament_games;
+}
+
+Map tournamentGetGamesCounterOfPlayers(ChessTournament tournament){
     return tournament->tournament_games;
 }
 
 char* tournamentGetTournamentLocation(ChessTournament tournament){
     return tournament->tournament_location;
-}
-
-int tournamentGetMaxGamesPerPlayer(ChessTournament tournament){
-    return tournament->max_games_per_player;
 }
 
 bool tournamentIsOver(ChessTournament tournament){
@@ -164,31 +183,21 @@ TournamentResult tournamentAddGame(ChessTournament tournament, ChessGame game){
     }
     *player1_game_counter = *player1_game_counter + 1;
     *player2_game_counter = *player2_game_counter + 1;
-    if (*player1_game_counter <= tournament->max_games_per_player ||
-    *player2_game_counter <= tournament->max_games_per_player){
+    if (*player1_game_counter > tournament->max_games_per_player ||
+    *player2_game_counter > tournament->max_games_per_player){
         return TOURNAMENT_EXCEEDED_GAMES;
     }
     return TOURNAMENT_SUCCESS;
 }
 
-// TODO: Implement gameIdentifier and then implement: gameSamePlayers, getGameIdentifier, tournamentAddGame
-//
-//bool gameSamePlayers(ChessGame game, char* player1ID, char* player2){
-//    if(!game){
-//        return false;
-//    }
-//    int id1 = gameGetPlayer1(game);
-//    int id2 = gameGetPlayer2(game);
-//    if(player1 == id1){
-//        if(player2 == id2){
-//            return true;
-//        }
-//    }
-//    if(player1 == id2){
-//        if(player2 == id1){
-//            return true;
-//        }
-//    }
-//    return false;
-//}
-
+static bool tournamentLocationIsValid(const char* tournament_name){
+    if (!isupper(tournament_name[0])){
+        return false;
+    }
+    for (int i = 1; i < strlen(tournament_name) ;i++){
+        if (!(isspace(tournament_name[i]) || islower(tournament_name[i]))){
+            return false;
+        }
+    }
+    return true;
+}
