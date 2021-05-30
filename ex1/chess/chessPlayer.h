@@ -1,6 +1,8 @@
 #ifndef EX1_CHESSPLAYER_H
 #define EX1_CHESSPLAYER_H
 #include "../map/map.h"
+#include "chessGame.h"
+#include "chessPlayerID.h"
 
 
 /** Type for defining the Player */

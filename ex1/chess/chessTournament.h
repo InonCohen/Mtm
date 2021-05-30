@@ -1,16 +1,10 @@
 #ifndef EX1_CHESSTOURNAMENT_H
 #define EX1_CHESSTOURNAMENT_H
 #include <stdbool.h>
-<<<<<<< HEAD
 #include "../map/map.h"
 #include "chessSystem.h"
-#include "chessTournament.h"
+#include "chessGame.h"
 #include "chessPlayerID.h"
-=======
-#include "chessSystem.h"
-#include "chessDefs.h"
-#include "../map/map.h"
->>>>>>> main
 
 /** Type for representing a chess game in a tournament */
 typedef struct chess_tournament_t *ChessTournament;
@@ -58,23 +52,14 @@ bool tournamentIsOver(ChessTournament tournament);
 
 int tournamentGetSumPointsOfPlayer(ChessTournament tournament, PlayerID player_id);
 
-<<<<<<< HEAD
 TournamentResult tournamentAddGame(ChessTournament tournament, ChessGame game);
-=======
-<<<<<<< Updated upstream
-TournamentResult tournamentAddGame(ChessTournament tournament, ChessGame game);
-=======
-TournamentResult tournamentAddGame(ChessTournament tournament, char* player1_id, char* player2_id,
-                                   int play_time, Winner winner);
 /**
  * tournamentRemovePlayer: remove a player from
  * @param player_id
  */
-void tournamentRemovePlayer(int player_id)
+void tournamentRemovePlayer(int player_id);
 
 //int countLosingGames(int playerID);
->>>>>>> Stashed changes
->>>>>>> main
 
 int tournamentCountLosingGames(ChessTournament tournament, char *player_id);
 
