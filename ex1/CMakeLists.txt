@@ -24,13 +24,15 @@ set(CHESS_C_FILES
         chess/chessGame.c
         chess/chessPlayer.c
         chess/chessPlayerID.c
-        chess/chessTournament.c)
+        chess/chessTournament.c
+        chess/chessSystem.c
+        )
 set(MAP_C_FILES
         map/map.c
         map/DLLNode.c
         map/LinkedList.c)
 set(TEST_C_FILES
-        chess/test/chessTournamentTest.c)
+        chess/test/chessSystemTest.c)
 
 ## If needed, add libaries and set target properties.
 ## Notice that this part will have duplicate problems with "include_directories" section!

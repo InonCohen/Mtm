@@ -31,10 +31,23 @@ PlayerID playerIDCreate(int id, int version){
     int id_length = strlen(id_str);
     int version_length = strlen(id_str);
     char* combined = createEmptyString(id_length+strlen(ID_SEP)+version_length+1);
+    if(!combined){
+        free(id_str);
+        free(version_str);
+        free(new_id);
+    }
     strcat(combined, id_str);
     strcat(combined, ID_SEP);
     strcat(combined, version_str);
-    new_id->full_id = combined;
+    new_id->full_id = malloc(strlen(combined)+1);
+    if(!new_id->full_id){
+        free(id_str);
+        free(version_str);
+        free(new_id);
+        return NULL;
+    }
+    strcpy(new_id->full_id, combined);
+    free(combined);
     new_id->id_int = id;
     new_id->version_int = version;
     new_id->id_str = id_str;
@@ -46,7 +59,16 @@ void playerIDDestroy (PlayerID player_id){
     if(!player_id){
         return;
     }
-    freeAll(player_id->full_id, player_id->version_str, player_id->id_str, player_id);
+    if(player_id->full_id){
+        free(player_id->full_id);
+    }
+    if(player_id->version_str){
+        free(player_id->version_str);
+        }
+    if(player_id->id_str){
+        free(player_id->id_str);
+        }
+    free(player_id);
 }
 
 PlayerID playerIDCopy(PlayerID player_id){
@@ -67,31 +89,32 @@ char* playerIDGetFullID(PlayerID player_id){
     if(!player_id){
         return NULL;
     }
-    return player_id->full_id;
+    return (player_id->full_id);
 }
 int playerIDGetIntID(PlayerID player_id){
     if(!player_id){
         return BAD_INPUT;
     }
-    return player_id->id_int;
+    int id = player_id->id_int;
+    return id;
 }
 char* playerIDGetStringID(PlayerID player_id){
     if(!player_id){
         return NULL;
     }
-    return player_id->id_str;
+    return (player_id->id_str);
 }
 int playerIDGetIntVersion(PlayerID player_id){
     if(!player_id){
         return BAD_INPUT;
     }
-    return player_id->version_int;
+    return (player_id->version_int);
 }
 char* playerIDGetStringVersion(PlayerID player_id){
     if(!player_id){
         return NULL;
     }
-    return player_id->version_str;
+    return (player_id->version_str);
 }
 
 int playerIDCompare(PlayerID id1, PlayerID id2){

@@ -6,6 +6,10 @@
 #include "chessTournament.h"
 #include "chessMapUtils.h"
 #include "chessGame.h"
+#include "strUtils.h"
+#include "chessPlayer.h"
+#include "chessPlayerID.h"
+
 
 #define NO_PLAYER_ID 0
 
@@ -23,18 +27,19 @@ struct chess_tournament_t{
  *  - Following letters can be only lowercase or space.
  * @param tournament_name: Tournament name to check
  * @return true if name isvalid, false otherwise.
+<<<<<<< HEAD
  */
 static bool tournamentLocationIsValid(const char* tournament_name);
+
 /**
- * tournamentCreate:
- * Notice:
- *  - Arguments validity check is made by Chess System.
- * @param tournament_id
- * @param max_games_per_player
- * @param tournament_location
+ *
+ * @param to_copy
  * @return
  */
 ChessTournament tournamentCreate(int tournament_id, int max_games_per_player, const char* tournament_location){
+    if(tournament_id <= 0 || max_games_per_player <= 0) {
+        return NULL;
+    }
     if(!tournamentLocationIsValid(tournament_location)){
         return NULL;
     }
@@ -42,7 +47,7 @@ ChessTournament tournamentCreate(int tournament_id, int max_games_per_player, co
     if(!result){
         return NULL;
     }
-    Map tournament_games = mapCreate(gamesMapCopyData, mapCopyStringKey, gamesMapFreeData,
+    Map tournament_games = mapCreate(gamesMapCopyData, stringCopyFunc, gamesMapFreeData,
                                      mapFreeStringKey, mapCompareStringKeys);
     if(!tournament_games){
         tournamentDestroy(result);
@@ -134,7 +139,7 @@ char* tournamentGetTournamentLocation(ChessTournament tournament){
 }
 
 bool tournamentIsOver(ChessTournament tournament){
-    return tournament->tournament_winner_player_id == NO_PLAYER_ID;
+    return tournament->tournament_winner_player_id != NO_PLAYER_ID;
 }
 
 int tournamentGetSumPointsOfPlayer(ChessTournament tournament, PlayerID player_id){
@@ -144,6 +149,7 @@ int tournamentGetSumPointsOfPlayer(ChessTournament tournament, PlayerID player_i
 int tournamentCountLosingGames(ChessTournament tournament, char* player_id){
     return 0;
 }
+
 /**
  * tournamentAddGame: Add a game into tournament.
  * Assumes that Game and Tournament validity check is made by Chess System ADT.
@@ -180,12 +186,23 @@ TournamentResult tournamentAddGame(ChessTournament tournament, ChessGame game){
         mapPut(tournament->games_counter_of_players, &player2_id, &new_player_counter);
         player2_game_counter = mapGet(tournament->games_counter_of_players, &player2_id);
     }
-    *player1_game_counter = *player1_game_counter + 1;
-    *player2_game_counter = *player2_game_counter + 1;
+    (*player1_game_counter)++;
+    (*player2_game_counter)++;
     if (*player1_game_counter > tournament->max_games_per_player ||
-    *player2_game_counter > tournament->max_games_per_player){
+        *player2_game_counter > tournament->max_games_per_player){
         return TOURNAMENT_EXCEEDED_GAMES;
     }
     return TOURNAMENT_SUCCESS;
 }
 
+static bool tournamentLocationIsValid(const char* tournament_name){
+    if (!isupper(tournament_name[0])){
+        return false;
+    }
+    for (int i = 1; i < strlen(tournament_name) ;i++){
+        if (!(isspace(tournament_name[i]) || islower(tournament_name[i]))){
+            return false;
+        }
+    }
+    return true;
+}

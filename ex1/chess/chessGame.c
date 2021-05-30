@@ -64,7 +64,6 @@ ChessGame gameCreate(int tournament_id, PlayerID player1_id, PlayerID player2_id
     if(!player2_id){
         return NULL;
     }
-
     char* game_id = createGameID(playerIDGetFullID(player1_id), playerIDGetFullID(player2_id), tournament_id);
     if(!game_id){
         return NULL;
@@ -83,19 +82,17 @@ ChessGame gameCopy(ChessGame game){
         return NULL;
     }
 
-    new_game->player1_id = game->player1_id;
-    new_game->player2_id = game->player2_id;
+    new_game->player1_id = playerIDCopy(game->player1_id);
+    new_game->player2_id = playerIDCopy(game->player2_id);
     new_game->tournament_id = game->tournament_id;
     new_game->play_time = game->play_time;
     new_game->game_winner = game->game_winner;
     int len_of_id = (int)strlen(game->id);
     char* id_copy = malloc(len_of_id + 1);
-
     if(!id_copy){
         free(new_game);
         return NULL;
     }
-
     strcpy(id_copy, game->id);
     new_game->id = id_copy;
     return new_game;
@@ -106,6 +103,8 @@ void gameDestroy(ChessGame game){
         return;
     }
     free(game->id);
+    playerIDDestroy(game->player1_id);
+    playerIDDestroy(game->player2_id);
     free(game);
 }
 
@@ -152,7 +151,7 @@ int gameGetPlayTime(ChessGame game){
     return game->play_time;
 }
 
-Winner chessGameGetWinner(ChessGame game){
+Winner gameGetWinner(ChessGame game){
     if(!game){
         return BAD_INPUT;
     }

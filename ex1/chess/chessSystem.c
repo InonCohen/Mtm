@@ -1,16 +1,16 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
+#include <ctype.h>
 #include <string.h>
 #include "../map/map.h"
-#include "chessSystem.h"
-#include "../map/map.h"
-#include "chessPlayer.h"
-#include "chessGame.h"
-#include "chessTournament.h"
-#include "strUtils.h"
-#include "chessPlayerID.h"
 #include "chessMapUtils.h"
+#include "strUtils.h"
+#include "chessSystem.h"
+#include "chessTournament.h"
+#include "chessGame.h"
+#include "chessPlayer.h"
+#include "chessPlayerID.h"
 
 
 #define LENGTH_OF_ZERO_STRING 2
@@ -18,15 +18,9 @@
 
 struct chess_system_t{
     Map tournaments; // Key: int id,  Data: Tournament tour
-    Map Players; // Key: int id,  Data: Player
+    Map players; // Key: int id,  Data: Player
     int ended_tournaments;
 };
-
-/*
- * Required to function:
- *              - Tournaments ADT copy, destroy funcs
- *              - Players ADT copy, destroy funcs
- */
 /**
  * Validity Check:
  *  - Starts with capital letter.
@@ -35,29 +29,6 @@ struct chess_system_t{
  * @return
  */
 static bool tournamentLocationIsValid(const char* tournament_name);
-
-static char* createGameID(char* player1_id, char* player2_id, int tournament_id){
-    if(!player1_id || !player2_id || tournament_id <= 0){
-        return NULL;
-    }
-    char* tournament_id_str= castIntToString((int) tournament_id);
-    int len1, len2, len3;
-    len1=(int)strlen(player1_id);
-    len2=(int)strlen(player2_id);
-    len3=(int)strlen(tournament_id_str);
-    int size = len1 + strlen(ID_SEP) + len2  + strlen(ID_SEP) + len3 + strlen(ID_SEP);
-    char* game_id = malloc(size);
-    if(!game_id){
-        return NULL;
-    }
-    nullifyString(game_id, size);
-    game_id = strcat(game_id,tournament_id_str);
-    game_id = strcat(game_id, ID_SEP);
-    game_id = strcat(game_id,strcmp(player1_id,player2_id) < 0 ? player1_id: player2_id);
-    game_id = strcat(game_id, ID_SEP);
-    game_id = strcat(game_id,strcmp(player1_id,player2_id) > 0 ? player1_id: player2_id);
-    return game_id;
-}
 
 static bool chessGameInTournament(ChessTournament tournament, char* game_id){
     if(!tournament || !game_id){
@@ -74,26 +45,23 @@ static bool chessGameInTournament(ChessTournament tournament, char* game_id){
     }
     return false;
 }
-
 /**
  * getPlayerIDFromMap: inserts the relevant PlayerID into id. If no player has ever been entered to the system
  *                      with  id_int, id will be made with version 0.
- *                      If there is such a player in the system with int_id, the player's ID will be entered to ID.
- *                      Otherwise, meaning if there was a player with such id_int, but it was deleted,
- *                      id will get a new id, that never existed in the system's players map.
- *                      If at the end of the function id is still NULL, it means there was a
- *                      memory problem or the inputs were
  *
  * @param players    - a map that contains the chess system players. Must be non-NULL.
  * @param id_int     - the player id. Must be positive.
  * @param id         - an empty PlayerId type. Must be NULL.
  * @return
- *     the function has void return value, meaning it returns nothing.
+ *     a PlayerID which contains:
+ *          the player's ID - if there is such a player in the system with int_id.
+ *          a new id that never existed in the system's players map -
+ *                      if there was a player with such id_int, but it was deleted.
+ *          NULL - if there was a memory problem or the inputs were corrupted.
  */
-void getPlayerIdFromMap (Map players, int id_int, PlayerID id) {
-    assert(id == NULL);
+PlayerID getPlayerIdFromMap (Map players, int id_int) {
     if(!players || id_int <= 0) {
-        return;
+        return NULL;
     }
     int id_version = 0;
     MAP_FOREACH(PlayerID , iter, players) {
@@ -104,52 +72,32 @@ void getPlayerIdFromMap (Map players, int id_int, PlayerID id) {
     }
     PlayerID new_id = playerIDCreate(id_int, id_version);
     if(!new_id) {
-        return;
+        return NULL;
     }
     if(mapContains(players, new_id)) {
+        PlayerID id = NULL;
         if (playerIsDeleted(mapGet(players, new_id))) {
+            playerIDDestroy(new_id);
             id = playerIDCreate(id_int, ++id_version);
             if (!id) {
-                playerIDDestroy(new_id);
-                return;
+                return NULL;
             }
         }
     }
-    id = playerIDCopy(new_id);
-    if (!id) {
-        playerIDDestroy(new_id);
-        return;
-    }
-
+    return new_id;
 }
-
-//static char* convertPlayerIntIdToCharId(Map players, int id){
-//    if(!players || id<=0){
-//        return NULL;
-//    }
-//    char* id_str = NULL;
-//    getPlayerIdFromMap(players, id, id_str);
-//    if(!id_str) {
-//        return NULL;
-//    }
-//    if(playerIsDeleted(mapGet(players, id_str))) {
-//        playerGetVersion()
-//    }
-//
-//
-//}
 
 ChessSystem chessCreate(){
     ChessSystem system = malloc(sizeof(*system));
     if(!system){
         return NULL;
     }
-    Map tournaments = mapCreate(tournamentsMapCopyData, intCopyFunc, tournamentsMapDestroyData, intFreeFunc, intCompFunc);
+    Map tournaments = mapCreate(tournamentsMapCopyData, intCopyFunc, tournamentsMapFreeData, intFreeFunc, intCompFunc);
     if(!tournaments){
         free(system);
         return NULL;
     }
-    Map players = mapCreate(playerCopy, playerIDCopy, playerDestroy, playerIDDestroy, playerIDCompare);
+    Map players = mapCreate(playersMapCopyData, playersMapCopyKey, playersMapFreeData, playersMapFreeKey, playersMapComp);
     if(!players){
         mapDestroy(tournaments);
         free(system);
@@ -176,21 +124,22 @@ void chessDestroy(ChessSystem chess){
 
 ChessResult chessAddTournament (ChessSystem chess, int tournament_id,
                                 int max_games_per_player, const char* tournament_location){
-    if(!tournament_id > 0){
+    if(tournament_id <= 0){
         return CHESS_INVALID_ID;
     }
-    if(mapGet(chess->tournaments,tournament_id)){
+    if(mapGet(chess->tournaments,&tournament_id)){
         return CHESS_TOURNAMENT_ALREADY_EXISTS;
     }
     if(!tournamentLocationIsValid(tournament_location)){
         return CHESS_INVALID_LOCATION;
     }
-    if(!max_games_per_player > 0){
+    if(!(max_games_per_player > 0)){
         return CHESS_INVALID_MAX_GAMES;
     }
 
-    result = mapPut(chess->tournaments, tournamentCreate(tournament_id, max_games_per_player, tournament_location));
-    if(!(result == MAP_SUCCESS)){
+    ChessTournament new_tournament = tournamentCreate(tournament_id, max_games_per_player, tournament_location);
+    MapResult result = mapPut(chess->tournaments, &tournament_id, new_tournament);
+    if(result != MAP_SUCCESS){
         return CHESS_OUT_OF_MEMORY;
     }
     return CHESS_SUCCESS;
@@ -215,43 +164,36 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
         return CHESS_INVALID_ID;
     }
     assert(chess->tournaments);
-    if (!mapContains(chess->tournaments, tournament_id)) {
+    if (!mapContains(chess->tournaments, &tournament_id)) {
         return CHESS_TOURNAMENT_NOT_EXIST;
     }
-    Tournament tournament = mapGet(chess->tournaments, tournament_id);
+    ChessTournament tournament = mapGet(chess->tournaments, &tournament_id);
     if (tournamentIsOver(tournament)) {
         return CHESS_TOURNAMENT_ENDED;
     }
-    bool player1_deleted = false, player2_deleted = false;
-    PlayerID player1_id = NULL, player2_id = NULL;
-    getPlayerIdFromMap(chess->players, first_player, player1_id);
-    getPlayerIdFromMap(chess->players, second_player, player2_id);
-    if (!player1_id) {
-        if (player2_id) {
-            playerIDDestroy(player2_id);
-        }
+    PlayerID player1_id = getPlayerIdFromMap(chess->players, first_player);
+    if(!player1_id) {
         return CHESS_OUT_OF_MEMORY;
     }
+    PlayerID player2_id = getPlayerIdFromMap(chess->players, second_player);
     if (!player2_id) {
         playerIDDestroy(player1_id);
         return CHESS_OUT_OF_MEMORY;
     }
-    char *player1_id_str = playerIDGetFullID(player1_id);
-    char *player2_id_str = playerIDGetFullID(player2_id);
-    char *game_id = createGameID(player1_id_str, player2_id_str, tournament_id);
-    if (mapContains(tournamentGetGames(tournament), game_id)) {
-        playerIDDestroy(player1);
-        playerIDDestroy(player2);
-        return CHESS_GAME_ALREADY_EXISTS;
-    }
-    Game game = gameCreate(game_id, player1_id_str, player2_id_str, play_time, winner);
+    ChessGame game = gameCreate(tournament_id, player1_id, player2_id, play_time, winner);
     if (!game) {
         playerIDDestroy(player1_id);
         playerIDDestroy(player2_id);
         return CHESS_OUT_OF_MEMORY;
     }
+    if(chessGameInTournament(tournament, gameGetID(game))) {
+        gameDestroy(game);
+        playerIDDestroy(player1_id);
+        playerIDDestroy(player2_id);
+        return CHESS_GAME_ALREADY_EXISTS;
+    }
     bool player1_is_new = false, player2_is_new = false;
-    ChessPlayer player1 = mapGet(players, player1_id);
+    ChessPlayer player1 = mapGet(chess->players, player1_id);
     if (!player1) {
         player1_is_new = true;
         player1 = playerCreate(player1_id);
@@ -262,7 +204,7 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
             return CHESS_OUT_OF_MEMORY;
         }
     }
-    ChessPlayer player2 = mapGet(players, player2_id);
+    ChessPlayer player2 = mapGet(chess->players, player2_id);
     if (!player2) {
         player2 = playerCreate(player2_id);
         player2_is_new = true;
@@ -273,8 +215,8 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
             return CHESS_OUT_OF_MEMORY;
         }
     }
-    PlayerResult res = playerAddGame(player1, game);
-    if (res != PLAYER_SUCCESS) {
+    PlayerResult player_res = playerAddGame(player1, game);
+    if (player_res != PLAYER_SUCCESS) {
         if (player1_is_new) {
             playerDestroy(player1);
         }
@@ -284,10 +226,10 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
         gameDestroy(game);
         playerIDDestroy(player1_id);
         playerIDDestroy(player2_id);
-        return res;
+        return (ChessResult)player_res;
     }
-    res = playerAddGame(player2, game);
-    if (res != PLAYER_SUCCESS) {
+    player_res = playerAddGame(player2, game);
+    if (player_res != PLAYER_SUCCESS) {
         if (player1_is_new) {
             playerDestroy(player1);
         }
@@ -297,11 +239,12 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
         gameDestroy(game);
         playerIDDestroy(player1_id);
         playerIDDestroy(player2_id);
-        return res;
+        return (ChessResult)player_res;
     }
+    MapResult map_res;
     if (player1_is_new) {
-        res = mapPut(players, player1_id, player1);
-        if (res != MAP_SUCCESS) {
+        map_res = mapPut(chess->players, player1_id, player1);
+        if (map_res != MAP_SUCCESS) {
             if (player1_is_new) {
                 playerDestroy(player1);
             }
@@ -315,9 +258,9 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
         }
     }
     if (player2_is_new) {
-        res = mapPut(players, player2_id, player2);
-        if (res != MAP_SUCCESS) {
-            mapRemove(players, player1);
+        map_res = mapPut(chess->players, player2_id, player2);
+        if (map_res != MAP_SUCCESS) {
+            mapRemove(chess->players, player1);
             if (player1_is_new) {
                 playerDestroy(player1);
             }
@@ -330,16 +273,16 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
             return CHESS_OUT_OF_MEMORY;
         }
     }
-    res = tournamentAddGame(tournament, game);
-    if (res != TOURNAMENT_SUCCESS) {
+    TournamentResult tour_res = tournamentAddGame(tournament, game);
+    if (tour_res != TOURNAMENT_SUCCESS) {
         playerRemoveGame(player1, game);
         playerRemoveGame(player2, game);
         if (player1_is_new) {
-            mapRemove(players, player1_id);
+            mapRemove(chess->players, player1_id);
             playerDestroy(player1);
         }
         if (player2_is_new) {
-            mapRemove(players, player2_id);
+            mapRemove(chess->players, player2_id);
             playerDestroy(player2);
         }
         gameDestroy(game);
@@ -347,49 +290,17 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
         playerIDDestroy(player2_id);
         return CHESS_OUT_OF_MEMORY;
     }
+    if(player1_is_new){
+        playerDestroy(player1);
+    }
+    if(player2_is_new){
+        playerDestroy(player2);
+    }
+    gameDestroy(game);
+    playerIDDestroy(player1_id);
+    playerIDDestroy(player2_id);
     return CHESS_SUCCESS;
 }
-
-//    if (winner == FIRST_PLAYER) {
-//        playerAddWin(player1);
-//    } else if (winner == SECOND_PLAYER) {
-//        playerAddLoss(player1);
-//    } else {
-//        playerAddDraw(player1);
-//    }
-//
-//        if()
-//        int version = playerIDGetIntVersion(player1);
-//        version++;
-//        PlayerID new_player_id = playerIDCreate(first_player, version);
-//        if(!new_player_id) {
-//            playerIDDestroy(player1_id);
-//            playerIDDestroy(player2_id);
-//            return CHESS_OUT_OF_MEMORY;
-//        }
-//        ChessPlayer new_player = playerCreate(new_player_id);
-//        if(!new_player_id){
-//            playerIDDestroy(new_player_id);
-//            playerIDDestroy(player1_id);
-//            playerIDDestroy(player2_id);
-//            return CHESS_OUT_OF_MEMORY;
-//        }
-//        MapResult  res = mapPut(chess->players, new_player_id, new_player);
-//        if(res!=MAP_SUCCESS){
-//            playerDestroy(new_player);
-//            playerIDDestroy(new_player_id);
-//            playerIDDestroy(player1_id);
-//            playerIDDestroy(player2_id);
-//            return MAP_OUT_OF_MEMORY;
-//        }
-//
-//
-//    TournamentResult res = tournamentAddGame(tournament, first_player, second_player,play_time, winner);
-//    if(res == TOURNAMENT_SUCCESS){
-//        if(!mapContains(chess->players))
-//    }
-//
-//}
 
 ChessResult chessRemovePlayer(ChessSystem chess, int player_id){
     return CHESS_SUCCESS;
@@ -421,8 +332,4 @@ static bool tournamentLocationIsValid(const char* tournament_name){
         }
     }
     return true;
-}
-
-int main(){
-
 }

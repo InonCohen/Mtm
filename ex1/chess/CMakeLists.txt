@@ -31,7 +31,7 @@ set(MAP_C_FILES
         ../map/DLLNode.c
         ../map/LinkedList.c)
 set(TEST_C_FILES
-        test/chessTournamentTest.c)
+        test/chessSystemTest.c)
 
 ## If needed, add libaries and set target properties.
 ## Notice that this part will have duplicate problems with "include_directories" section!

@@ -43,6 +43,11 @@ PlayerID gameGetPlayer1ID(ChessGame game);
 
 PlayerID gameGetPlayer2ID(ChessGame game);
 
+int gameGetTournamentID(ChessGame game);
+
+int gameGetPlayTime(ChessGame game);
+
+
 char* gameGetID(ChessGame game);
 
 Winner gameGetWinner(ChessGame game);
