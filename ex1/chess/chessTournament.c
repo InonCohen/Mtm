@@ -2,12 +2,14 @@
 #include <ctype.h>
 #include <string.h>
 #include "../map/map.h"
+#include "chessSystem.h"
 #include "chessTournament.h"
 #include "chessMapUtils.h"
 #include "chessGame.h"
 #include "strUtils.h"
 #include "chessPlayer.h"
 #include "chessPlayerID.h"
+
 
 #define NO_PLAYER_ID 0
 
@@ -25,6 +27,7 @@ struct chess_tournament_t{
  *  - Following letters can be only lowercase or space.
  * @param tournament_name: Tournament name to check
  * @return true if name isvalid, false otherwise.
+<<<<<<< HEAD
  */
 static bool tournamentLocationIsValid(const char* tournament_name);
 
@@ -40,7 +43,6 @@ ChessTournament tournamentCreate(int tournament_id, int max_games_per_player, co
     if(!tournamentLocationIsValid(tournament_location)){
         return NULL;
     }
-
     ChessTournament result = malloc(sizeof (*result));
     if(!result){
         return NULL;
@@ -184,8 +186,8 @@ TournamentResult tournamentAddGame(ChessTournament tournament, ChessGame game){
         mapPut(tournament->games_counter_of_players, &player2_id, &new_player_counter);
         player2_game_counter = mapGet(tournament->games_counter_of_players, &player2_id);
     }
-    *player1_game_counter = *player1_game_counter + 1;
-    *player2_game_counter = *player2_game_counter + 1;
+    (*player1_game_counter)++;
+    (*player2_game_counter)++;
     if (*player1_game_counter > tournament->max_games_per_player ||
         *player2_game_counter > tournament->max_games_per_player){
         return TOURNAMENT_EXCEEDED_GAMES;

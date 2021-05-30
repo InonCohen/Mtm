@@ -138,7 +138,28 @@ void testChessGameAdd(ChessSystem sys){
     if(res!=CHESS_SUCCESS){
         printf("An error occurred. Code: %d\n", res);
     }
-    printf("\nTEST FINISHED SUCCESSFULLY\n\n");
+
+static bool tournamentLocationIsValid(const char* tournament_name){
+    if (!isupper(tournament_name[0])){
+        return false;
+    }
+    for (int i = 1; i < strlen(tournament_name) ;i++){
+        if (!(isspace(tournament_name[i]) || islower(tournament_name[i]))){
+            return false;
+        }
+    }
+    return true;
+}
+
+bool testTournamentLocationIsValid(){
+    char *valid_str = "Belgium";
+    char *invalid_str = "belgium";
+    ASSERT_TEST(tournamentLocationIsValid(valid_str));
+    ASSERT_TEST(!tournamentLocationIsValid(invalid_str));
+    return true;
+}
+
+>>>>>>> main
 }
 
 int main(){

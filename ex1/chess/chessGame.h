@@ -3,8 +3,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "chessDefs.h"
 #include "chessSystem.h"
+#include "chessPlayerID.h"
+
+/** Type for representing a chess game in a tournament */
+typedef struct chess_game_t *ChessGame;
 
 typedef enum {
     GAME_OUT_OF_MEMORY,
@@ -44,11 +47,12 @@ int gameGetTournamentID(ChessGame game);
 
 int gameGetPlayTime(ChessGame game);
 
+
 char* gameGetID(ChessGame game);
 
 Winner gameGetWinner(ChessGame game);
 
-GameResult gameUpdateLoser(char* game_id, ChessPlayer player);
+//GameResult gameUpdateLoser(char* game_id, ChessPlayer player);
 
 void gameSetWinner(ChessGame game, Winner winner);
 
