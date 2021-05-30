@@ -44,8 +44,7 @@ ChessGame gameCreate(int tournament_id, PlayerID player1_id, PlayerID player2_id
     if(tournament_id<=0||!player1_id||!player2_id||play_time<0||(winner!=FIRST_PLAYER && winner!=SECOND_PLAYER)){
         return NULL;
     }
-
-    if (playerIDCompare(player1_id, player2_id) < 0){
+    if (playerIDCompare(player1_id, player2_id) == 0){
         return NULL;
     }
 

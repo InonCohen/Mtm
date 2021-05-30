@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "chessSystem.h"
-#include "chessGame.h"
 #include "chessPlayerID.h"
 
 /** Type for representing a chess game in a tournament */
@@ -48,7 +47,7 @@ char* gameGetID(ChessGame game);
 
 Winner gameGetWinner(ChessGame game);
 
-GameResult gameUpdateLoser(char* game_id, ChessPlayer player);
+//GameResult gameUpdateLoser(char* game_id, ChessPlayer player);
 
 void gameSetWinner(ChessGame game, Winner winner);
 

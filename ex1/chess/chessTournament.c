@@ -4,7 +4,6 @@
 #include "chessTournament.h"
 #include "chessMapUtils.h"
 #include "chessGame.h"
-#include "chessPlayer.h"
 
 #define NO_PLAYER_ID 0
 
@@ -33,21 +32,22 @@ ChessTournament tournamentCreate(int tournament_id, int max_games_per_player, co
     Map tournament_games = mapCreate(gamesMapCopyData, mapCopyStringKey, gamesMapFreeData,
                                      mapFreeStringKey, mapCompareStringKeys);
     if(!tournament_games){
-        free(result);
+        tournamentDestroy(result);
         return NULL;
     }
     Map games_counter_of_players = mapCreate(intCopyFunc, intCopyFunc, intFreeFunc, intFreeFunc, intCompFunc);
     if(!games_counter_of_players){
-        free(result);
+        tournamentDestroy(result);
+        mapDestroy(tournament_games);
         return NULL;
     }
 
-    result->tournament_games = tournament_games;
-    result->games_counter_of_players = games_counter_of_players;
     result->tournament_id = tournament_id;
     result->tournament_winner_player_id = NO_PLAYER_ID;
-    result->tournament_location = malloc(strlen(tournament_location)+1);
     result->max_games_per_player = max_games_per_player;
+    result->tournament_games = tournament_games;
+    result->games_counter_of_players = games_counter_of_players;
+    result->tournament_location = malloc(strlen(tournament_location)+1);
     strcpy(result->tournament_location, tournament_location);
 
     return result;
@@ -60,17 +60,31 @@ ChessTournament tournamentCopy(ChessTournament to_copy){
     if (!new_tournament) {
         return NULL;
     }
-    Map games = mapCopy(to_copy->tournament_games);
-    if(!games){
+
+    new_tournament->tournament_location = malloc(strlen(to_copy->tournament_location) + 1);
+    if(!new_tournament->tournament_location){
+        tournamentDestroy(new_tournament);
+        return NULL;
+    }
+
+    Map tournament_games = mapCopy(to_copy->tournament_games);
+    if(!tournament_games){
+        tournamentDestroy(new_tournament);
         return NULL;
     }
     Map games_counter_of_players = mapCopy(to_copy->tournament_games);
     if(!games_counter_of_players){
+        mapDestroy(tournament_games);
+        tournamentDestroy(new_tournament);
         return NULL;
     }
+
     new_tournament->tournament_id = to_copy->tournament_id;
     new_tournament->max_games_per_player = to_copy->max_games_per_player;
+    new_tournament->tournament_winner_player_id = to_copy->tournament_winner_player_id;
     strcpy(new_tournament->tournament_location, to_copy->tournament_location);
+    new_tournament->tournament_games = games_counter_of_players;
+    new_tournament->games_counter_of_players = games_counter_of_players;
 
     return new_tournament;
 }
@@ -112,19 +126,16 @@ int tournamentCountLosingGames(ChessTournament tournament, char* player_id){
     return 0;
 }
 
-// TODO: Implement gameIdentifier and then implement: gameSamePlayers, getGameIdentifier, tournamentAddGame
 /**
- * tournamentAddGame: Add a game into tournament. Game and Tournament validity check is made by Chess System ADT.
+ * tournamentAddGame: Add a game into tournament.
+ * Assumes that Game and Tournament validity check is made by Chess System ADT.
  *  Do:
  *  1. Add game into tournament_games
- *  2. Update player map
- *  3. Update player counter
- * @param tournament
- * @param player1_id
- * @param player2_id
- * @param play_time
- * @param winner
- * @return
+ *  2. Update games_counter_of_players
+ *  3. Check if a player exceeded max_games_per_player, raise an error accordingly.
+ * @param tournament: tournament to add game into
+ * @param game: game to be added
+ * @return TOURNAMENT_SUCCESS if game was added successfully, matching TournamentResult otherwise.
  */
 TournamentResult tournamentAddGame(ChessTournament tournament, ChessGame game){
     if(!tournament || !game){
@@ -134,9 +145,29 @@ TournamentResult tournamentAddGame(ChessTournament tournament, ChessGame game){
     if (mapGet(tournament->tournament_games, game_id)){
         return TOURNAMENT_GAME_ALREADY_EXISTS;
     }
-    mapPut(tournament->tournament_games, game_id, game);
-    // TODO: step 2 and step 3.
 
+    mapPut(tournament->tournament_games, game_id, game);
+    int player1_id = playerIDGetIntID(gameGetPlayer1ID(game));
+    int player2_id = playerIDGetIntID(gameGetPlayer2ID(game));
+    int* player1_game_counter = mapGet(tournament->games_counter_of_players, &player1_id);
+    int* player2_game_counter = mapGet(tournament->games_counter_of_players, &player2_id);
+
+    if (!player1_game_counter){
+        int new_player_counter = 0;
+        mapPut(tournament->games_counter_of_players, &player1_id, &new_player_counter);
+        player1_game_counter = mapGet(tournament->games_counter_of_players, &player1_id);
+    }
+    if (!player2_game_counter){
+        int new_player_counter = 0;
+        mapPut(tournament->games_counter_of_players, &player2_id, &new_player_counter);
+        player2_game_counter = mapGet(tournament->games_counter_of_players, &player2_id);
+    }
+    *player1_game_counter = *player1_game_counter + 1;
+    *player2_game_counter = *player2_game_counter + 1;
+    if (*player1_game_counter <= tournament->max_games_per_player ||
+    *player2_game_counter <= tournament->max_games_per_player){
+        return TOURNAMENT_EXCEEDED_GAMES;
+    }
     return TOURNAMENT_SUCCESS;
 }
 
