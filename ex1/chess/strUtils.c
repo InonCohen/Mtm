@@ -55,7 +55,7 @@ char* createEmptyString(size_t size){
     return str;
 }
 
-void freeAll(void* elem1,void* elem2,void* elem3,void* elem4){
+void freeAll(char* elem1,char* elem2,char* elem3,char* elem4){
     free(elem1);
     free(elem2);
     free(elem3);

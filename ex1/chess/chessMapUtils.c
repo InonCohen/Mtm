@@ -4,6 +4,8 @@
 #include "chessGame.h"
 #include "chessTournament.h"
 #include "chessMapUtils.h"
+#include "chessPlayer.h"
+#include "chessPlayerID.h"
 
 /**
  *
@@ -58,6 +60,13 @@ void mapFreeStringKey(void* to_free){
     }
     free((char*)to_free);
 }
+void tournamentsMapFreeData(void* to_free){
+    if(to_free == NULL){
+        return;
+    }
+    tournamentDestroy((ChessTournament)to_free);
+}
+
 /**
  *
  * @param key1
@@ -101,10 +110,52 @@ MapDataElement tournamentsMapCopyData(MapDataElement data){
     return tournamentCopy((ChessTournament)data);
 }
 
-void tournamentsMapDestroyData (MapDataElement data){
+MapDataElement playersMapCopyData(MapDataElement data){
+    if(!data){
+        return NULL;
+    }
+    return playerCopy((ChessPlayer)data);
+}
+
+MapKeyElement stringCopyFunc (MapKeyElement to_copy){
+    if(!to_copy){
+        return NULL;
+    }
+    int length = strlen((char*)to_copy);
+    char* to_return = malloc(length+1);
+    if(!to_return){
+        return NULL;
+    }
+    strcpy(to_return, to_copy);
+    return (void*)to_return;
+}
+
+MapKeyElement playersMapCopyKey(MapDataElement key){
+    if(!key){
+        return NULL;
+    }
+    return playerIDCopy((PlayerID)key);
+}
+
+void playersMapFreeData(MapDataElement data){
     if(!data){
         return;
     }
-    tournamentDestroy((ChessTournament)(data));
+    playerDestroy((ChessPlayer)data);
 }
+
+void playersMapFreeKey(MapDataElement key){
+    if(!key){
+        return;
+    }
+    playerIDDestroy((PlayerID)key);
+}
+
+int playersMapComp(MapKeyElement key1, MapKeyElement key2){
+    if(!key1 || !key2){
+        return BAD_INPUT;
+    }
+    return playerIDCompare((PlayerID)key1, (PlayerID)key2);
+}
+
 /*End: Internal map's utility functions of mapElement */

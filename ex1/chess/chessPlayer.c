@@ -36,7 +36,7 @@ ChessPlayer playerCreate(PlayerID id){
             return NULL;
         }
     }
-    new_player->games = mapCreate(gamesMapCopyData, mapCopyStringKey, gamesMapFreeData, mapFreeStringKey,
+    new_player->games = mapCreate(gamesMapCopyData, stringCopyFunc, gamesMapFreeData, mapFreeStringKey,
                         mapCompareStringKeys);
     if(!new_player->games){
         playerIDDestroy(new_player->id);
@@ -167,7 +167,7 @@ bool playerIsDeleted(ChessPlayer player){
     return player->is_deleted;
 }
 
-void updatePlayerLevel(ChessPlayer player){
+void playerUpdateLevel(ChessPlayer player){
     if(!player){
         return;
     }
@@ -214,5 +214,88 @@ void updatePlayerAccordingToGame(ChessPlayer player, GamePlayerOutcome old_outco
         }
         player->draws++;
     }
-    updatePlayerLevel(player);
+    playerUpdateLevel(player);
+}
+
+PlayerResult playerAddGame(ChessPlayer player, ChessGame game){
+    if(!player || !game){
+        return PLAYER_NULL_ARGUMENT;
+    }
+    Map games = player->games;
+    if(mapContains(games, gameGetID(game))){
+        return PLAYER_GAME_ALREADY_EXISTS;
+    }
+    PlayerID game_player1 = gameGetPlayer1ID(game);
+    PlayerID game_player2 = gameGetPlayer2ID(game);
+    char* id1 = playerIDGetFullID(game_player1);
+    char* id2 = playerIDGetFullID(game_player2);
+    char* player_id = playerIDGetFullID(playerGetID(player));
+    if(strcmp(id1, player_id) != 0 && strcmp(id2, player_id) != 0) {
+        return PLAYER_SAVE_FAILURE;
+    }
+    MapResult res = mapPut(games, gameGetID(game), game);
+    if(res!=MAP_SUCCESS){
+        return PLAYER_OUT_OF_MEMORY;
+    }
+    if(gameGetWinner(game) == DRAW){
+        player->draws++;
+    }
+    else if(gameGetWinner(game)==FIRST_PLAYER){
+        if(strcmp(id1, player_id) == 0){
+            player->wins++;
+        }
+        else{
+            player->losses++;
+        }
+    }
+    else{
+        if(strcmp(id1, player_id) == 0){
+            player->losses++;
+        }
+        else{
+            player->wins++;
+        }
+    }
+    playerUpdateLevel(player);
+    return PLAYER_SUCCESS;
+}
+
+PlayerResult playerRemoveGame(ChessPlayer player, ChessGame game){
+    if(!player || !game){
+        return PLAYER_NULL_ARGUMENT;
+    }
+    Map games = player->games;
+    if(!mapContains(games, gameGetID(game))){
+        return PLAYER_SUCCESS;
+    }
+    MapResult res = mapRemove(games, gameGetID(game));
+    if(res != MAP_SUCCESS){
+        return PLAYER_SAVE_FAILURE;
+    }
+    Winner game_winner = gameGetWinner(game);
+    if(game_winner == DRAW){
+        player->draws--;
+    }
+    else{
+        PlayerID game_player1 = gameGetPlayer1ID(game);
+        char* id1 = playerIDGetFullID(game_player1);
+        char* player_id = playerIDGetFullID(playerGetID(player));
+        if(game_winner == FIRST_PLAYER){
+            if(strcmp(id1, player_id) == 0){
+                player->wins--;
+            }
+            else{
+            player->losses--;
+            }
+        }
+        else{
+            if(strcmp(id1, player_id) == 0){
+                player->losses--;
+            }
+            else{
+                player->wins--;
+            }
+        }
+    }
+    return PLAYER_SUCCESS;
 }

@@ -7,6 +7,6 @@ void nullifyString(char* str, size_t size);
 char castDigitToChar(int digit);
 char* castIntToString(int num);
 char* createEmptyString(size_t size);
-void freeAll(void* elem1, void* elem2, void* elem3, void* elem4);
+void freeAll(char* elem1,char* elem2,char* elem3,char* elem4);
 
 #endif //EX1_STRUTILS_H
