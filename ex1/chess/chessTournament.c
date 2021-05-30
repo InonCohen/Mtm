@@ -2,6 +2,7 @@
 #include <ctype.h>
 #include <string.h>
 #include "../map/map.h"
+#include "chessSystem.h"
 #include "chessTournament.h"
 #include "chessMapUtils.h"
 #include "chessGame.h"
@@ -24,20 +25,19 @@ struct chess_tournament_t{
  * @return true if name isvalid, false otherwise.
  */
 static bool tournamentLocationIsValid(const char* tournament_name);
-
 /**
- *
- * @param to_copy
+ * tournamentCreate:
+ * Notice:
+ *  - Arguments validity check is made by Chess System.
+ * @param tournament_id
+ * @param max_games_per_player
+ * @param tournament_location
  * @return
  */
 ChessTournament tournamentCreate(int tournament_id, int max_games_per_player, const char* tournament_location){
-    if(tournament_id <= 0 || max_games_per_player <= 0) {
-        return NULL;
-    }
     if(!tournamentLocationIsValid(tournament_location)){
         return NULL;
     }
-
     ChessTournament result = malloc(sizeof (*result));
     if(!result){
         return NULL;
@@ -144,7 +144,6 @@ int tournamentGetSumPointsOfPlayer(ChessTournament tournament, PlayerID player_i
 int tournamentCountLosingGames(ChessTournament tournament, char* player_id){
     return 0;
 }
-
 /**
  * tournamentAddGame: Add a game into tournament.
  * Assumes that Game and Tournament validity check is made by Chess System ADT.
@@ -190,14 +189,3 @@ TournamentResult tournamentAddGame(ChessTournament tournament, ChessGame game){
     return TOURNAMENT_SUCCESS;
 }
 
-static bool tournamentLocationIsValid(const char* tournament_name){
-    if (!isupper(tournament_name[0])){
-        return false;
-    }
-    for (int i = 1; i < strlen(tournament_name) ;i++){
-        if (!(isspace(tournament_name[i]) || islower(tournament_name[i]))){
-            return false;
-        }
-    }
-    return true;
-}
