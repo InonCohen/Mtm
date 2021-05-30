@@ -27,8 +27,14 @@ struct chess_system_t{
  *              - Tournaments ADT copy, destroy funcs
  *              - Players ADT copy, destroy funcs
  */
-
-
+/**
+ * Validity Check:
+ *  - Starts with capital letter.
+ *  - All other chars will bee space or lowercase.
+ * @param tournament_name
+ * @return
+ */
+static bool tournamentLocationIsValid(const char* tournament_name);
 
 static char* createGameID(char* player1_id, char* player2_id, int tournament_id){
     if(!player1_id || !player2_id || tournament_id <= 0){
@@ -68,7 +74,6 @@ static bool chessGameInTournament(ChessTournament tournament, char* game_id){
     }
     return false;
 }
-
 
 /**
  * getPlayerIDFromMap: inserts the relevant PlayerID into id. If no player has ever been entered to the system
@@ -134,8 +139,6 @@ void getPlayerIdFromMap (Map players, int id_int, PlayerID id) {
 //
 //}
 
-
-
 ChessSystem chessCreate(){
     ChessSystem system = malloc(sizeof(*system));
     if(!system){
@@ -173,6 +176,23 @@ void chessDestroy(ChessSystem chess){
 
 ChessResult chessAddTournament (ChessSystem chess, int tournament_id,
                                 int max_games_per_player, const char* tournament_location){
+    if(!tournament_id > 0){
+        return CHESS_INVALID_ID;
+    }
+    if(mapGet(chess->tournaments,tournament_id)){
+        return CHESS_TOURNAMENT_ALREADY_EXISTS;
+    }
+    if(!tournamentLocationIsValid(tournament_location)){
+        return CHESS_INVALID_LOCATION;
+    }
+    if(!max_games_per_player > 0){
+        return CHESS_INVALID_MAX_GAMES;
+    }
+
+    result = mapPut(chess->tournaments, tournamentCreate(tournament_id, max_games_per_player, tournament_location));
+    if(!(result == MAP_SUCCESS)){
+        return CHESS_OUT_OF_MEMORY;
+    }
     return CHESS_SUCCESS;
 }
 
@@ -330,8 +350,6 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
     return CHESS_SUCCESS;
 }
 
-
-
 //    if (winner == FIRST_PLAYER) {
 //        playerAddWin(player1);
 //    } else if (winner == SECOND_PLAYER) {
@@ -365,16 +383,13 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
 //            return MAP_OUT_OF_MEMORY;
 //        }
 //
+//
+//    TournamentResult res = tournamentAddGame(tournament, first_player, second_player,play_time, winner);
+//    if(res == TOURNAMENT_SUCCESS){
+//        if(!mapContains(chess->players))
+//    }
+//
 //}
-
-
-
-    TournamentResult res = tournamentAddGame(tournament, first_player, second_player,play_time, winner);
-    if(res == TOURNAMENT_SUCCESS){
-        if(!mapContains(chess->players))
-    }
-
-}
 
 ChessResult chessRemovePlayer(ChessSystem chess, int player_id){
     return CHESS_SUCCESS;
@@ -394,6 +409,18 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file){
 
 ChessResult chessSaveTournamentStatistics (ChessSystem chess, char* path_file){
     return CHESS_SUCCESS;
+}
+
+static bool tournamentLocationIsValid(const char* tournament_name){
+    if (!isupper(tournament_name[0])){
+        return false;
+    }
+    for (int i = 1; i < strlen(tournament_name) ;i++){
+        if (!(isspace(tournament_name[i]) || islower(tournament_name[i]))){
+            return false;
+        }
+    }
+    return true;
 }
 
 int main(){
