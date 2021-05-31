@@ -4,7 +4,6 @@
 #include "strUtils.h"
 #include "chessGame.h"
 #include "chessSystem.h"
-#include "chessPlayer.h"
 #include "chessPlayerID.h"
 
 struct chess_game_t{

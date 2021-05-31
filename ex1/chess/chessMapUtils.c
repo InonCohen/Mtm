@@ -159,7 +159,6 @@ int playersMapComp(MapKeyElement key1, MapKeyElement key2){
     }
     return playerIDCompare((PlayerID)key1, (PlayerID)key2);
 }
-
 int levelsMapComp(MapKeyElement key1, MapKeyElement key2) {
     if (!key1 || !key2) {
         return BAD_INPUT;
@@ -172,5 +171,4 @@ int levelsMapComp(MapKeyElement key1, MapKeyElement key2) {
         return *(double *) key1 - *(double *) key2;
     }
 }
-
 /*End: Internal map's utility functions of mapElement */
