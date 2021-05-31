@@ -206,3 +206,18 @@ static bool tournamentLocationIsValid(const char* tournament_name){
     }
     return true;
 }
+
+void tournamentRemovePlayer(ChessTournament tournament, PlayerID player_id){
+    if(!tournament || !player_id){
+        return;
+    }
+    return;
+}
+
+int tournamentGetWinnerID(ChessTournament tournament){
+    if(!tournament){
+        return BAD_INPUT;
+    }
+    return tournament->tournament_winner_player_id;
+}
+

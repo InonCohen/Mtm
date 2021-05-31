@@ -1,11 +1,14 @@
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #include "strUtils.h"
 #include "chessGame.h"
 #include "chessTournament.h"
 #include "chessMapUtils.h"
 #include "chessPlayer.h"
 #include "chessPlayerID.h"
+
+#define EPSILON (0.01)
 
 /**
  *
@@ -36,23 +39,6 @@ void gamesMapFreeData(void* to_free){
  *
  * @param to_copy
  * @return
- */
-void* mapCopyStringKey (void* to_copy){
-    if(to_copy == NULL){
-        return NULL;
-    }
-    int size=(int)strlen((char*)(to_copy))+1;
-    char* new_key = malloc(size);
-    if(!new_key){
-        return NULL;
-    }
-    nullifyString(new_key,size);
-    strcpy(new_key, (char*)to_copy);
-    return new_key;
-}
-/**
- *
- * @param to_free
  */
 void mapFreeStringKey(void* to_free){
     if(to_free == NULL){
@@ -92,8 +78,24 @@ MapKeyElement intCopyFunc(MapKeyElement key) {
     return (void*)new_key;
 }
 
+MapKeyElement doubleCopyFunc(MapKeyElement key){
+    if(!key) {
+        return NULL;
+    }
+    double* new_key = malloc(sizeof(*new_key));
+    if(!new_key) {
+        return NULL;
+    }
+    *new_key = *(double*)key;
+    return (void*)new_key;
+}
+
 void intFreeFunc(MapKeyElement key) {
     free((int*)key);
+}
+
+void doubleFreeFunc(MapKeyElement key) {
+    free((double*)key);
 }
 
 int intCompFunc(MapKeyElement key1, MapKeyElement key2) {
@@ -156,6 +158,19 @@ int playersMapComp(MapKeyElement key1, MapKeyElement key2){
         return BAD_INPUT;
     }
     return playerIDCompare((PlayerID)key1, (PlayerID)key2);
+}
+
+int levelsMapComp(MapKeyElement key1, MapKeyElement key2) {
+    if (!key1 || !key2) {
+        return BAD_INPUT;
+    }
+    bool res = (fabs(*(double *) key1 - *(double *) key2)<EPSILON);
+    if(res == true){
+        return 0;
+    }
+    else{
+        return *(double *) key1 - *(double *) key2;
+    }
 }
 
 /*End: Internal map's utility functions of mapElement */

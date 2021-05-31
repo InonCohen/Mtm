@@ -95,8 +95,7 @@ int playerIDGetIntID(PlayerID player_id){
     if(!player_id){
         return BAD_INPUT;
     }
-    int id = player_id->id_int;
-    return id;
+    return player_id->id_int;
 }
 char* playerIDGetStringID(PlayerID player_id){
     if(!player_id){

@@ -178,7 +178,7 @@ void playerUpdateLevel(ChessPlayer player){
     player->level = (double)player_score/(double)total_games;
 }
 
-void updatePlayerAccordingToGame(ChessPlayer player, GamePlayerOutcome old_outcome, GamePlayerOutcome new_outcome) {
+void playerUpdateAccordingToGame(ChessPlayer player, GamePlayerOutcome old_outcome, GamePlayerOutcome new_outcome) {
     if (!player) {
         return;
     }
@@ -255,6 +255,7 @@ PlayerResult playerAddGame(ChessPlayer player, ChessGame game){
         }
     }
     playerUpdateLevel(player);
+    player->total_time+= gameGetPlayTime(game);
     return PLAYER_SUCCESS;
 }
 
@@ -295,5 +296,14 @@ PlayerResult playerRemoveGame(ChessPlayer player, ChessGame game){
             }
         }
     }
+    playerUpdateLevel(player);
+    player->total_time-= gameGetPlayTime(game);
     return PLAYER_SUCCESS;
+}
+
+void playerMarkDeleted(ChessPlayer player){
+    if(!player){
+        return;
+    }
+    player->is_deleted = true;
 }
