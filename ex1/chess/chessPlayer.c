@@ -178,7 +178,7 @@ void playerUpdateLevel(ChessPlayer player){
     player->level = (double)player_score/(double)total_games;
 }
 
-void updatePlayerAccordingToGame(ChessPlayer player, GamePlayerOutcome old_outcome, GamePlayerOutcome new_outcome) {
+void playerUpdateAccordingToGame(ChessPlayer player, GamePlayerOutcome old_outcome, GamePlayerOutcome new_outcome) {
     if (!player) {
         return;
     }

@@ -26,11 +26,7 @@ typedef enum {
     GAME_SUCCESS
 } GameResult ;
 
-typedef enum {
-    WINNER,
-    LOSER,
-    TIER
-}GamePlayerOutcome;
+
 
 ChessGame gameCreate(int tournament_id, PlayerID player1_id, PlayerID player2_id, int play_time, Winner winner);
 

@@ -69,6 +69,7 @@ bool playerIsDeleted(ChessPlayer player);
 PlayerResult playerAddGame(ChessPlayer player, ChessGame game);
 PlayerResult playerRemoveGame(ChessPlayer player, ChessGame game);
 void playerMarkDeleted(ChessPlayer player);
+void playerUpdateAccordingToGame(ChessPlayer player, GamePlayerOutcome old_outcome, GamePlayerOutcome new_outcome);
 
 
 ///**

@@ -173,6 +173,21 @@ void testChessCalcAvgPlayTime(ChessSystem sys){
     }
 }
 
+void testChessPrintPlayersLevels(ChessSystem sys){
+    printf("Testing PrintPlayersLevel...\n");
+    FILE* file = fopen("LevelsTest.txt", "w");
+    ChessResult res = chessSavePlayersLevels(sys, file);
+    fclose(file);
+    if (res!= CHESS_SUCCESS){
+        printf("An error occurred. Code: %d\n", res);
+    }
+    else{
+        printf("\nTEST FINISHED SUCCESSFULLY\n\n");
+    }
+
+
+}
+
 int main(){
     printf("TESTING CHESS GAME\n\n");
     testChessGameCreateAndDestroy();
@@ -188,6 +203,8 @@ int main(){
     testChessGameAdd(sys);
     testChessRemovePlayer(sys);
     testChessCalcAvgPlayTime(sys);
+    testChessGameAdd(sys);
+    testChessPrintPlayersLevels(sys);
     chessDestroy(sys);
     printf("ALL TESTS FINISHED SUCCESSFULLY\n\n");
     return 0;
