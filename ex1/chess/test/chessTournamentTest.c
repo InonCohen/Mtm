@@ -61,6 +61,8 @@ bool testTournamentEndTournament(){
     ASSERT_TEST(tournament_result == CHESS_SUCCESS);
     ChessResult tournament_end_result = tournamentEndTournament(tournament);
     ASSERT_TEST(tournament_end_result == CHESS_SUCCESS);
+    ASSERT_TEST(tournamentGetWinnerID(tournament) == playerIDGetIntID(player2_id));
+    ASSERT_TEST(tournamentIsOver(tournament));
 
     playerIDDestroy(player1_id);
     playerIDDestroy(player2_id);
