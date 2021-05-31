@@ -307,3 +307,13 @@ void playerMarkDeleted(ChessPlayer player){
     }
     player->is_deleted = true;
 }
+
+void playerRemoveDraw(ChessPlayer player){
+    if(!player){
+        return;
+    }
+    if(player->draws>0){
+        player->draws--;
+    }
+    playerUpdateLevel(player);
+}

@@ -205,6 +205,10 @@ int main(){
     testChessCalcAvgPlayTime(sys);
     testChessGameAdd(sys);
     testChessPrintPlayersLevels(sys);
+    res = chessRemoveTournament(sys, 1);
+    if(res != CHESS_SUCCESS) {
+        printf("Removing Tournament to Chess Failed. Error: %d\n", res);
+    }
     chessDestroy(sys);
     printf("ALL TESTS FINISHED SUCCESSFULLY\n\n");
     return 0;

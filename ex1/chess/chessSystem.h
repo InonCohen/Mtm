@@ -2,7 +2,7 @@
 #define EX1_CHESSSYSTEM_H
 
 #include <stdio.h>
-#define BAD_INPUT -999
+#define BAD_INPUT (-999)
 
 typedef enum {
     CHESS_OUT_OF_MEMORY,

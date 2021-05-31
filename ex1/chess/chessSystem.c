@@ -293,6 +293,37 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
     return CHESS_SUCCESS;
 }
 
+ChessResult chessRemoveTournament (ChessSystem chess, int tournament_id){
+    if(!chess){
+        return CHESS_NULL_ARGUMENT;
+    }
+    if(tournament_id<=0){
+        return CHESS_INVALID_ID;
+    }
+    if(!mapContains(chess->tournaments, &tournament_id)){
+        return CHESS_TOURNAMENT_NOT_EXIST;
+    }
+    ChessTournament tournament_to_remove = mapGet(chess->tournaments, &tournament_id);
+    Map tournament_games = tournamentGetGames(tournament_to_remove);
+    MAP_FOREACH(char*, iter, tournament_games){
+        ChessGame current_game = mapGet(tournament_games, iter);
+        PlayerID id1 = gameGetPlayer1ID(current_game);
+        PlayerID id2 = gameGetPlayer2ID(current_game);
+        ChessPlayer player1 = mapGet(chess->players, id1);
+        ChessPlayer player2 = mapGet(chess->players, id2);
+        if(!playerIsDeleted(player1)) {
+            playerRemoveGame(player1, current_game);
+        }
+        if(!playerIsDeleted(player2)) {
+            playerRemoveGame(player2, current_game);
+        }
+        free(iter);
+    }
+    mapClear(tournament_games);
+    mapRemove(chess->tournaments, &tournament_id);
+    return CHESS_SUCCESS;
+}
+
 ChessResult chessRemovePlayer(ChessSystem chess, int player_id){
     if(!chess){
         return CHESS_NULL_ARGUMENT;
@@ -453,14 +484,14 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file){
 
 ChessResult chessSaveTournamentStatistics (ChessSystem chess, char* path_file){
     if(!chess ||  !path_file){
-        CHESS_NULL_ARGUMENT;
+        return CHESS_NULL_ARGUMENT;
     }
     if(chess->ended_tournaments == 0){
-        CHESS_NO_TOURNAMENTS_ENDED;
+        return CHESS_NO_TOURNAMENTS_ENDED;
     }
     FILE* file = fopen(path_file, "w");
     if(!file){
-        CHESS_SAVE_FAILURE;
+        return CHESS_SAVE_FAILURE;
     }
     Map tournaments = chess->tournaments;
     MAP_FOREACH(int*, iter, tournaments){

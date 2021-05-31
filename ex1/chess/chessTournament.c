@@ -221,3 +221,49 @@ int tournamentGetWinnerID(ChessTournament tournament){
     return tournament->tournament_winner_player_id;
 }
 
+int tournamentGetLongestGameTime(ChessTournament tournament){
+    if(!tournament){
+        return BAD_INPUT;
+    }
+    Map games = tournament->tournament_games;
+    int max_time = BAD_INPUT;
+    MAP_FOREACH(char*, iter, games){
+        ChessGame current_game = mapGet(games, iter);
+        int current_play_time = gameGetPlayTime(current_game);
+        if(current_play_time>max_time){
+            max_time = current_play_time;
+        }
+        free(iter);
+    }
+    return max_time;
+}
+
+double tournamentGetAverageGameTime(ChessTournament tournament){
+    if(!tournament){
+        return (double)BAD_INPUT;
+    }
+    Map games = tournament->tournament_games;
+    int all_time = 0;
+    MAP_FOREACH(char*, iter, games){
+        ChessGame current_game = mapGet(games, iter);
+        int current_play_time = gameGetPlayTime(current_game);
+        all_time+=current_play_time;
+        free(iter);
+    }
+    int all_games = mapGetSize(games);
+    return (double)all_time/(double)all_games;
+}
+
+int tournamentGetNumOfGames(ChessTournament tournament){
+    if(!tournament){
+        return BAD_INPUT;
+    }
+    return mapGetSize(tournament->tournament_games);
+}
+
+int tournamentGetNumOfAllPlayers(ChessTournament tournament){
+    if(!tournament){
+        return BAD_INPUT;
+    }
+    return mapGetSize(tournament->games_counter_of_players);
+}
