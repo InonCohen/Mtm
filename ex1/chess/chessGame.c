@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 #include "strUtils.h"
 #include "chessGame.h"
 #include "chessSystem.h"
@@ -35,6 +36,7 @@ static char* createGameID(char* player1_id_str, char* player2_id_str, int tourna
     game_id = strcat(game_id,strcmp(player1_id_str,player2_id_str) < 0 ? player1_id_str: player2_id_str);
     game_id = strcat(game_id, ID_SEP);
     game_id = strcat(game_id,strcmp(player1_id_str,player2_id_str) > 0 ? player1_id_str: player2_id_str);
+    free(tournament_id_str);
     return game_id;
 }
 
@@ -224,27 +226,22 @@ bool gamePlayerIsDeleted(ChessGame game){
     return game->player_deleted;
 }
 
-// TODO: Update chessGameUpdateLoser by the new player ID structure.
-//GameResult chessGameUpdateLoser(char* game_id, ChessPlayer player){
-//    if(!game_id || !player){
-//        return GAME_NULL_ARGUMENT;
-//    }
-//    int loser_id = playerGetID(player);
-//    char **id1, **id2;
-//    extractPlayersIDsFromGameID(game_id, id1, id2);
-//    if(*id1 != loser_id && *id2 != loser_id){
-//        return GAME_PLAYER_NOT_EXIST;
-//    }
-//    ChessGame game = mapGet(playerGetGames(player),game_id);
-//    if(!game){
-//        return GAME_OUT_OF_MEMORY;
-//    }
-//    if(*id1 == loser_id){
-//        game->game_winner = SECOND_PLAYER;
-//    }
-//    else{
-//        game->game_winner = FIRST_PLAYER;
-//    }
-//    return GAME_SUCCESS;
-//}
+void gameUpdateLoser(ChessGame game, ChessPlayer player){
+    assert(game && player);
+    PlayerID loser_id = playerGetID(player);
+    PlayerID game_player1_id = gameGetPlayer1ID(game);
+    if(playerIDCompare(loser_id, game_player1_id)==0){
+        game->game_winner = SECOND_PLAYER;
+    }
+    else{
+        game->game_winner = FIRST_PLAYER;
+    }
+}
+
+void gameMarkDeletedPlayerTrue(ChessGame game){
+    if(!game){
+        return;
+    }
+    game->player_deleted= true;
+}
 

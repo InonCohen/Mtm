@@ -434,3 +434,18 @@ static int countLostGamesForPlayer(ChessTournament tournament, int player_int_id
     }
     return lost_games_counter;
 }
+
+void tournamentRemovePlayer(ChessTournament tournament, PlayerID player_id){
+    if(!tournament || !player_id){
+        return;
+    }
+    return;
+}
+
+int tournamentGetWinnerID(ChessTournament tournament){
+    if(!tournament){
+        return BAD_INPUT;
+    }
+    return tournament->tournament_winner_player_id;
+}
+

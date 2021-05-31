@@ -33,12 +33,21 @@ Map tournamentGetGamesCounterOfPlayers(ChessTournament tournament);
 
 bool tournamentIsOver(ChessTournament tournament);
 
-ChessResult tournamentAddGame(ChessTournament tournament, ChessGame game);
-/**
+
+TournamentResult tournamentAddGame(ChessTournament tournament, ChessGame game);
+/**TODO: Implement a function called from chessRemovePlayer
  * tournamentRemovePlayer: remove a player from
  * @param player_id
  */
-void tournamentRemovePlayer(int player_id);
+void tournamentRemovePlayer(ChessTournament tournament, PlayerID player_id);
+
+int tournamentGetWinnerID(ChessTournament tournament);
+
+int tournamentGetLongestGameTime(ChessTournament current_tournament);
+
+double tournamentGetAverageGameTime(ChessTournament current_tournament);
+
+int tournamentGetNumOfGames(ChessTournament current_tournament);
 
 ChessResult tournamentEndTournament(ChessTournament tournament);
 /**
@@ -54,6 +63,6 @@ int findMinLosesPlayerID(ChessTournament tournament);
  */
 int findMaxWinsPlayerID(ChessTournament tournament);
 
-
+int tournamentGetNumOfAllPlayers(ChessTournament current_tournament);
 
 #endif //EX1_CHESSTOURNAMENT_H
