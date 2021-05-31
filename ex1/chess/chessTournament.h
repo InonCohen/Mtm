@@ -34,7 +34,7 @@ Map tournamentGetGamesCounterOfPlayers(ChessTournament tournament);
 bool tournamentIsOver(ChessTournament tournament);
 
 
-TournamentResult tournamentAddGame(ChessTournament tournament, ChessGame game);
+ChessResult tournamentAddGame(ChessTournament tournament, ChessGame game);
 /**TODO: Implement a function called from chessRemovePlayer
  * tournamentRemovePlayer: remove a player from
  * @param player_id
