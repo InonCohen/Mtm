@@ -51,7 +51,6 @@ static bool chessGameInTournament(ChessTournament tournament, char* game_id){
  *
  * @param players    - a map that contains the chess system players. Must be non-NULL.
  * @param id_int     - the player id. Must be positive.
- * @param id         - an empty PlayerId type. Must be NULL.
  * @return
  *     a PlayerID which contains:
  *          the player's ID - if there is such a player in the system with int_id.
@@ -335,7 +334,37 @@ ChessResult chessEndTournament (ChessSystem chess, int tournament_id){
 }
 
 double chessCalculateAveragePlayTime (ChessSystem chess, int player_id, ChessResult* chess_result){
-    return 0;
+    if(!chess || !chess_result){
+        *chess_result = CHESS_NULL_ARGUMENT;
+        return 0;
+    }
+    if(player_id<=0){
+        *chess_result = CHESS_INVALID_ID;
+        return 0;
+    }
+    Map players = chess->players;
+    PlayerID new_player_id = getPlayerIdFromMap(players, player_id);
+    if(!new_player_id){
+        *chess_result = CHESS_OUT_OF_MEMORY;
+        return 0;
+    }
+    if(!mapContains(players, new_player_id)){
+        playerIDDestroy(new_player_id);
+        *chess_result = CHESS_PLAYER_NOT_EXIST;
+        return 0;
+    }
+    ChessPlayer player = mapGet(players,new_player_id);
+    playerIDDestroy(new_player_id);
+    int wins = playerGetNumOfWins(player);
+    int losses = playerGetNumOfLosses(player);
+    int draws = playerGetNumOfDraws(player);
+    *chess_result = CHESS_SUCCESS;
+    if(wins==0 && losses==0 && draws==0){
+        return 0;
+    }
+    int total_games = wins+losses+draws;
+    int total_time = playerGetPlayingTime(player);
+    return (double)total_time/total_games;
 }
 
 ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file){
