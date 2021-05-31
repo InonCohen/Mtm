@@ -1,11 +1,6 @@
 #include <stdbool.h>
-#include <string.h>
-#include <ctype.h>
 #include "test_utilities.h"
 #include "../chessTournament.h"
-#include "../chessGame.h"
-#include "../chessPlayer.h"
-#include "../chessPlayerID.h"
 
 int TOURNAMENT_ID = 1;
 int TOURNAMENT_MAX_GAMES_PER_PLAYER = 5;
@@ -44,22 +39,33 @@ bool testTournamentAddGame(){
     PlayerID player1_id = playerIDCreate(PLAYER1_ID,PLAYER_DEFAULT_VERSION);
     PlayerID player2_id = playerIDCreate(PLAYER2_ID,PLAYER_DEFAULT_VERSION);
     ChessGame game = gameCreate(tournamentGetID(tournament), player1_id, player2_id, play_time, winner);
-    ASSERT_TEST(game);
 
-    TournamentResult tournament_result = tournamentAddGame(tournament, game);
-    if (tournament_result != TOURNAMENT_SUCCESS){
-        return false;
-    }
+    ChessResult tournament_result = tournamentAddGame(tournament, game);
+    ASSERT_TEST(tournament_result == CHESS_SUCCESS);
+
+    playerIDDestroy(player1_id);
+    playerIDDestroy(player2_id);
     gameDestroy(game);
     tournamentDestroy(tournament);
     return true;
 }
 
-bool testTournamentGetSumPointsOfPlayer(){
-    return true;
-}
+bool testTournamentEndTournament(){
+    // TODO: GENERATE MORE COMPLEX DATA
+    ChessTournament tournament = tournamentCreate(TOURNAMENT_ID, TOURNAMENT_MAX_GAMES_PER_PLAYER, TOURNAMENT_LOCATION);
+    PlayerID player1_id = playerIDCreate(PLAYER1_ID,PLAYER_DEFAULT_VERSION);
+    PlayerID player2_id = playerIDCreate(PLAYER2_ID,PLAYER_DEFAULT_VERSION);
+    ChessGame game = gameCreate(tournamentGetID(tournament), player1_id, player2_id, play_time, winner);
 
-bool testTournamentCountLosingGames(){
+    ChessResult tournament_result = tournamentAddGame(tournament, game);
+    ASSERT_TEST(tournament_result == CHESS_SUCCESS);
+    ChessResult tournament_end_result = tournamentEndTournament(tournament);
+    ASSERT_TEST(tournament_end_result == CHESS_SUCCESS);
+
+    playerIDDestroy(player1_id);
+    playerIDDestroy(player2_id);
+    gameDestroy(game);
+    tournamentDestroy(tournament);
     return true;
 }
 
@@ -67,7 +73,6 @@ int main(){
     RUN_TEST(testTournamentCreate, "testTournamentCreate");
     RUN_TEST(testTournamentCopy, "testTournamentCopy");
     RUN_TEST(testTournamentAddGame, "testTournamentAddGame");
-    RUN_TEST(testTournamentGetSumPointsOfPlayer, "testTournamentGetSumPointsOfPlayer");
-    RUN_TEST(testTournamentCountLosingGames, "testTournamentCountLosingGames");
+    RUN_TEST(testTournamentEndTournament, "testTournamentEndTournament");
     return 0;
 }

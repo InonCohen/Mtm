@@ -9,28 +9,9 @@
 /** Type for representing a chess game in a tournament */
 typedef struct chess_tournament_t *ChessTournament;
 
-typedef enum {
-    TOURNAMENT_OUT_OF_MEMORY,
-    TOURNAMENT_NULL_ARGUMENT,
-    TOURNAMENT_INVALID_ID,
-    TOURNAMENT_INVALID_LOCATION,
-    TOURNAMENT_INVALID_MAX_GAMES,
-    TOURNAMENT_TOURNAMENT_ALREADY_EXISTS,
-    TOURNAMENT_TOURNAMENT_NOT_EXIST,
-    TOURNAMENT_GAME_ALREADY_EXISTS,
-    TOURNAMENT_INVALID_PLAY_TIME,
-    TOURNAMENT_EXCEEDED_GAMES,
-    TOURNAMENT_PLAYER_NOT_EXIST,
-    TOURNAMENT_TOURNAMENT_ENDED,
-    TOURNAMENT_NO_TOURNAMENTS_ENDED,
-    TOURNAMENT_NO_GAMES,
-    TOURNAMENT_SAVE_FAILURE,
-    TOURNAMENT_SUCCESS
-} TournamentResult ;
-
 ChessTournament tournamentCreate(int tournament_id, int max_games_per_player, const char* tournament_location);
 
-ChessTournament tournamentCopy(ChessTournament tournament);
+ChessTournament tournamentCopy(ChessTournament src_tournament);
 
 void tournamentDestroy(ChessTournament tournament);
 
@@ -48,15 +29,31 @@ char* tournamentGetTournamentLocation(ChessTournament tournament);
 
 int tournamentGetMaxGamesPerPlayer(ChessTournament tournament);
 
+Map tournamentGetGamesCounterOfPlayers(ChessTournament tournament);
+
 bool tournamentIsOver(ChessTournament tournament);
 
-int tournamentGetSumPointsOfPlayer(ChessTournament tournament, PlayerID player_id);
-
-TournamentResult tournamentAddGame(ChessTournament tournament, ChessGame game);
+ChessResult tournamentAddGame(ChessTournament tournament, ChessGame game);
 /**
  * tournamentRemovePlayer: remove a player from
  * @param player_id
  */
 void tournamentRemovePlayer(int player_id);
+
+ChessResult tournamentEndTournament(ChessTournament tournament);
+/**
+ * findMaxWinsPlayerID: Finds the *single* player_id with the less Loses. If There is no such player return 0.
+ * @param tournament
+ * @return
+ */
+int findMinLosesPlayerID(ChessTournament tournament);
+/**
+ * findMaxWinsPlayerID: Finds the *single* player_id with the most wins. If There is no such player return 0.
+ * @param tournament
+ * @return
+ */
+int findMaxWinsPlayerID(ChessTournament tournament);
+
+
 
 #endif //EX1_CHESSTOURNAMENT_H

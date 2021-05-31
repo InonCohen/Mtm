@@ -157,5 +157,4 @@ int playersMapComp(MapKeyElement key1, MapKeyElement key2){
     }
     return playerIDCompare((PlayerID)key1, (PlayerID)key2);
 }
-
 /*End: Internal map's utility functions of mapElement */

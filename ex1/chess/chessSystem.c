@@ -12,10 +12,6 @@
 #include "chessPlayer.h"
 #include "chessPlayerID.h"
 
-
-#define LENGTH_OF_ZERO_STRING 2
-
-
 struct chess_system_t{
     Map tournaments; // Key: int id,  Data: Tournament tour
     Map players; // Key: int id,  Data: Player
@@ -130,7 +126,7 @@ ChessResult chessAddTournament (ChessSystem chess, int tournament_id,
     if(mapGet(chess->tournaments,&tournament_id)){
         return CHESS_TOURNAMENT_ALREADY_EXISTS;
     }
-    if(!tournamentLocationIsValid(tournament_location)){
+    if(!locationIsValid(tournament_location)){
         return CHESS_INVALID_LOCATION;
     }
     if(!(max_games_per_player > 0)){
@@ -273,8 +269,8 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
             return CHESS_OUT_OF_MEMORY;
         }
     }
-    TournamentResult tour_res = tournamentAddGame(tournament, game);
-    if (tour_res != TOURNAMENT_SUCCESS) {
+    ChessResult tour_res = tournamentAddGame(tournament, game);
+    if (tour_res != CHESS_SUCCESS) {
         playerRemoveGame(player1, game);
         playerRemoveGame(player2, game);
         if (player1_is_new) {
@@ -305,9 +301,36 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
 ChessResult chessRemovePlayer(ChessSystem chess, int player_id){
     return CHESS_SUCCESS;
 }
-
+/**
+ * chessEndTournament: Check if a tournament can be ended.
+ *  Exceptions:
+ *  - tournament_id is a positive integer, otherwise return: CHESS_INVALID_ID
+ *  - tournament_id represents an existing tournament, otherwise return: CHESS_TOURNAMENT_NOT_EXIST
+ *  - tournament isn't over, otherwise return: CHESS_TOURNAMENT_ENDED
+ *  - tournament isn't empty, otherwise return: CHESS_NO_GAMES
+ * @param chess: ChessSystem to end tournament in.
+ * @param tournament_id: id of ChessTournament to be ended.
+ * @return
+ *  CHESS_SUCCESS if tournament has ended successfully, otherwise one of the above exceptions.
+ */
 ChessResult chessEndTournament (ChessSystem chess, int tournament_id){
-    return CHESS_SUCCESS;
+    if (tournament_id <= 0){
+        return CHESS_INVALID_ID;
+    }
+    ChessTournament tournament = mapGet(chess->tournaments, &tournament_id);
+    if(!(tournament)){
+        return CHESS_TOURNAMENT_NOT_EXIST;
+    }
+    if(tournamentIsOver(tournament)){
+        return CHESS_TOURNAMENT_ENDED;
+    }
+    Map tournament_games = tournamentGetGames(tournament);
+    if(mapGetSize(tournament_games) == 0){
+        return CHESS_NO_GAMES;
+    }
+
+    ChessResult result = tournamentEndTournament(tournament);
+    return result;
 }
 
 double chessCalculateAveragePlayTime (ChessSystem chess, int player_id, ChessResult* chess_result){
