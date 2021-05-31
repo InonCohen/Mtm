@@ -59,4 +59,13 @@ TournamentResult tournamentAddGame(ChessTournament tournament, ChessGame game);
  */
 void tournamentRemovePlayer(ChessTournament tournament, PlayerID player_id);
 
+int tournamentGetWinnerID(ChessTournament tournament);
+
+int tournamentGetLongestGameTime(ChessTournament current_tournament);
+
+double tournamentGetAverageGameTime(ChessTournament current_tournament);
+
+int tournamentGetNumOfGames(ChessTournament current_tournament);
+
+int tournamentGetNumOfAllPlayers(ChessTournament current_tournament);
 #endif //EX1_CHESSTOURNAMENT_H
