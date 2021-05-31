@@ -65,10 +65,11 @@ PlayerID getPlayerIdFromMap (Map players, int id_int) {
     }
     int id_version = 0;
     MAP_FOREACH(PlayerID , iter, players) {
-        if (playerIDGetIntID(iter) == id_int) {
+        ChessPlayer current_player = mapGet(players, iter);
+        if (playerIDGetIntID(iter) == id_int && playerIsDeleted(current_player)) {
             id_version++;
         }
-        free(iter);
+        playerIDDestroy(iter);
     }
     PlayerID new_id = playerIDCreate(id_int, id_version);
     if(!new_id) {
@@ -142,21 +143,12 @@ ChessResult chessAddTournament (ChessSystem chess, int tournament_id,
     if(result != MAP_SUCCESS){
         return CHESS_OUT_OF_MEMORY;
     }
+    tournamentDestroy(new_tournament);
     return CHESS_SUCCESS;
 }
-
+//TODO: Make much shorter
 ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
                          int second_player, Winner winner, int play_time) {
-/*Rundown:
- * check validity of inputs -V-
- * check if players are in players map -V-
-         * if yes - check if they are alive
-            * if yes - add the game to the player
-            * if not - add the a new player to the players map and add the game to him
-        * if not - add the a new player to the players map and add the game to him
- * add the game to tournament (and update the players in the tournament's map as well)
- * add the players to the system's players map or update their info in it
- */
     if (!chess) {
         return CHESS_NULL_ARGUMENT;
     }
@@ -303,6 +295,38 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
 }
 
 ChessResult chessRemovePlayer(ChessSystem chess, int player_id){
+    if(!chess){
+        return CHESS_NULL_ARGUMENT;
+    }
+    if(player_id <= 0){
+        return CHESS_INVALID_ID;
+    }
+    Map players = chess->players;
+    PlayerID new_player_id = getPlayerIdFromMap(players, player_id);
+    if(!new_player_id){
+        return CHESS_OUT_OF_MEMORY;
+    }
+    ChessPlayer player = mapGet(players, new_player_id);
+    if(!player){
+        playerIDDestroy(new_player_id);
+        return CHESS_PLAYER_NOT_EXIST;
+    }
+    playerIDDestroy(new_player_id);
+    Map player_games = playerGetGames(player);
+    MAP_FOREACH(char*, iter, player_games){
+        ChessGame current_game = (ChessGame)mapGet(player_games, iter);
+        int current_game_tournament_id = gameGetTournamentID(current_game);
+        ChessTournament current_tournament = mapGet(chess->tournaments, &current_game_tournament_id);
+        assert(current_tournament!=NULL);
+        if(!tournamentIsOver(current_tournament)){
+            gameUpdateLoser(current_game, player);
+            tournamentRemovePlayer(current_tournament, new_player_id);//TODO: ask Ohad - should it be here inside the if, or outside of it
+        }
+        gameMarkDeletedPlayerTrue(current_game);
+        free(iter);
+    }
+
+    playerMarkDeleted(player);
     return CHESS_SUCCESS;
 }
 

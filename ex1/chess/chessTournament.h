@@ -53,10 +53,10 @@ bool tournamentIsOver(ChessTournament tournament);
 int tournamentGetSumPointsOfPlayer(ChessTournament tournament, PlayerID player_id);
 
 TournamentResult tournamentAddGame(ChessTournament tournament, ChessGame game);
-/**
+/**TODO: Implement a function called from chessRemovePlayer
  * tournamentRemovePlayer: remove a player from
  * @param player_id
  */
-void tournamentRemovePlayer(int player_id);
+void tournamentRemovePlayer(ChessTournament tournament, PlayerID player_id);
 
 #endif //EX1_CHESSTOURNAMENT_H

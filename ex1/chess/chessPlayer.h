@@ -1,12 +1,9 @@
 #ifndef EX1_CHESSPLAYER_H
 #define EX1_CHESSPLAYER_H
 #include "../map/map.h"
+#include "chessDefs.h"
 #include "chessGame.h"
 #include "chessPlayerID.h"
-
-
-/** Type for defining the Player */
-typedef struct chess_player_t *ChessPlayer;
 
 typedef enum {
     PLAYER_OUT_OF_MEMORY,
@@ -71,7 +68,7 @@ int playerGetNumOfDraws(ChessPlayer player);
 bool playerIsDeleted(ChessPlayer player);
 PlayerResult playerAddGame(ChessPlayer player, ChessGame game);
 PlayerResult playerRemoveGame(ChessPlayer player, ChessGame game);
-
+void playerMarkDeleted(ChessPlayer player);
 
 
 ///**
