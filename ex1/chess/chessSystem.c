@@ -362,8 +362,7 @@ ChessResult chessRemovePlayer(ChessSystem chess, int player_id){
                 playerUpdateAccordingToGame(player, WINNER, LOSER);
                 playerUpdateAccordingToGame(other_player, LOSER, WINNER);
             }
-            tournamentRemovePlayer(current_tournament,
-                                   new_player_id);//TODO: ask Ohad - should it be here inside the if, or outside of it
+            tournamentRemovePlayer(current_tournament, new_player_id);
         }
         gameMarkDeletedPlayerTrue(current_game);
         free(iter);

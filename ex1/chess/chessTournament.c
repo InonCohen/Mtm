@@ -20,6 +20,7 @@ struct chess_tournament_t{
     int max_games_per_player;
     int tournament_winner_player_id;
     char* tournament_location;
+    int players_counter;
     Map tournament_games;
     Map games_counter_of_players;
 };
@@ -53,7 +54,6 @@ static int countWinGamesForPlayer(ChessTournament tournament, int player_int_id)
  * @return
  */
 static int countLostGamesForPlayer(ChessTournament tournament, int player_int_id_ptr);
-
 /**
  * tournamentCreate:
  * Assumptions:
@@ -88,6 +88,7 @@ ChessTournament tournamentCreate(int tournament_id, int max_games_per_player, co
         return NULL;
     }
 
+    result->players_counter = 0;
     result->tournament_id = tournament_id;
     result->tournament_winner_player_id = NO_PLAYER_ID;
     result->max_games_per_player = max_games_per_player;
@@ -194,13 +195,6 @@ bool tournamentIsOver(ChessTournament tournament){
     }
     return tournament->tournament_winner_player_id != NO_PLAYER_ID;
 }
-
-int tournamentCountLosingGames(ChessTournament tournament, char* player_id){
-    if(!tournament){
-        return BAD_INPUT;
-    }
-    return 0;
-}
 /**
  * tournamentAddGame: Add a game into tournament.
  *  Do:
@@ -230,19 +224,22 @@ ChessResult tournamentAddGame(ChessTournament tournament, ChessGame game){
     if(result != MAP_SUCCESS){
         return CHESS_OUT_OF_MEMORY;
     }
+
     int player1_id = playerIDGetIntID(gameGetPlayer1ID(game));
     int player2_id = playerIDGetIntID(gameGetPlayer2ID(game));
     int* player1_game_counter = mapGet(tournament->games_counter_of_players, &player1_id);
     int* player2_game_counter = mapGet(tournament->games_counter_of_players, &player2_id);
-    // If player is new in tournament - update in games_counter_of_players Map.
+    // If player is new in tournament - update associated counters.
     if (!player1_game_counter){
-        int new_player_counter = 0;
-        mapPut(tournament->games_counter_of_players, &player1_id, &new_player_counter);
+        tournament->players_counter++;
+        int new_player_games_counter = 0;
+        mapPut(tournament->games_counter_of_players, &player1_id, &new_player_games_counter);
         player1_game_counter = mapGet(tournament->games_counter_of_players, &player1_id);
     }
     if (!player2_game_counter){
-        int new_player_counter = 0;
-        mapPut(tournament->games_counter_of_players, &player2_id, &new_player_counter);
+        tournament->players_counter++;
+        int new_player_games_counter = 0;
+        mapPut(tournament->games_counter_of_players, &player2_id, &new_player_games_counter);
         player2_game_counter = mapGet(tournament->games_counter_of_players, &player2_id);
     }
 
@@ -435,11 +432,21 @@ static int countLostGamesForPlayer(ChessTournament tournament, int player_int_id
     return lost_games_counter;
 }
 
-void tournamentRemovePlayer(ChessTournament tournament, PlayerID player_id){
+ChessResult tournamentRemovePlayer(ChessTournament tournament, PlayerID player_id){
     if(!tournament || !player_id){
-        return;
+        return CHESS_NULL_ARGUMENT;
     }
-    return;
+    MAP_FOREACH(char*,game_id,tournament->tournament_games){
+        ChessGame game = mapGet(tournament->tournament_games, game_id);
+        if (gameGetPlayer1ID(game) == player_id){
+            gameSetWinner(game,SECOND_PLAYER);
+        }
+        if (gameGetPlayer2ID(game) == player_id){
+            gameSetWinner(game,FIRST_PLAYER);
+        }
+    }
+
+    return CHESS_SUCCESS;
 }
 
 int tournamentGetWinnerID(ChessTournament tournament){

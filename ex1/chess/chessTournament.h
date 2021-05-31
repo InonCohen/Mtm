@@ -36,7 +36,7 @@ ChessResult tournamentAddGame(ChessTournament tournament, ChessGame game);
  * tournamentRemovePlayer: remove a player from
  * @param player_id
  */
-void tournamentRemovePlayer(ChessTournament tournament, PlayerID player_id);
+ChessResult tournamentRemovePlayer(ChessTournament tournament, PlayerID player_id);
 
 int tournamentGetWinnerID(ChessTournament tournament);
 
