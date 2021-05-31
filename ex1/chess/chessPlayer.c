@@ -255,6 +255,7 @@ PlayerResult playerAddGame(ChessPlayer player, ChessGame game){
         }
     }
     playerUpdateLevel(player);
+    player->total_time+= gameGetPlayTime(game);
     return PLAYER_SUCCESS;
 }
 
@@ -295,6 +296,8 @@ PlayerResult playerRemoveGame(ChessPlayer player, ChessGame game){
             }
         }
     }
+    playerUpdateLevel(player);
+    player->total_time-= gameGetPlayTime(game);
     return PLAYER_SUCCESS;
 }
 

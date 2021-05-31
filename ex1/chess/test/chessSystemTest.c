@@ -148,8 +148,27 @@ void testChessRemovePlayer(ChessSystem sys){
     ChessResult res = chessRemovePlayer(sys,12);
     if(res != CHESS_SUCCESS){
         printf("An error occurred. Code: %d\n", res);
+        return;
     }
     else{
+        printf("\nTEST FINISHED SUCCESSFULLY\n\n");
+    }
+}
+
+void testChessCalcAvgPlayTime(ChessSystem sys){
+    printf("Testing RemovePlayer...\n");
+    ChessResult res;
+    double avg = chessCalculateAveragePlayTime(sys,12, &res);
+    if(res != CHESS_PLAYER_NOT_EXIST){
+        printf("An error occurred. Code: %d\n", res);
+        return;
+    }
+    avg = chessCalculateAveragePlayTime(sys,17, &res);
+    if(res != CHESS_SUCCESS){
+        printf("An error occurred. Code: %d\n", res);
+    }
+    else{
+        printf("Player Average Play Time is %f", avg);
         printf("\nTEST FINISHED SUCCESSFULLY\n\n");
     }
 }
@@ -168,6 +187,7 @@ int main(){
     }
     testChessGameAdd(sys);
     testChessRemovePlayer(sys);
+    testChessCalcAvgPlayTime(sys);
     chessDestroy(sys);
     printf("ALL TESTS FINISHED SUCCESSFULLY\n\n");
     return 0;
