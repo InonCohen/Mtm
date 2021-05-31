@@ -405,7 +405,7 @@ static Map generatePlayersRank(ChessTournament tournament){
             *player1_rank_ptr = *player1_rank_ptr + DRAW_GAME_SCORE;
             *player2_rank_ptr = *player2_rank_ptr + DRAW_GAME_SCORE;
         }
-        gameDestroy(current_game);
+        free(current_game_id);
     }
     return players_rank;
 }
