@@ -213,3 +213,11 @@ void tournamentRemovePlayer(ChessTournament tournament, PlayerID player_id){
     }
     return;
 }
+
+int tournamentGetWinnerID(ChessTournament tournament){
+    if(!tournament){
+        return BAD_INPUT;
+    }
+    return tournament->tournament_winner_player_id;
+}
+

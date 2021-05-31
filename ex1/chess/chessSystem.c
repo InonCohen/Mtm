@@ -435,16 +435,12 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file){
         mapDestroy(levels);
         return CHESS_SUCCESS;
     }
-    FILE* stream = fopen ("file.txt", "w");
-    if(!stream){
-        return CHESS_SAVE_FAILURE;
-    }
     MAP_FOREACH(double*, level, levels){
         MAP_FOREACH(PlayerID, player_id, new_players_map){
            double* current_player_level = mapGet(new_players_map, player_id);
            if(levelsMapComp(current_player_level, level) == 0){
                int player_id_int = playerIDGetIntID(player_id);
-               fprintf(stream, "%d %.2f\n",player_id_int, -*(current_player_level));
+               fprintf(file, "%d %.2f\n",player_id_int, -*(current_player_level));
            }
             playerIDDestroy(player_id);
         }
@@ -452,11 +448,40 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file){
     }
     mapDestroy(new_players_map);
     mapDestroy(levels);
-    fclose(stream);
     return CHESS_SUCCESS;
 }
 
 ChessResult chessSaveTournamentStatistics (ChessSystem chess, char* path_file){
+    if(!chess ||  !path_file){
+        CHESS_NULL_ARGUMENT;
+    }
+    if(chess->ended_tournaments == 0){
+        CHESS_NO_TOURNAMENTS_ENDED;
+    }
+    FILE* file = fopen(path_file, "w");
+    if(!file){
+        CHESS_SAVE_FAILURE;
+    }
+    Map tournaments = chess->tournaments;
+    MAP_FOREACH(int*, iter, tournaments){
+        ChessTournament current_tournament = mapGet(tournaments, iter);
+        if(tournamentIsOver(current_tournament)){
+            int winner_int_id = tournamentGetWinnerID(current_tournament);
+            int longest_game_time = tournamentGetLongestGameTime(current_tournament);
+            double average_game_time = tournamentGetAverageGameTime(current_tournament);
+            char* location = tournamentGetTournamentLocation(current_tournament);
+            int num_of_games = tournamentGetNumOfGames(current_tournament);
+            int num_of_players = tournamentGetNumOfAllPlayers(current_tournament);
+            fprintf(file, "%d\n", winner_int_id);
+            fprintf(file, "%d\n", longest_game_time);
+            fprintf(file, "%f.2f\n", average_game_time);
+            fprintf(file, "%s\n", location);
+            fprintf(file, "%d\n", num_of_games);
+            fprintf(file, "%d\n", num_of_players);
+        }
+        free(iter);
+    }
+    fclose(file);
     return CHESS_SUCCESS;
 }
 
