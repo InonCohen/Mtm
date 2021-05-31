@@ -450,6 +450,8 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file){
         }
         doubleFreeFunc(level);
     }
+    mapDestroy(new_players_map);
+    mapDestroy(levels);
     fclose(stream);
     return CHESS_SUCCESS;
 }

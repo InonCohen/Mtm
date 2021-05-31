@@ -169,7 +169,7 @@ int levelsMapComp(MapKeyElement key1, MapKeyElement key2) {
         return 0;
     }
     else{
-        return 1;
+        return *(double *) key1 - *(double *) key2;
     }
 }
 
