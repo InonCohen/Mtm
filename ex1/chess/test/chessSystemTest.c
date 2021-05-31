@@ -131,35 +131,27 @@ void  testChessGameCreateAndDestroy(){
 
 }
 
-void testChessGameAdd(ChessSystem sys){
+void testChessGameAdd(ChessSystem sys) {
     printf("Testing Add...\n");
-    int player1 =12, player2=17, play_time=30, tour_id=1;
+    int player1 = 12, player2 = 17, play_time = 30, tour_id = 1;
     ChessResult res = chessAddGame(sys, tour_id, player1, player2, FIRST_PLAYER, play_time);
-    if(res!=CHESS_SUCCESS){
+    if (res != CHESS_SUCCESS) {
         printf("An error occurred. Code: %d\n", res);
     }
-
-static bool tournamentLocationIsValid(const char* tournament_name){
-    if (!isupper(tournament_name[0])){
-        return false;
+    else{
+        printf("\nTEST FINISHED SUCCESSFULLY\n\n");
     }
-    for (int i = 1; i < strlen(tournament_name) ;i++){
-        if (!(isspace(tournament_name[i]) || islower(tournament_name[i]))){
-            return false;
-        }
-    }
-    return true;
 }
 
-bool testTournamentLocationIsValid(){
-    char *valid_str = "Belgium";
-    char *invalid_str = "belgium";
-    ASSERT_TEST(tournamentLocationIsValid(valid_str));
-    ASSERT_TEST(!tournamentLocationIsValid(invalid_str));
-    return true;
-}
-
->>>>>>> main
+void testChessRemovePlayer(ChessSystem sys){
+    printf("Testing RemovePlayer...\n");
+    ChessResult res = chessRemovePlayer(sys,12);
+    if(res != CHESS_SUCCESS){
+        printf("An error occurred. Code: %d\n", res);
+    }
+    else{
+        printf("\nTEST FINISHED SUCCESSFULLY\n\n");
+    }
 }
 
 int main(){
@@ -175,6 +167,7 @@ int main(){
         printf("Adding Tournament to Chess Failed. Error: %d\n", res);
     }
     testChessGameAdd(sys);
+    testChessRemovePlayer(sys);
     chessDestroy(sys);
     printf("ALL TESTS FINISHED SUCCESSFULLY\n\n");
     return 0;

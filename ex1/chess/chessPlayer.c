@@ -297,3 +297,10 @@ PlayerResult playerRemoveGame(ChessPlayer player, ChessGame game){
     }
     return PLAYER_SUCCESS;
 }
+
+void playerMarkDeleted(ChessPlayer player){
+    if(!player){
+        return;
+    }
+    player->is_deleted = true;
+}
