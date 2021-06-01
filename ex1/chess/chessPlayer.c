@@ -240,7 +240,11 @@ PlayerResult playerRemoveGame(ChessPlayer player, ChessGame game){
     if(!player || !game){
         return PLAYER_NULL_ARGUMENT;
     }
+    if(!player->games){
+        return PLAYER_NULL_ARGUMENT;
+    }
     Map games = player->games;
+
     if(!mapContains(games, gameGetID(game))){
         return PLAYER_SUCCESS;
     }

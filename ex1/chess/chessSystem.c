@@ -197,6 +197,9 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
     if (!game) {
         playerIDDestroy(player1_id);
         playerIDDestroy(player2_id);
+        if(play_time < 0){
+            return CHESS_INVALID_PLAY_TIME;
+        }
         return CHESS_OUT_OF_MEMORY;
     }
     if(chessGameInTournament(tournament, gameGetID(game))) {
@@ -210,8 +213,8 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
         gameDestroy(game);
         playerIDDestroy(player1_id);
         playerIDDestroy(player2_id);
-
         return CHESS_INVALID_PLAY_TIME;
+
     }
     bool player1_is_new = false, player2_is_new = false;
     ChessPlayer player1 = mapGet(chess->players, player1_id);
@@ -308,7 +311,7 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
         gameDestroy(game);
         playerIDDestroy(player1_id);
         playerIDDestroy(player2_id);
-        return CHESS_OUT_OF_MEMORY;
+        return tour_res;
     }
     if(player1_is_new){
         playerDestroy(player1);
@@ -334,20 +337,24 @@ ChessResult chessRemoveTournament (ChessSystem chess, int tournament_id){
     }
     ChessTournament tournament_to_remove = mapGet(chess->tournaments, &tournament_id);
     Map tournament_games = tournamentGetGames(tournament_to_remove);
-    MAP_FOREACH(char*, iter, tournament_games){
-        ChessGame current_game = mapGet(tournament_games, iter);
-        PlayerID id1 = gameGetPlayer1ID(current_game);
-        PlayerID id2 = gameGetPlayer2ID(current_game);
-        ChessPlayer player1 = mapGet(chess->players, id1);
-        ChessPlayer player2 = mapGet(chess->players, id2);
-        if(!playerIsDeleted(player1)) {
-            playerRemoveGame(player1, current_game);
+    if (mapGetSize(tournament_games) > 0) {
+        return CHESS_TOURNAMENT_NOT_EXIST;
+        MAP_FOREACH(char*, iter, tournament_games) {
+            ChessGame current_game = mapGet(tournament_games, iter);
+            PlayerID id1 = gameGetPlayer1ID(current_game);
+            PlayerID id2 = gameGetPlayer2ID(current_game);
+            ChessPlayer player1 = mapGet(chess->players, id1);
+            ChessPlayer player2 = mapGet(chess->players, id2);
+            if (!playerIsDeleted(player1)) {
+                playerRemoveGame(player1, current_game);
+            }
+            if (!playerIsDeleted(player2)) {
+                playerRemoveGame(player2, current_game);
+            }
+            free(iter);
         }
-        if(!playerIsDeleted(player2)) {
-            playerRemoveGame(player2, current_game);
-        }
-        free(iter);
     }
+
     mapClear(tournament_games);
     if(tournamentIsOver(tournament_to_remove)){
         chess->ended_tournaments--;
