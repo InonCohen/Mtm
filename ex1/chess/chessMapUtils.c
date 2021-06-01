@@ -10,12 +10,8 @@
 
 #define EPSILON (0.01)
 
-/**
- *
- * @param to_copy
- * @return
- */
-void* gamesMapCopyData (void* to_copy) {
+
+MapDataElement gamesMapCopyData (MapDataElement to_copy) {
     if(to_copy == NULL){
         return NULL;
     }
@@ -25,27 +21,43 @@ void* gamesMapCopyData (void* to_copy) {
     }
     return (void*)copy;
 }
-/**
- *
- * @param to_free
- */
+
+MapDataElement tournamentsMapCopyData(MapDataElement data){
+    if(!data){
+        return NULL;
+    }
+    ChessTournament copy = tournamentCopy((ChessTournament)data);
+    if(!copy){
+        return NULL;
+    }
+    return (void*)copy;
+}
+
+MapDataElement playersMapCopyData(MapDataElement data){
+    if(!data){
+        return NULL;
+    }
+    ChessPlayer copy = playerCopy((ChessPlayer)data);
+    if(!copy){
+        return NULL;
+    }
+    return copy;
+}
+
 void gamesMapFreeData(void* to_free){
     if(to_free == NULL){
         return;
     }
     gameDestroy((ChessGame)to_free);
 }
-/**
- *
- * @param to_copy
- * @return
- */
+
 void mapFreeStringKey(void* to_free){
     if(to_free == NULL){
         return;
     }
     free((char*)to_free);
 }
+
 void tournamentsMapFreeData(void* to_free){
     if(to_free == NULL){
         return;
@@ -53,12 +65,6 @@ void tournamentsMapFreeData(void* to_free){
     tournamentDestroy((ChessTournament)to_free);
 }
 
-/**
- *
- * @param key1
- * @param key2
- * @return
- */
 int mapCompareStringKeys (void* key1, void* key2){
     if(key1 == NULL || key2 == NULL){
         return BAD_INPUT;
@@ -105,20 +111,6 @@ int intCompFunc(MapKeyElement key1, MapKeyElement key2) {
     return *(int*)key1-*(int*)key2;
 }
 
-MapDataElement tournamentsMapCopyData(MapDataElement data){
-    if(!data){
-        return NULL;
-    }
-    return tournamentCopy((ChessTournament)data);
-}
-
-MapDataElement playersMapCopyData(MapDataElement data){
-    if(!data){
-        return NULL;
-    }
-    return playerCopy((ChessPlayer)data);
-}
-
 MapKeyElement stringCopyFunc (MapKeyElement to_copy){
     if(!to_copy){
         return NULL;
@@ -159,7 +151,7 @@ int playersMapComp(MapKeyElement key1, MapKeyElement key2){
     }
     return playerIDCompare((PlayerID)key1, (PlayerID)key2);
 }
-int levelsMapComp(MapKeyElement key1, MapKeyElement key2) {
+int doubleCompFunc(MapKeyElement key1, MapKeyElement key2) {
     if (!key1 || !key2) {
         return BAD_INPUT;
     }
@@ -168,7 +160,11 @@ int levelsMapComp(MapKeyElement key1, MapKeyElement key2) {
         return 0;
     }
     else{
-        return *(double *) key1 - *(double *) key2;
+        double diff = *(double *) key1 - *(double *) key2;
+        if(diff<0){
+            return -1;
+        }
+        return 1;
     }
 }
 /*End: Internal map's utility functions of mapElement */

@@ -91,24 +91,28 @@ char* playerIDGetFullID(PlayerID player_id){
     }
     return (player_id->full_id);
 }
+
 int playerIDGetIntID(PlayerID player_id){
     if(!player_id){
         return BAD_INPUT;
     }
     return player_id->id_int;
 }
+
 char* playerIDGetStringID(PlayerID player_id){
     if(!player_id){
         return NULL;
     }
     return (player_id->id_str);
 }
+
 int playerIDGetIntVersion(PlayerID player_id){
     if(!player_id){
         return BAD_INPUT;
     }
     return (player_id->version_int);
 }
+
 char* playerIDGetStringVersion(PlayerID player_id){
     if(!player_id){
         return NULL;
@@ -120,5 +124,8 @@ int playerIDCompare(PlayerID id1, PlayerID id2){
     if(!id1 || !id2){
         return BAD_INPUT;
     }
-    return strcmp(playerIDGetFullID(id1), playerIDGetFullID(id2));
+    if(id1->id_int != id2->id_int){
+        return (id1->id_int - id2->id_int);
+    }
+    return id1->version_int - id2->version_int;
 }

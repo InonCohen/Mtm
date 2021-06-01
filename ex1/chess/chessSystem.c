@@ -5,12 +5,8 @@
 #include <string.h>
 #include "../map/map.h"
 #include "chessMapUtils.h"
-#include "strUtils.h"
 #include "chessSystem.h"
 #include "chessTournament.h"
-#include "chessGame.h"
-#include "chessPlayer.h"
-#include "chessPlayerID.h"
 
 struct chess_system_t{
     Map tournaments; // Key: int id,  Data: Tournament tour
@@ -126,7 +122,7 @@ ChessResult chessAddTournament (ChessSystem chess, int tournament_id,
     if(mapGet(chess->tournaments,&tournament_id)){
         return CHESS_TOURNAMENT_ALREADY_EXISTS;
     }
-    if(!locationIsValid(tournament_location)){
+    if(!tournamentLocationIsValid(tournament_location)){
         return CHESS_INVALID_LOCATION;
     }
     if(!(max_games_per_player > 0)){
@@ -147,10 +143,12 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
     if (!chess) {
         return CHESS_NULL_ARGUMENT;
     }
+    if(!chess->tournaments){
+        return CHESS_NULL_ARGUMENT;
+    }
     if (tournament_id <= 0 || first_player <= 0 || second_player <= 0 || first_player == second_player) {
         return CHESS_INVALID_ID;
     }
-    assert(chess->tournaments);
     if (!mapContains(chess->tournaments, &tournament_id)) {
         return CHESS_TOURNAMENT_NOT_EXIST;
     }
@@ -178,6 +176,12 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
         playerIDDestroy(player1_id);
         playerIDDestroy(player2_id);
         return CHESS_GAME_ALREADY_EXISTS;
+    }
+    if(play_time < 0){
+        gameDestroy(game);
+        playerIDDestroy(player1_id);
+        playerIDDestroy(player2_id);
+        return CHESS_INVALID_PLAY_TIME;
     }
     bool player1_is_new = false, player2_is_new = false;
     ChessPlayer player1 = mapGet(chess->players, player1_id);
@@ -341,29 +345,14 @@ ChessResult chessRemovePlayer(ChessSystem chess, int player_id){
     MAP_FOREACH(char*, iter, player_games) {
         ChessGame current_game = (ChessGame) mapGet(player_games, iter);
         int current_game_tournament_id = gameGetTournamentID(current_game);
+        PlayerID other_player_id = (playerIDCompare(gameGetPlayer1ID(current_game), new_player_id) == 0
+                                    ? gameGetPlayer2ID(current_game) : gameGetPlayer1ID(current_game));
+        ChessPlayer other_player = mapGet(players, other_player_id);
         ChessTournament current_tournament = mapGet(chess->tournaments, &current_game_tournament_id);
         assert(current_tournament != NULL);
         if (!tournamentIsOver(current_tournament)) {
-            Winner old_winner = gameGetWinner(current_game);
-            gameUpdateLoser(current_game, player);
-            PlayerID other_player_id = (playerIDCompare(gameGetPlayer1ID(current_game), new_player_id) == 0
-                                        ? gameGetPlayer2ID(current_game) : gameGetPlayer1ID(current_game));
-            ChessPlayer other_player = mapGet(players, other_player_id);
-            if (old_winner == DRAW) {
-                playerUpdateAccordingToGame(player, TIER, LOSER);
-                playerUpdateAccordingToGame(other_player, TIER, WINNER);
-            }
-            if (old_winner == FIRST_PLAYER) {
-                if (playerIDCompare(gameGetPlayer1ID(current_game), new_player_id) == 0) {
-                    playerUpdateAccordingToGame(player, WINNER, LOSER);
-                    playerUpdateAccordingToGame(other_player, LOSER, WINNER);
-                }
-            } else if (playerIDCompare(gameGetPlayer2ID(current_game), new_player_id) == 0) {
-                playerUpdateAccordingToGame(player, WINNER, LOSER);
-                playerUpdateAccordingToGame(other_player, LOSER, WINNER);
-            }
-            tournamentRemovePlayer(current_tournament,
-                                   new_player_id);//TODO: ask Ohad - should it be here inside the if, or outside of it
+            gameUpdateLoser(current_game, player, other_player);
+            tournamentRemovePlayer(current_tournament, new_player_id);
         }
         gameMarkDeletedPlayerTrue(current_game);
         free(iter);
@@ -443,7 +432,7 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file){
         return CHESS_NULL_ARGUMENT;
     }
     Map new_players_map = mapCreate(doubleCopyFunc,playersMapCopyKey, doubleFreeFunc, playersMapFreeKey, playersMapComp);
-    Map levels = mapCreate(intCopyFunc, doubleCopyFunc, intFreeFunc, doubleFreeFunc, levelsMapComp);
+    Map levels = mapCreate(intCopyFunc, doubleCopyFunc, intFreeFunc, doubleFreeFunc, doubleCompFunc);
     if(!new_players_map){
        return CHESS_OUT_OF_MEMORY;
     }
@@ -492,7 +481,7 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file){
     MAP_FOREACH(double*, level, levels){
         MAP_FOREACH(PlayerID, player_id, new_players_map){
            double* current_player_level = mapGet(new_players_map, player_id);
-           if(levelsMapComp(current_player_level, level) == 0){
+           if(doubleCompFunc(current_player_level, level) == 0){
                int player_id_int = playerIDGetIntID(player_id);
                fprintf(file, "%d %.2f\n",player_id_int, -*(current_player_level));
            }
