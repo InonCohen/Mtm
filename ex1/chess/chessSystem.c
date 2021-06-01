@@ -42,7 +42,7 @@ static bool chessGameInTournament(ChessTournament tournament, char* game_id){
  *                      if there was a player with such id_int, but it was deleted.
  *          NULL - if there was a memory problem or the inputs were corrupted.
  */
-PlayerID getPlayerIdFromMap (Map players, int id_int) {
+PlayerID buildPlayerIdFromMap (Map players, int id_int) {
     if(!players || id_int <= 0) {
         return NULL;
     }
@@ -148,11 +148,11 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
     if (tournamentIsOver(tournament)) {
         return CHESS_TOURNAMENT_ENDED;
     }
-    PlayerID player1_id = getPlayerIdFromMap(chess->players, first_player);
+    PlayerID player1_id = buildPlayerIdFromMap(chess->players, first_player);
     if(!player1_id) {
         return CHESS_OUT_OF_MEMORY;
     }
-    PlayerID player2_id = getPlayerIdFromMap(chess->players, second_player);
+    PlayerID player2_id = buildPlayerIdFromMap(chess->players, second_player);
     if (!player2_id) {
         playerIDDestroy(player1_id);
         return CHESS_OUT_OF_MEMORY;
@@ -226,7 +226,7 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
         playerIDDestroy(player2_id);
         return (ChessResult)player_res;
     }
-    MapResult map_res;
+
     if (player1_is_new) {
         MapResult result = mapPut(chess->players, player1_id, player1);
         if (result == MAP_OUT_OF_MEMORY) {
@@ -326,7 +326,7 @@ ChessResult chessRemovePlayer(ChessSystem chess, int player_id){
         return CHESS_INVALID_ID;
     }
     Map players = chess->players;
-    PlayerID new_player_id = getPlayerIdFromMap(players, player_id);
+    PlayerID new_player_id = buildPlayerIdFromMap(players, player_id);
     if(!new_player_id){
         return CHESS_OUT_OF_MEMORY;
     }
@@ -397,7 +397,7 @@ double chessCalculateAveragePlayTime (ChessSystem chess, int player_id, ChessRes
         return 0;
     }
     Map players = chess->players;
-    PlayerID new_player_id = getPlayerIdFromMap(players, player_id);
+    PlayerID new_player_id = buildPlayerIdFromMap(players, player_id);
     if(!new_player_id){
         *chess_result = CHESS_OUT_OF_MEMORY;
         return 0;
