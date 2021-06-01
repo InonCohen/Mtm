@@ -5,6 +5,7 @@
 #include "chessGame.h"
 #include "chessPlayerID.h"
 
+
 typedef enum {
     PLAYER_OUT_OF_MEMORY,
     PLAYER_NULL_ARGUMENT,
@@ -22,6 +23,7 @@ typedef enum {
     PLAYER_SAVE_FAILURE,
     PLAYER_SUCCESS
 } PlayerResult ;
+
 /**
  * playerCreate: create an empty player.
  *
@@ -48,7 +50,6 @@ void playerDestroy(ChessPlayer player);
 */
 ChessPlayer playerCopy(ChessPlayer player);
 
-
 /**
 * playerGetID: Returns the id of target player.
 *
@@ -59,8 +60,6 @@ ChessPlayer playerCopy(ChessPlayer player);
 */
 PlayerID playerGetID(ChessPlayer player);
 
-
-//char* playerGetIDString(ChessPlayer player);
 /**
 * playerGetPlayingTime: Returns the total playing time in all games of target player.
 *
@@ -242,8 +241,7 @@ void playerAddDraw(ChessPlayer player, ChessGame game);
  */
 void playerRemoveDraw(ChessPlayer player, ChessGame game);
 
-
-void playerUpdateAccordingToGame(ChessPlayer player, GamePlayerOutcome old_outcome, GamePlayerOutcome new_outcome);
-
-void playerRemoveDraw(ChessPlayer player);
+//void playerUpdateAccordingToGame(ChessPlayer player, GamePlayerOutcome old_outcome, GamePlayerOutcome new_outcome);
+//
+//void playerRemoveDraw(ChessPlayer player);
 #endif //EX1_CHESSPLAYER_H

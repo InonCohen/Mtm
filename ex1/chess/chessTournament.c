@@ -23,13 +23,22 @@ struct chess_tournament_t{
     Map games_counter_of_players;
 };
 /**
- * generatePlayersRank:
+ * buildPlayersRankMap:
  * Assumptions:
  *  - tournament isn't empty (checked by related ChessSystem)
  * @param tournament
  * @return Map of player_id : total_rank
  */
-static Map generatePlayersRank(ChessTournament tournament);
+static Map buildPlayersRankMap(ChessTournament tournament);
+
+/**
+ *
+ * @param tournament_players
+ * @param player_int_id
+ * @return
+ */
+static PlayerID playersIDMapGetLastVersion(Map tournament_players, int player_int_id);
+
 /**
  *
  * @param tournament
@@ -273,7 +282,6 @@ ChessResult tournamentAddGame(ChessTournament tournament, ChessGame game){
             playerDestroy(player2);
         }
     }
-
     player1 = mapGet(tournament->tournament_players, player1_id);
     player2 = mapGet(tournament->tournament_players, player2_id);
     PlayerResult chess_result1 = playerAddGame(player1, game);
@@ -284,6 +292,8 @@ ChessResult tournamentAddGame(ChessTournament tournament, ChessGame game){
     if(chess_result2 != PLAYER_SUCCESS){
         return (ChessResult)chess_result2;
     }
+    playerAddGame(player1, game);
+    playerAddGame(player2, game);
     if (playerGetNumOfGames(player1) > tournament->max_games_per_player ||
     playerGetNumOfGames(player2) > tournament->max_games_per_player){
         return CHESS_EXCEEDED_GAMES;
@@ -305,7 +315,7 @@ ChessResult tournamentEndTournament(ChessTournament tournament) {
     if(!tournament){
         return CHESS_NULL_ARGUMENT;
     }
-    Map players_rank = generatePlayersRank(tournament);
+    Map players_rank = buildPlayersRankMap(tournament);
     if(!players_rank){
         return CHESS_OUT_OF_MEMORY;
     }
@@ -535,12 +545,12 @@ bool tournamentLocationIsValid(const char* tournament_name){
 }
 
 /**
- *
+ * buildPlayersRankMap
  * @param tournament
  * @return
  *  Map of PlayerID player : <int> rank
  */
-static Map generatePlayersRank(ChessTournament tournament){
+static Map buildPlayersRankMap(ChessTournament tournament){
     if(!tournament){
         return NULL;
     }
@@ -548,16 +558,27 @@ static Map generatePlayersRank(ChessTournament tournament){
     if (!players_rank) {
         return NULL;
     }
-
+    // Get last_player_id from sorted ASC tournament_players Map.
+    PlayerID first_player_id = mapGetFirst(tournament->tournament_players);
+    PlayerID last_player_id=NULL;
     MAP_FOREACH(PlayerID , player_id, tournament->tournament_players){
-        int init_rank = 0;
-        MapResult result = mapPut(players_rank, player_id, &init_rank);
-        if (result != MAP_SUCCESS) {
-            return NULL;
-        }
+        playerIDDestroy(last_player_id);
+        last_player_id = playerIDCopy(player_id);
         playerIDDestroy(player_id);
     }
-
+    // Filter out deprecated versions of a player
+    for(int player_int_id = playerIDGetIntID(first_player_id);
+            player_int_id <= playerIDGetIntID(last_player_id);
+            player_int_id++){
+                int init_rank = 0;
+                PlayerID player_id_final_version = playersIDMapGetLastVersion(tournament->tournament_players,
+                                                                              player_int_id);
+                MapResult result = mapPut(players_rank, player_id_final_version, &init_rank);
+                if (result != MAP_SUCCESS) {
+                    return NULL;
+                }
+    }
+    // Calculate Rank FOREACH Player
     MAP_FOREACH(char*, current_game_id, tournament->tournament_games) {
         ChessGame current_game = mapGet(tournament->tournament_games, current_game_id);
         PlayerID player1_id = gameGetPlayer1ID(current_game);
@@ -577,12 +598,30 @@ static Map generatePlayersRank(ChessTournament tournament){
         }
         free(current_game_id);
     }
+    return players_rank;
+}
 
-    MAP_FOREACH(PlayerID, player, tournament->tournament_players){
-        playersGroupByIntId(Map players, )
+static PlayerID playersIDMapGetLastVersion(Map tournament_players, int player_int_id){
+    if(!tournament_players){
+        return NULL;
+    }
+    PlayerID player_id_first_version = playerIDCreate(player_int_id, 0);
+    if(!mapContains(tournament_players, player_id_first_version)){
+        return NULL;
     }
 
-    return players_rank;
+    PlayerID player_id_last_version;
+    MAP_FOREACH(PlayerID, player_id, tournament_players){
+        if (playerIDGetIntID(player_id) <= player_int_id){
+            player_id_last_version = playerIDCopy(player_id);
+        }
+        else{
+            playerIDDestroy(player_id);
+            break;
+        }
+        playerIDDestroy(player_id);
+    }
+    return player_id_last_version;
 }
 
 static int countWinGamesForPlayer(ChessTournament tournament, PlayerID player_id){
