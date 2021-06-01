@@ -14,6 +14,33 @@ struct chess_system_t{
     int ended_tournaments;
 };
 
+/**
+ * chessGameInTournament: checks if a game_id is of a game belongs to the given tournament
+ *
+ * @param tournament    - a tournament in which it is required to check the existence of a game of which id is game_id. Must be non-NULL.
+ * @param game_id       - the game id. Must be non-NULL.
+ * @return
+ *     False if tournament or id_game are NULL, or if the tournament doesn't contain a game as required.
+ *     True otherwise.
+ */
+static bool chessGameInTournament(ChessTournament tournament, char* game_id);
+
+/**
+ * buildPlayerIDFromMap: Returns the relevant PlayerID from given map. If no player has ever been entered
+ *                      to the system with  id_int, id will be made with version 0.
+ *                      IMPORTANT: THE RETURNED PlayerID IS ALLOCATED, AND THUS MUST BE FREED BY USER
+ *
+ * @param players    - a map that contains the chess system players. Must be non-NULL.
+ * @param id_int     - the player id. Must be positive.
+ * @return
+ *     a PlayerID which contains:
+ *          - The player's ID - if there is such a player (active, not deleted) in the system with int_id.
+ *          - A new id that never existed in the system's players map - if there was a player with such
+ *              id_int, but it was deleted.
+ *          - NULL - if there was a memory problem or the inputs were corrupted.
+ */
+static PlayerID buildPlayerIdFromMap (Map players, int id_int);
+
 static bool chessGameInTournament(ChessTournament tournament, char* game_id){
     if(!tournament || !game_id){
         return false;
@@ -29,6 +56,7 @@ static bool chessGameInTournament(ChessTournament tournament, char* game_id){
     }
     return false;
 }
+
 /**
  * getPlayerIDFromMap: inserts the relevant PlayerID into id. If no player has ever been entered to the system
  *                      with  id_int, id will be made with version 0.
@@ -49,8 +77,13 @@ PlayerID buildPlayerIdFromMap (Map players, int id_int) {
     int id_version = 0;
     MAP_FOREACH(PlayerID , iter, players) {
         ChessPlayer current_player = mapGet(players, iter);
-        if (playerIDGetIntID(iter) == id_int && playerIsDeleted(current_player)) {
-            id_version++;
+        if (playerIDGetIntID(iter) == id_int){
+            if(playerIsDeleted(current_player)) {
+                id_version++;
+            }
+            else{
+                return iter;
+            }
         }
         playerIDDestroy(iter);
     }
@@ -226,7 +259,6 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
         playerIDDestroy(player2_id);
         return (ChessResult)player_res;
     }
-
     if (player1_is_new) {
         MapResult result = mapPut(chess->players, player1_id, player1);
         if (result == MAP_OUT_OF_MEMORY) {
@@ -503,7 +535,8 @@ ChessResult chessSaveTournamentStatistics (ChessSystem chess, char* path_file){
     MAP_FOREACH(int*, iter, tournaments){
         ChessTournament current_tournament = mapGet(tournaments, iter);
         if(tournamentIsOver(current_tournament)){
-            int winner_int_id = playerIDGetIntID(tournamentGetWinnerPlayerID(current_tournament));
+            PlayerID winner_id = tournamentGetWinnerPlayerID(current_tournament);
+            int winner_int_id = playerIDGetIntID(winner_id);
             int longest_game_time = tournamentGetLongestGameTime(current_tournament);
             double average_game_time = tournamentGetAverageGameTime(current_tournament);
             char* location = tournamentGetTournamentLocation(current_tournament);

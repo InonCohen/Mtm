@@ -60,7 +60,6 @@ MapDataElement tournamentsMapCopyData(MapDataElement data);
 */
 MapDataElement playersMapCopyData(MapDataElement data);
 
-
 /**
 * playersMapCopyKey: Creates a copy of target MapKeyElement.
 * @param to_copy - Target MapKeyElement. Real type: PlayerID.

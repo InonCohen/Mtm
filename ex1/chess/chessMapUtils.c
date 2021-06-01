@@ -169,4 +169,3 @@ int doubleCompFunc(MapKeyElement key1, MapKeyElement key2) {
         return 1;
     }
 }
-/*End: Internal map's utility functions of mapElement */

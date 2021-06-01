@@ -281,7 +281,6 @@ ChessResult tournamentAddGame(ChessTournament tournament, ChessGame game){
             playerDestroy(player2);
         }
     }
-
     playerAddGame(player1, game);
     playerAddGame(player2, game);
     if (playerGetNumOfGames(player1) > tournament->max_games_per_player ||

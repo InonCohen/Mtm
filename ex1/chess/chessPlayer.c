@@ -135,13 +135,6 @@ PlayerID playerGetID(ChessPlayer player){
     return player->id;
 }
 
-//char* playerGetIDString(ChessPlayer player){
-//    if(!player || !player->id){
-//        return NULL;
-//    }
-//    return playerIDGetFullID(player->id);
-//}
-
 int playerGetPlayingTime(ChessPlayer player){
     if(!player){
         return BAD_INPUT;
