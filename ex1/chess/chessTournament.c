@@ -564,11 +564,14 @@ static Map buildPlayersRankMap(ChessTournament tournament){
                                                                               player_int_id);
                 MapResult result = mapPut(players_rank, player_id_final_version, &init_rank);
                 if (result != MAP_SUCCESS) {
+                    playerIDDestroy(first_player_id);
+                    playerIDDestroy(last_player_id);
                     playerIDDestroy(player_id_final_version);
                     return NULL;
                 }
                 playerIDDestroy(player_id_final_version);
     }
+    playerIDDestroy(first_player_id);
     playerIDDestroy(last_player_id);
     // Calculate Rank FOREACH Player
     MAP_FOREACH(char*, current_game_id, tournament->tournament_games) {
@@ -599,9 +602,10 @@ static PlayerID playersIDMapGetLastVersion(Map tournament_players, int player_in
     }
     PlayerID player_id_first_version = playerIDCreate(player_int_id, 0);
     if(!mapContains(tournament_players, player_id_first_version)){
+        playerIDDestroy(player_id_first_version);
         return NULL;
     }
-
+    playerIDDestroy(player_id_first_version);
     PlayerID player_id_last_version = NULL;
     MAP_FOREACH(PlayerID, player_id, tournament_players){
         if (playerIDGetIntID(player_id) <= player_int_id){
