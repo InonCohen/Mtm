@@ -261,6 +261,7 @@ ChessResult tournamentAddGame(ChessTournament tournament, ChessGame game){
             playerIDDestroy(player1_id);
             playerDestroy(player1);
         }
+        playerDestroy(player1);
     }
     PlayerID player2_id = gameGetPlayer2ID(game);
     ChessPlayer player2 = mapGet(tournament->tournament_players, player2_id);
@@ -273,8 +274,16 @@ ChessResult tournamentAddGame(ChessTournament tournament, ChessGame game){
         }
     }
 
-    playerAddGame(player1, game);
-    playerAddGame(player2, game);
+    player1 = mapGet(tournament->tournament_players, player1_id);
+    player2 = mapGet(tournament->tournament_players, player2_id);
+    PlayerResult chess_result1 = playerAddGame(player1, game);
+    if(chess_result1 != PLAYER_SUCCESS){
+        return (ChessResult)chess_result1;
+    }
+    PlayerResult chess_result2 = playerAddGame(player2, game);
+    if(chess_result2 != PLAYER_SUCCESS){
+        return (ChessResult)chess_result2;
+    }
     if (playerGetNumOfGames(player1) > tournament->max_games_per_player ||
     playerGetNumOfGames(player2) > tournament->max_games_per_player){
         return CHESS_EXCEEDED_GAMES;
