@@ -564,9 +564,12 @@ static Map buildPlayersRankMap(ChessTournament tournament){
                                                                               player_int_id);
                 MapResult result = mapPut(players_rank, player_id_final_version, &init_rank);
                 if (result != MAP_SUCCESS) {
+                    playerIDDestroy(player_id_final_version);
                     return NULL;
                 }
+                playerIDDestroy(player_id_final_version);
     }
+    playerIDDestroy(last_player_id);
     // Calculate Rank FOREACH Player
     MAP_FOREACH(char*, current_game_id, tournament->tournament_games) {
         ChessGame current_game = mapGet(tournament->tournament_games, current_game_id);
@@ -625,6 +628,7 @@ static int countWinGamesForPlayer(ChessTournament tournament, PlayerID player_id
             (gameGetWinner(game) == SECOND_PLAYER && gameGetPlayer2ID(game) == playerGetID(player))){
                 win_games_counter++;
         }
+        gameDestroy(game);
     }
     return win_games_counter;
 }
