@@ -95,7 +95,7 @@ ChessSystem chessCreate(){
     system->players = players;
     system->ended_tournaments = 0;
     return system;
-}//Done. TODO: Debug
+}//Done.
 
 void chessDestroy(ChessSystem chess){
     if(!chess){
@@ -108,7 +108,7 @@ void chessDestroy(ChessSystem chess){
         mapDestroy(chess->players);
     }
     free(chess);
-}//Done. TODO: Debug
+}//Done.
 
 ChessResult chessAddTournament (ChessSystem chess, int tournament_id,
                                 int max_games_per_player, const char* tournament_location){
@@ -361,7 +361,7 @@ ChessResult chessRemovePlayer(ChessSystem chess, int player_id){
         free(iter);
     }
     playerIDDestroy(new_player_id);
-    playerMarkDeleted(player);
+    playerSetIsDeleted(player);
     return CHESS_SUCCESS;
 }
 /**
@@ -512,7 +512,7 @@ ChessResult chessSaveTournamentStatistics (ChessSystem chess, char* path_file){
     MAP_FOREACH(int*, iter, tournaments){
         ChessTournament current_tournament = mapGet(tournaments, iter);
         if(tournamentIsOver(current_tournament)){
-            int winner_int_id = tournamentGetWinnerPlayerID(current_tournament);
+            int winner_int_id = playerIDGetIntID(tournamentGetWinnerPlayerID(current_tournament));
             int longest_game_time = tournamentGetLongestGameTime(current_tournament);
             double average_game_time = tournamentGetAverageGameTime(current_tournament);
             char* location = tournamentGetTournamentLocation(current_tournament);
@@ -530,4 +530,3 @@ ChessResult chessSaveTournamentStatistics (ChessSystem chess, char* path_file){
     fclose(file);
     return CHESS_SUCCESS;
 }
-

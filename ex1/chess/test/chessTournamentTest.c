@@ -51,7 +51,6 @@ bool testTournamentAddGame(){
 }
 
 bool testTournamentEndTournament(){
-    // TODO: GENERATE MORE COMPLEX DATA
     ChessTournament tournament = tournamentCreate(TOURNAMENT_ID, TOURNAMENT_MAX_GAMES_PER_PLAYER, TOURNAMENT_LOCATION);
     PlayerID player1_id = playerIDCreate(PLAYER1_ID,PLAYER_DEFAULT_VERSION);
     PlayerID player2_id = playerIDCreate(PLAYER2_ID,PLAYER_DEFAULT_VERSION);
