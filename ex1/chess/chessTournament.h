@@ -51,7 +51,7 @@ bool tournamentIsOver(ChessTournament tournament);
 bool tournamentLocationIsValid(const char* tournament_name);
 
 ChessResult tournamentAddGame(ChessTournament tournament, ChessGame game);
-/**TODO: Implement a function called from chessRemovePlayer
+/**
  * tournamentRemovePlayer: remove a player from
  * @param player_id
  */

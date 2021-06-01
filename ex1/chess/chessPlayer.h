@@ -181,7 +181,7 @@ PlayerResult playerRemoveGame(ChessPlayer player, ChessGame game);
  *
  * @param player - the player to mark as deleted. Must be non-NULL.
  */
-void playerMarkDeleted(ChessPlayer player);
+void playerSetIsDeleted(ChessPlayer player);
 
 /**
  * playerUpdateAccordingToGame: update the player's statistics in accordance to received

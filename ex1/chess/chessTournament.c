@@ -433,7 +433,12 @@ ChessResult tournamentRemovePlayer(ChessTournament tournament, PlayerID player_i
     if(!tournament || !player_id){
         return CHESS_NULL_ARGUMENT;
     }
-    MAP_FOREACH(char*,game_id,tournament->tournament_games){
+    ChessPlayer player = mapGet(tournament->tournament_players, player_id);
+    if(!player){
+        return CHESS_PLAYER_NOT_EXIST;
+    }
+    // For every game that player is taking part of set rival to be the winner.
+    MAP_FOREACH(char*, game_id, tournament->tournament_games){
         ChessGame game = mapGet(tournament->tournament_games, game_id);
         if (gameGetPlayer1ID(game) == player_id){
             gameSetWinner(game,SECOND_PLAYER);
@@ -443,6 +448,7 @@ ChessResult tournamentRemovePlayer(ChessTournament tournament, PlayerID player_i
         }
     }
 
+    playerSetIsDeleted(player);
     return CHESS_SUCCESS;
 }
 
@@ -561,6 +567,11 @@ static Map generatePlayersRank(ChessTournament tournament){
         }
         free(current_game_id);
     }
+
+    MAP_FOREACH(PlayerID, player, tournament->tournament_players){
+        playersGroupByIntId(Map players, )
+    }
+
     return players_rank;
 }
 

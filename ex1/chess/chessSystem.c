@@ -111,7 +111,7 @@ ChessSystem chessCreate(){
     system->players = players;
     system->ended_tournaments = 0;
     return system;
-}//Done. TODO: Debug
+}//Done.
 
 void chessDestroy(ChessSystem chess){
     if(!chess){
@@ -124,7 +124,7 @@ void chessDestroy(ChessSystem chess){
         mapDestroy(chess->players);
     }
     free(chess);
-}//Done. TODO: Debug
+}//Done.
 
 ChessResult chessAddTournament (ChessSystem chess, int tournament_id,
                                 int max_games_per_player, const char* tournament_location){
@@ -371,7 +371,7 @@ ChessResult chessRemovePlayer(ChessSystem chess, int player_id){
         free(iter);
     }
     playerIDDestroy(new_player_id);
-    playerMarkDeleted(player);
+    playerSetIsDeleted(player);
     return CHESS_SUCCESS;
 }
 /**
@@ -541,4 +541,3 @@ ChessResult chessSaveTournamentStatistics (ChessSystem chess, char* path_file){
     fclose(file);
     return CHESS_SUCCESS;
 }
-

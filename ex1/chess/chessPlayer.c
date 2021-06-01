@@ -326,7 +326,7 @@ void playerUpdateAccordingToGame(ChessPlayer player, GamePlayerOutcome old_outco
     playerUpdateLevel(player);
 }
 
-void playerMarkDeleted(ChessPlayer player){
+void playerSetIsDeleted(ChessPlayer player){
     if(!player){
         return;
     }
