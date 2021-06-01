@@ -204,6 +204,9 @@ Map tournamentGetGames(ChessTournament tournament){
     if(!tournament){
         return NULL;
     }
+    if(!tournament->tournament_games){
+        return NULL;
+    }
     return tournament->tournament_games;
 }
 
@@ -522,6 +525,9 @@ int tournamentGetNumOfAllPlayers(ChessTournament tournament){
  * @return
  */
 bool tournamentLocationIsValid(const char* tournament_name){
+    if(!tournament_name){
+        return false;
+    }
     if (!isupper(tournament_name[0])){
         return false;
     }

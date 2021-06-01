@@ -141,6 +141,9 @@ void chessDestroy(ChessSystem chess){
 
 ChessResult chessAddTournament (ChessSystem chess, int tournament_id,
                                 int max_games_per_player, const char* tournament_location){
+    if(!chess || !tournament_location){
+        return CHESS_NULL_ARGUMENT;
+    }
     if(tournament_id <= 0){
         return CHESS_INVALID_ID;
     }
@@ -326,7 +329,7 @@ ChessResult chessRemoveTournament (ChessSystem chess, int tournament_id){
     if(tournament_id<=0){
         return CHESS_INVALID_ID;
     }
-    if(!mapContains(chess->tournaments, &tournament_id)){
+    if(!mapContains(chess->tournaments, &tournament_id) || mapGetSize(chess->tournaments)==0){
         return CHESS_TOURNAMENT_NOT_EXIST;
     }
     ChessTournament tournament_to_remove = mapGet(chess->tournaments, &tournament_id);
@@ -346,6 +349,9 @@ ChessResult chessRemoveTournament (ChessSystem chess, int tournament_id){
         free(iter);
     }
     mapClear(tournament_games);
+    if(tournamentIsOver(tournament_to_remove)){
+        chess->ended_tournaments--;
+    }
     mapRemove(chess->tournaments, &tournament_id);
     return CHESS_SUCCESS;
 }
@@ -400,6 +406,9 @@ ChessResult chessRemovePlayer(ChessSystem chess, int player_id){
  *  CHESS_SUCCESS if tournament has ended successfully, otherwise one of the above exceptions.
  */
 ChessResult chessEndTournament (ChessSystem chess, int tournament_id){
+    if(!chess){
+        return CHESS_NULL_ARGUMENT;
+    }
     if (tournament_id <= 0){
         return CHESS_INVALID_ID;
     }
@@ -414,8 +423,10 @@ ChessResult chessEndTournament (ChessSystem chess, int tournament_id){
     if(mapGetSize(tournament_games) == 0){
         return CHESS_NO_GAMES;
     }
-
     ChessResult result = tournamentEndTournament(tournament);
+    if(result == CHESS_SUCCESS){
+        chess->ended_tournaments++;
+    }
     return result;
 }
 

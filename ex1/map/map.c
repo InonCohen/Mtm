@@ -210,6 +210,9 @@ MapKeyElement mapGetFirst(Map map){
     if(!map){
         return NULL;
     }
+    if(!map->list){
+        return NULL;
+    }
    Node first = listGetFirst(map->list);
     return nodeGetKey(first);
 }
