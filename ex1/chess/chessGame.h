@@ -26,8 +26,6 @@ typedef enum {
     GAME_SUCCESS
 } GameResult ;
 
-
-
 ChessGame gameCreate(int tournament_id, PlayerID player1_id, PlayerID player2_id, int play_time, Winner winner);
 
 ChessGame gameCopy(ChessGame game);
@@ -53,6 +51,4 @@ void gameSetWinner(ChessGame game, Winner winner);
 bool gamePlayerIsDeleted(ChessGame game);
 
 void gameMarkDeletedPlayerTrue(ChessGame game);
-
-
 #endif //EX1_CHESSGAME_H

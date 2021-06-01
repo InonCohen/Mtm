@@ -22,7 +22,6 @@ struct chess_player_t{
     bool is_deleted;
 };
 
-
 ChessPlayer playerCreate(PlayerID id){
     ChessPlayer new_player = malloc(sizeof(*new_player));
     if(!new_player){
@@ -119,18 +118,21 @@ int playerGetPlayingTime(ChessPlayer player){
     }
     return player->total_time;
 }
+
 double playerGetLevel(ChessPlayer player){
     if(!player){
         return BAD_INPUT;
     }
     return player->level;
 }
+
 Map playerGetGames(ChessPlayer player){
     if(!player){
         return NULL;
     }
     return player->games;
 }
+
 int playerGetNumOfGames(ChessPlayer player){
     if(!player){
         return BAD_INPUT;
@@ -140,24 +142,28 @@ int playerGetNumOfGames(ChessPlayer player){
     }
     return mapGetSize(player->games);
 }
+
 int playerGetNumOfWins(ChessPlayer player){
     if(!player){
         return BAD_INPUT;
     }
     return player->wins;
 }
+
 int playerGetNumOfLosses(ChessPlayer player){
     if(!player){
         return BAD_INPUT;
     }
     return player->losses;
 }
+
 int playerGetNumOfDraws(ChessPlayer player){
     if(!player){
         return BAD_INPUT;
     }
     return player->draws;
 }
+
 bool playerIsDeleted(ChessPlayer player){
     if(!player){
         return false;
@@ -231,8 +237,8 @@ PlayerResult playerAddGame(ChessPlayer player, ChessGame game){
     if(strcmp(id1, player_id) != 0 && strcmp(id2, player_id) != 0) {
         return PLAYER_SAVE_FAILURE;
     }
-    MapResult res = mapPut(games, gameGetID(game), game);
-    if(res!=MAP_SUCCESS){
+    MapResult result = mapPut(games, gameGetID(game), game);
+    if(result == MAP_OUT_OF_MEMORY){
         return PLAYER_OUT_OF_MEMORY;
     }
     if(gameGetWinner(game) == DRAW){

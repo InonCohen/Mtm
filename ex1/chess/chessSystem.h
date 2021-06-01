@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #define BAD_INPUT (-999)
-
+// TODO: MAKE GETTERS RETURN READ-ONLY. IF NEEDED-ENABLE SETTERS.
 typedef enum {
     CHESS_OUT_OF_MEMORY,
     CHESS_NULL_ARGUMENT,
