@@ -702,7 +702,7 @@ const char* testNames[] = {
 };
 
 #define NUMBER_TESTS 15
-#define NUMBER_TESTS_OHAD 1
+
 void yellow(){
   printf("\033[1;33m");
 }
@@ -717,7 +717,7 @@ int main(int argc, char *argv[]) {
     printf("! -------------------------------------------------------------- !\n");
     reset();
     if (argc == 1) {
-        for (int test_idx = 0; test_idx < NUMBER_TESTS_OHAD; test_idx++) {
+        for (int test_idx = 0; test_idx < NUMBER_TESTS; test_idx++) {
             RUN_TEST(tests[test_idx], testNames[test_idx]);
         }
         return 0;
@@ -729,7 +729,7 @@ int main(int argc, char *argv[]) {
     }
 
     int test_idx = strtol(argv[1], NULL, 10);
-    if (test_idx < 1 || test_idx > NUMBER_TESTS_OHAD) {
+    if (test_idx < 1 || test_idx > NUMBER_TESTS) {
         fprintf(stderr, "Invalid test index %d\n", test_idx);
         return 0;
     }
