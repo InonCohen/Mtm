@@ -318,13 +318,14 @@ ChessResult tournamentAddGame(ChessTournament tournament, ChessGame game){
     if(res != PLAYER_SUCCESS)
     {
         mapRemove(tournament->tournament_games, game_id);
+        playerRemoveGame(player1, game);
         if(player1_is_new){
             mapRemove(tournament->tournament_players,player1_id);
         }
         if(player2_is_new){
             mapRemove(tournament->tournament_players,player2_id);
         }
-        playerRemoveGame(player1, game);
+
         return (ChessResult) res;
     }
     res = playerAddGame(player2, game);
