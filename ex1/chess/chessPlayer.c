@@ -109,14 +109,14 @@ ChessPlayer playerCopy(ChessPlayer player){
     if(player->games){
         player_copy->games = mapCopy(player->games);
         if(!player_copy->games){
-            free(player_copy);
+            playerDestroy(player_copy);
             return NULL;
         }
     }
     player_copy->id = playerIDCopy(player->id);
     if(!player_copy->id){
         mapDestroy(player->games);
-        free(player_copy);
+        playerDestroy(player_copy);
         return NULL;
     }
     player_copy->wins = player->wins;
