@@ -16,8 +16,6 @@ MapKeyElement doubleCopyFunc(MapKeyElement key);
 
 MapKeyElement stringCopyFunc (MapKeyElement to_copy);
 
-MapKeyElement stringCopyFunc (MapKeyElement to_copy);
-
 void gamesMapFreeData(MapDataElement to_free);
 
 void playersMapFreeData(MapDataElement data);
@@ -39,6 +37,4 @@ int intCompFunc(MapKeyElement key1, MapKeyElement key2);
 int playersMapComp(MapKeyElement key1, MapKeyElement key2);
 
 int levelsMapComp(MapKeyElement key1, MapKeyElement key2);
-
-int playersMapComp(MapKeyElement key1, MapKeyElement key2);
 #endif //EX1_CHESSMAPUTILS_H

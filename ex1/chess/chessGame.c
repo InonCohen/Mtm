@@ -172,49 +172,6 @@ void gameSetWinner(ChessGame game, Winner winner){
  * @param player2_id: An empty <int> pointer to which player2_id is to be input.
  * @return
  */
-// TODO: Update extractPlayersIDsFromGameID by the new player ID structure.
-//static GameResult extractPlayersIDsFromGameID(char* game_id, int* player1_id, int* player2_id){
-//    if(!game_id || !player1_id || !player2_id){
-//        return GAME_NULL_ARGUMENT;
-//    }
-//    int size = (int)strlen(game_id);
-//    char* id1_str = malloc(size);
-//    if(!id1_str){
-//        return GAME_OUT_OF_MEMORY;
-//    }
-//    char* id2_str = malloc(size);
-//    if(!id2_str){
-//        free(id1_str);
-//        return GAME_OUT_OF_MEMORY;
-//    }
-//    nullifyString(id1_str, size);
-//    nullifyString(id2_str, size);
-//    int id2_flag = 0;
-//    int i=0;
-//
-//    // Goto the first char after ID_SEP
-//    while(game_id[i++] != ID_SEP[0]);
-//    // Fill player1_id &&player2_id
-//    for(;i<size;i++){
-//        if(game_id[i] == ID_SEP[0]){
-//            id2_flag++;
-//            continue;
-//        }
-//        if(id2_flag>1){
-//            break;
-//        }
-//        if(!id2_flag){
-//            strncat(id1_str, &game_id[i], 1);
-//        }
-//        strncat(id2_str, &game_id[i], 1);
-//    }
-//    *player1_id = atoi(id1_str);
-//    *player2_id = atoi(id2_str);
-//    free(id1_str);
-//    free(id2_str);
-//    return GAME_SUCCESS;
-//}
-
 void chessGameSetWinner(ChessGame game, Winner winner){
     if(!game || (winner!= FIRST_PLAYER && winner!= SECOND_PLAYER)){
         return;

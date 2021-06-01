@@ -131,7 +131,6 @@ MapResult mapPut(Map map, MapKeyElement keyElement, MapDataElement dataElement){
     }
     NodeResult res = nodeSetKey(map->nodePrototype, keyElement);
     if(res != NODE_SUCCESS){
-
         return (MapResult) res;
     }
     res = nodeSetData(map->nodePrototype, dataElement);

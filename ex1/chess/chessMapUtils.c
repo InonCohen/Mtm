@@ -46,13 +46,13 @@ void mapFreeStringKey(void* to_free){
     }
     free((char*)to_free);
 }
+
 void tournamentsMapFreeData(void* to_free){
     if(to_free == NULL){
         return;
     }
     tournamentDestroy((ChessTournament)to_free);
 }
-
 /**
  *
  * @param key1
@@ -159,6 +159,7 @@ int playersMapComp(MapKeyElement key1, MapKeyElement key2){
     }
     return playerIDCompare((PlayerID)key1, (PlayerID)key2);
 }
+
 int levelsMapComp(MapKeyElement key1, MapKeyElement key2) {
     if (!key1 || !key2) {
         return BAD_INPUT;
