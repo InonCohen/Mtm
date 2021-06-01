@@ -264,6 +264,7 @@ ChessResult tournamentAddGame(ChessTournament tournament, ChessGame game){
         return CHESS_OUT_OF_MEMORY;
     }
     // Insert players from game into tournament->players
+    // First, check if game already know players. If not - add them to the tournament_players
     bool player1_is_new = false;
     bool player2_is_new = false;
     PlayerID player1_id = gameGetPlayer1ID(game);
