@@ -206,7 +206,7 @@ NodeResult nodeSetNext(Node node, Node next_node);
 NodeResult nodeSetPrev(Node node, Node prev_node);
 
 /**
-*	nodeCompare: Compares to nodes using the built in Compare function.
+*	nodeCompare: Compares two nodes using the built in Compare function.
 *
 * @param node1 - The first node of two nodes required to be compared to one another.
 * @param node2 - The second node of two nodes required to be compared to one another.

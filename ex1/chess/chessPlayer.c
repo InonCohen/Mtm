@@ -10,6 +10,8 @@
 #define WIN_WEIGHT 6
 #define LOSE_WEIGHT (-10)
 #define DRAW_WEIGHT 2
+#define ADD '+'
+#define REMOVE '-'
 
 struct chess_player_t{
     PlayerID id;
@@ -21,6 +23,34 @@ struct chess_player_t{
     int total_time;
     bool is_deleted;
 };
+
+
+/**
+ * playerUpdateWin: updates the player's statistics according to given game that is already in player's games map
+ *
+ * @param player - player whose statistics are to be updated to either add or remove a draw
+ * @param game - game of which the player is the tier
+ * @param sign - a char signing whether the game is the draw is to be added or removed
+ */
+static void playerUpdateWin(ChessPlayer player, ChessGame game, char sign);
+
+/**
+ * playerUpdateLose: updates the player's statistics according to given game that is already in player's games map
+ *
+ * @param player - player whose statistics are to be updated to either add or remove a lose
+ * @param game - game of which the player is the loser
+ * @param sign - a char signing whether the game is the lose is to be added or removed
+ */
+static void playerUpdateLose(ChessPlayer player, ChessGame game, char sign);
+
+/**
+ * playerUpdateDraw: updates the player's statistics according to given game that is already in player's games map
+ *
+ * @param player - player whose statistics are to be updated to either add or remove a draw
+ * @param game - game of which the player is the tier
+ * @param sign - a char signing whether the game is the draw is to be added or removed
+ */
+static void playerUpdateDraw(ChessPlayer player, ChessGame game, char sign);
 
 ChessPlayer playerCreate(PlayerID id){
     ChessPlayer new_player = malloc(sizeof(*new_player));
@@ -105,12 +135,12 @@ PlayerID playerGetID(ChessPlayer player){
     return player->id;
 }
 
-char* playerGetIDString(ChessPlayer player){
-    if(!player || !player->id){
-        return NULL;
-    }
-    return playerIDGetFullID(player->id);
-}
+//char* playerGetIDString(ChessPlayer player){
+//    if(!player || !player->id){
+//        return NULL;
+//    }
+//    return playerIDGetFullID(player->id);
+//}
 
 int playerGetPlayingTime(ChessPlayer player){
     if(!player){
@@ -166,9 +196,91 @@ int playerGetNumOfDraws(ChessPlayer player){
 
 bool playerIsDeleted(ChessPlayer player){
     if(!player){
-        return false;
+        return true;
     }
     return player->is_deleted;
+}
+
+PlayerResult playerAddGame(ChessPlayer player, ChessGame game){
+    if(!player || !game){
+        return PLAYER_NULL_ARGUMENT;
+    }
+    Map games = player->games;
+    if(mapContains(games, gameGetID(game))){
+        return PLAYER_GAME_ALREADY_EXISTS;
+    }
+    PlayerID game_player1 = gameGetPlayer1ID(game);
+    PlayerID game_player2 = gameGetPlayer2ID(game);
+    char* id1 = playerIDGetFullID(game_player1);
+    char* id2 = playerIDGetFullID(game_player2);
+    char* player_id = playerIDGetFullID(playerGetID(player));
+    if(strcmp(id1, player_id) != 0 && strcmp(id2, player_id) != 0) {
+        return PLAYER_INVALID_ID;
+    }
+    MapResult result = mapPut(games, gameGetID(game), game);
+    if(result == MAP_OUT_OF_MEMORY){
+        return PLAYER_OUT_OF_MEMORY;
+    }
+    if(gameGetWinner(game) == DRAW){
+        playerAddDraw(player, game);
+    }
+    else if(gameGetWinner(game)==FIRST_PLAYER){
+        if(strcmp(id1, player_id) == 0){
+            playerAddWin(player, game);
+        }
+        else{
+            playerAddLose(player, game);
+        }
+    }
+    else{
+        if(strcmp(id1, player_id) == 0){
+            playerAddLose(player, game);
+        }
+        else{
+            playerAddWin(player, game);
+        }
+    }
+    return PLAYER_SUCCESS;
+}
+
+PlayerResult playerRemoveGame(ChessPlayer player, ChessGame game){
+    if(!player || !game){
+        return PLAYER_NULL_ARGUMENT;
+    }
+    Map games = player->games;
+    if(!mapContains(games, gameGetID(game))){
+        return PLAYER_SUCCESS;
+    }
+    MapResult res = mapRemove(games, gameGetID(game));
+    if(res != MAP_SUCCESS){
+        return PLAYER_OUT_OF_MEMORY;
+    }
+    Winner game_winner = gameGetWinner(game);
+    if(game_winner == DRAW){
+        playerRemoveDraw(player, game);
+    }
+    else{
+        PlayerID game_player1 = gameGetPlayer1ID(game);
+        char* id1 = playerIDGetFullID(game_player1);
+        char* player_id = playerIDGetFullID(playerGetID(player));
+        if(game_winner == FIRST_PLAYER){
+            if(strcmp(id1, player_id) == 0){
+                playerRemoveWin(player, game);
+            }
+            else{
+                playerRemoveLose(player, game);
+            }
+        }
+        else{
+            if(strcmp(id1, player_id) == 0){
+                playerRemoveLose(player, game);
+            }
+            else{
+                playerRemoveWin(player, game);
+            }
+        }
+    }
+    return PLAYER_SUCCESS;
 }
 
 void playerUpdateLevel(ChessPlayer player){
@@ -221,92 +333,6 @@ void playerUpdateAccordingToGame(ChessPlayer player, GamePlayerOutcome old_outco
     playerUpdateLevel(player);
 }
 
-PlayerResult playerAddGame(ChessPlayer player, ChessGame game){
-    if(!player || !game){
-        return PLAYER_NULL_ARGUMENT;
-    }
-    Map games = player->games;
-    if(mapContains(games, gameGetID(game))){
-        return PLAYER_GAME_ALREADY_EXISTS;
-    }
-    PlayerID game_player1 = gameGetPlayer1ID(game);
-    PlayerID game_player2 = gameGetPlayer2ID(game);
-    char* id1 = playerIDGetFullID(game_player1);
-    char* id2 = playerIDGetFullID(game_player2);
-    char* player_id = playerIDGetFullID(playerGetID(player));
-    if(strcmp(id1, player_id) != 0 && strcmp(id2, player_id) != 0) {
-        return PLAYER_SAVE_FAILURE;
-    }
-    MapResult result = mapPut(games, gameGetID(game), game);
-    if(result == MAP_OUT_OF_MEMORY){
-        return PLAYER_OUT_OF_MEMORY;
-    }
-    if(gameGetWinner(game) == DRAW){
-        player->draws++;
-    }
-    else if(gameGetWinner(game)==FIRST_PLAYER){
-        if(strcmp(id1, player_id) == 0){
-            player->wins++;
-        }
-        else{
-            player->losses++;
-        }
-    }
-    else{
-        if(strcmp(id1, player_id) == 0){
-            player->losses++;
-        }
-        else{
-            player->wins++;
-        }
-    }
-    playerUpdateLevel(player);
-    player->total_time+= gameGetPlayTime(game);
-    return PLAYER_SUCCESS;
-}
-
-PlayerResult playerRemoveGame(ChessPlayer player, ChessGame game){
-    if(!player || !game){
-        return PLAYER_NULL_ARGUMENT;
-    }
-    Map games = player->games;
-    if(!mapContains(games, gameGetID(game))){
-        return PLAYER_SUCCESS;
-    }
-    MapResult res = mapRemove(games, gameGetID(game));
-    if(res != MAP_SUCCESS){
-        return PLAYER_SAVE_FAILURE;
-    }
-    Winner game_winner = gameGetWinner(game);
-    if(game_winner == DRAW){
-        player->draws--;
-    }
-    else{
-        PlayerID game_player1 = gameGetPlayer1ID(game);
-        char* id1 = playerIDGetFullID(game_player1);
-        char* player_id = playerIDGetFullID(playerGetID(player));
-        if(game_winner == FIRST_PLAYER){
-            if(strcmp(id1, player_id) == 0){
-                player->wins--;
-            }
-            else{
-            player->losses--;
-            }
-        }
-        else{
-            if(strcmp(id1, player_id) == 0){
-                player->losses--;
-            }
-            else{
-                player->wins--;
-            }
-        }
-    }
-    playerUpdateLevel(player);
-    player->total_time-= gameGetPlayTime(game);
-    return PLAYER_SUCCESS;
-}
-
 void playerSetIsDeleted(ChessPlayer player){
     if(!player){
         return;
@@ -314,12 +340,106 @@ void playerSetIsDeleted(ChessPlayer player){
     player->is_deleted = true;
 }
 
-void playerRemoveDraw(ChessPlayer player){
-    if(!player){
+void playerAddWin(ChessPlayer player, ChessGame game){
+    playerUpdateWin(player, game, ADD);
+}
+
+void playerRemoveWin(ChessPlayer player, ChessGame game){
+    playerUpdateWin(player, game, REMOVE);
+
+}
+
+void playerAddLose(ChessPlayer player, ChessGame game){
+    playerUpdateLose(player, game, ADD);
+}
+
+void playerRemoveLose(ChessPlayer player, ChessGame game){
+    playerUpdateLose(player, game, REMOVE);
+}
+
+void playerAddDraw(ChessPlayer player, ChessGame game){
+    playerUpdateDraw(player, game, ADD);
+}
+
+void playerRemoveDraw(ChessPlayer player, ChessGame game){
+    playerUpdateDraw(player, game, REMOVE);
+}
+
+static void playerUpdateWin(ChessPlayer player, ChessGame game, char sign){
+    if(!player || !game){
         return;
     }
-    if(player->draws>0){
-        player->draws--;
+    if(playerIsDeleted(player)){
+        return;
+    }
+    int play_time = gameGetPlayTime(game);
+    if(sign == REMOVE) {
+        if (player->wins > 0) {
+            player->wins--;
+        }
+        if(player->total_time >= play_time){
+            player->total_time-=play_time;
+        }
+        else{
+            player->total_time = 0;
+        }
+    }
+    else {
+        player->wins++;
+        player->total_time += play_time;
     }
     playerUpdateLevel(player);
 }
+
+static void playerUpdateLose(ChessPlayer player, ChessGame game, char sign){
+    if(!player || !game){
+        return;
+    }
+    if(playerIsDeleted(player)){
+        return;
+    }
+    int play_time = gameGetPlayTime(game);
+    if(sign == REMOVE) {
+        if (player->losses > 0) {
+            player->losses--;
+        }
+        if(player->total_time >= play_time){
+            player->total_time-=play_time;
+        }
+        else{
+            player->total_time = 0;
+        }
+    }
+    else {
+        player->losses++;
+        player->total_time += play_time;
+    }
+    playerUpdateLevel(player);
+}
+
+static void playerUpdateDraw(ChessPlayer player, ChessGame game, char sign){
+    if(!player || !game){
+        return;
+    }
+    if(playerIsDeleted(player)){
+        return;
+    }
+    int play_time = gameGetPlayTime(game);
+    if(sign == REMOVE) {
+        if (player->draws > 0) {
+            player->draws--;
+        }
+        if(player->total_time >= play_time){
+            player->total_time-=play_time;
+        }
+        else{
+            player->total_time = 0;
+        }
+    }
+    else {
+        player->draws++;
+        player->total_time += play_time;
+    }
+    playerUpdateLevel(player);
+}
+
