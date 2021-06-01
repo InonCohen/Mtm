@@ -627,13 +627,16 @@ static int countWinGamesForPlayer(ChessTournament tournament, PlayerID player_id
     if(!player){
         return BAD_INPUT;
     }
-    MAP_FOREACH(ChessGame, game, playerGetGames(player)){
+    Map games_of_player = playerGetGames(player);
+    MAP_FOREACH(char*, game_id, games_of_player){
+        ChessGame game = mapGet(games_of_player, game_id);
         if((gameGetWinner(game) == FIRST_PLAYER && gameGetPlayer1ID(game) == playerGetID(player)) ||
             (gameGetWinner(game) == SECOND_PLAYER && gameGetPlayer2ID(game) == playerGetID(player))){
                 win_games_counter++;
         }
-        gameDestroy(game);
+        free(game_id);
     }
+    mapDestroy(games_of_player);
     return win_games_counter;
 }
 
@@ -643,12 +646,16 @@ static int countLostGamesForPlayer(ChessTournament tournament, PlayerID player_i
     if(!player){
         return BAD_INPUT;
     }
-    MAP_FOREACH(ChessGame, game, playerGetGames(player)){
+    Map games = playerGetGames(player);
+    MAP_FOREACH(char*, game_id, games){
+        ChessGame game = mapGet(games,game_id);
         if((gameGetWinner(game) == SECOND_PLAYER && gameGetPlayer1ID(game) == playerGetID(player)) ||
            (gameGetWinner(game) == FIRST_PLAYER && gameGetPlayer2ID(game) == playerGetID(player))){
             lost_games_counter++;
         }
+        free(game_id);
     }
+    mapDestroy(games);
     return lost_games_counter;
 }
 
