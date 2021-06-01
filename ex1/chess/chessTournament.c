@@ -636,7 +636,6 @@ static int countWinGamesForPlayer(ChessTournament tournament, PlayerID player_id
         }
         free(game_id);
     }
-    mapDestroy(games_of_player);
     return win_games_counter;
 }
 
