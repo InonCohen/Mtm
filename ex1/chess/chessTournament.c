@@ -349,6 +349,7 @@ ChessResult tournamentEndTournament(ChessTournament tournament) {
         }
         playerIDDestroy(player_id);
     }
+    mapDestroy(players_rank);
     // In a case of a single player has max rank
     if(mapGetSize(players_have_max_rank) == 1){
         tournament->tournament_winner_player_id = (PlayerID)mapGetFirst(players_have_max_rank);
@@ -358,9 +359,8 @@ ChessResult tournamentEndTournament(ChessTournament tournament) {
     // Find max win_games
     int max_win_games = 0;
     Map players_win_games = mapCopy(players_have_max_rank);
+    mapDestroy(players_have_max_rank);
     if(!players_win_games){
-        mapDestroy(players_have_max_rank);
-        mapDestroy(players_rank);
         return CHESS_OUT_OF_MEMORY;
     }
     MAP_FOREACH(PlayerID, player_id, players_win_games){
@@ -372,10 +372,8 @@ ChessResult tournamentEndTournament(ChessTournament tournament) {
     }
     // Find all players have max_win_games
     Map max_win_games_players = mapCopy(players_win_games);
+    mapDestroy(players_win_games);
     if(!max_win_games_players){
-        mapDestroy(players_win_games);
-        mapDestroy(players_have_max_rank);
-        mapDestroy(players_rank);
         return CHESS_OUT_OF_MEMORY;
     }
     mapClear(max_win_games_players);
@@ -387,9 +385,6 @@ ChessResult tournamentEndTournament(ChessTournament tournament) {
             if (result == MAP_OUT_OF_MEMORY){
                 playerIDDestroy(player_id);
                 mapDestroy(max_win_games_players);
-                mapDestroy(players_win_games);
-                mapDestroy(players_have_max_rank);
-                mapDestroy(players_rank);
                 return CHESS_OUT_OF_MEMORY;
             }
         }
@@ -403,11 +398,8 @@ ChessResult tournamentEndTournament(ChessTournament tournament) {
     // Else, there are multiple players have max win_games, compare min lost_games among those players.
     // Find min lost_games
     Map players_lost_games = mapCopy(max_win_games_players);
+    mapDestroy(max_win_games_players);
     if (!players_lost_games){
-        mapDestroy(max_win_games_players);
-        mapDestroy(players_win_games);
-        mapDestroy(players_have_max_rank);
-        mapDestroy(players_rank);
         return CHESS_OUT_OF_MEMORY;
     }
     int min_lost_games = *(int*)(mapGet(max_win_games_players, mapGetFirst(players_lost_games)));
@@ -420,11 +412,8 @@ ChessResult tournamentEndTournament(ChessTournament tournament) {
     }
     // Find all players have min lost_games
     Map min_players_lost_games = mapCopy(players_lost_games);
+    mapDestroy(players_lost_games);
     if(!min_players_lost_games){
-        mapDestroy(max_win_games_players);
-        mapDestroy(players_win_games);
-        mapDestroy(players_have_max_rank);
-        mapDestroy(players_rank);
         return CHESS_OUT_OF_MEMORY;
     }
     mapClear(min_players_lost_games);
@@ -434,10 +423,6 @@ ChessResult tournamentEndTournament(ChessTournament tournament) {
             MapResult result = mapPut(min_players_lost_games, player_id, 0);
             if (result == MAP_OUT_OF_MEMORY){
                 mapDestroy(min_players_lost_games);
-                mapDestroy(max_win_games_players);
-                mapDestroy(players_win_games);
-                mapDestroy(players_have_max_rank);
-                mapDestroy(players_rank);
                 return CHESS_OUT_OF_MEMORY;
             }
         }
@@ -446,6 +431,7 @@ ChessResult tournamentEndTournament(ChessTournament tournament) {
     // If there is a single player has min lost games, it will be the mapGetFirst (map length equals one), else
     // returns the min player_id, which is the mapGetFirst either due to map default ASC sort by key.
     tournament->tournament_winner_player_id = (PlayerID)mapGetFirst(min_players_lost_games);
+    mapDestroy(min_players_lost_games);
     return CHESS_SUCCESS;
 }
 
