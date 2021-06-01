@@ -26,7 +26,6 @@ typedef enum {
     GAME_SUCCESS
 } GameResult ;
 
-
 /**
 * gameCreate: Allocates a new game.
 *
@@ -39,6 +38,7 @@ typedef enum {
 *     NULL if an invalid argument was sent or if a memory allocation failed
 *     a new ChessGame otherwise
 */
+
 ChessGame gameCreate(int tournament_id, PlayerID player1_id, PlayerID player2_id, int play_time, Winner winner);
 
 /**
@@ -145,6 +145,4 @@ bool gamePlayerIsDeleted(ChessGame game);
 * @param game - The game of which player has been deleted
 */
 void gameMarkDeletedPlayerTrue(ChessGame game);
-
-
 #endif //EX1_CHESSGAME_H

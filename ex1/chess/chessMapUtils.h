@@ -60,6 +60,7 @@ MapDataElement tournamentsMapCopyData(MapDataElement data);
 */
 MapDataElement playersMapCopyData(MapDataElement data);
 
+
 /**
 * playersMapCopyKey: Creates a copy of target MapKeyElement.
 * @param to_copy - Target MapKeyElement. Real type: PlayerID.
@@ -100,6 +101,7 @@ MapKeyElement stringCopyFunc (MapKeyElement to_copy);
 * gamesMapFreeData: Deallocates target MapDataElement.
 * @param to_free - Target MapDataElement. Real type: ChessGame.
 */
+
 void gamesMapFreeData(MapDataElement to_free);
 
 /**

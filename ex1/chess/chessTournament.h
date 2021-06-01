@@ -25,20 +25,39 @@ int tournamentGetID(ChessTournament tournament);
  */
 Map tournamentGetGames(ChessTournament tournament);
 
-char* tournamentGetTournamentLocation(ChessTournament tournament);
+/**
+ * tournamentGetPlayer
+ * @param tournament
+ * @return
+ *  A copy of tournament->Players
+ */
+Map tournamentGetPlayers(ChessTournament tournament);
+
 
 Map tournamentGetGamesCounterOfPlayers(ChessTournament tournament);
 
+
+char* tournamentGetTournamentLocation(ChessTournament tournament);
+
 bool tournamentIsOver(ChessTournament tournament);
+
+/**
+ * tournamentLocationIsValid: Check if a tournament name is valid, by the following rules:
+ *  - Starts with a capital letter.
+ *  - Following letters can be only lowercase or space.
+ * @param tournament_name: Tournament name to check
+ * @return true if name isvalid, false otherwise.
+ */
+bool tournamentLocationIsValid(const char* tournament_name);
 
 ChessResult tournamentAddGame(ChessTournament tournament, ChessGame game);
 /**TODO: Implement a function called from chessRemovePlayer
  * tournamentRemovePlayer: remove a player from
  * @param player_id
  */
-void tournamentRemovePlayer(ChessTournament tournament, PlayerID player_id);
+ChessResult tournamentRemovePlayer(ChessTournament tournament, PlayerID player_id);
 
-int tournamentGetWinnerID(ChessTournament tournament);
+PlayerID tournamentGetWinnerPlayerID(ChessTournament tournament);
 
 int tournamentGetLongestGameTime(ChessTournament tournament);
 
@@ -61,7 +80,5 @@ int findMinLosesPlayerID(ChessTournament tournament);
  * @return
  */
 int findMaxWinsPlayerID(ChessTournament tournament);
-
-int tournamentGetNumOfAllPlayers(ChessTournament current_tournament);
 
 #endif //EX1_CHESSTOURNAMENT_H

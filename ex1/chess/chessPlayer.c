@@ -24,6 +24,7 @@ struct chess_player_t{
     bool is_deleted;
 };
 
+
 /**
  * playerUpdateWin: updates the player's statistics according to given game that is already in player's games map
  *
@@ -216,8 +217,8 @@ PlayerResult playerAddGame(ChessPlayer player, ChessGame game){
     if(strcmp(id1, player_id) != 0 && strcmp(id2, player_id) != 0) {
         return PLAYER_INVALID_ID;
     }
-    MapResult res = mapPut(games, gameGetID(game), game);
-    if(res!=MAP_SUCCESS){
+    MapResult result = mapPut(games, gameGetID(game), game);
+    if(result == MAP_OUT_OF_MEMORY){
         return PLAYER_OUT_OF_MEMORY;
     }
     if(gameGetWinner(game) == DRAW){

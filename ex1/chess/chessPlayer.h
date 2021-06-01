@@ -22,12 +22,6 @@ typedef enum {
     PLAYER_SAVE_FAILURE,
     PLAYER_SUCCESS
 } PlayerResult ;
-//
-///** Type for defining the Player */
-// In the meantime, defined in: chessDefs.h
-// typedef struct chess_player_t *chessPlayer;
-
-
 /**
  * playerCreate: create an empty player.
  *
@@ -36,7 +30,6 @@ typedef enum {
  *     in case of an allocation error)
  */
 ChessPlayer playerCreate(PlayerID id);
-
 /**
  * playerDestroy: free a player from memory, while updating played
  * games and tournaments.
@@ -45,7 +38,6 @@ ChessPlayer playerCreate(PlayerID id);
  *     allowed, and in that case the function does nothing.
  */
 void playerDestroy(ChessPlayer player);
-
 /**
 * playerCopy: Creates a copy of the target player.
 *
@@ -55,6 +47,7 @@ void playerDestroy(ChessPlayer player);
 * 	A ChessPlayer containing the same elements as player otherwise.
 */
 ChessPlayer playerCopy(ChessPlayer player);
+
 
 /**
 * playerGetID: Returns the id of target player.
@@ -250,4 +243,7 @@ void playerAddDraw(ChessPlayer player, ChessGame game);
 void playerRemoveDraw(ChessPlayer player, ChessGame game);
 
 
+void playerUpdateAccordingToGame(ChessPlayer player, GamePlayerOutcome old_outcome, GamePlayerOutcome new_outcome);
+
+void playerRemoveDraw(ChessPlayer player);
 #endif //EX1_CHESSPLAYER_H

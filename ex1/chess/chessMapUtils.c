@@ -151,7 +151,9 @@ int playersMapComp(MapKeyElement key1, MapKeyElement key2){
     }
     return playerIDCompare((PlayerID)key1, (PlayerID)key2);
 }
+
 int doubleCompFunc(MapKeyElement key1, MapKeyElement key2) {
+
     if (!key1 || !key2) {
         return BAD_INPUT;
     }
