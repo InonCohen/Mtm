@@ -241,4 +241,7 @@ void playerAddDraw(ChessPlayer player, ChessGame game);
  */
 void playerRemoveDraw(ChessPlayer player, ChessGame game);
 
+//void playerUpdateAccordingToGame(ChessPlayer player, GamePlayerOutcome old_outcome, GamePlayerOutcome new_outcome);
+//
+//void playerRemoveDraw(ChessPlayer player);
 #endif //EX1_CHESSPLAYER_H

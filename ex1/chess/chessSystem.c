@@ -57,7 +57,20 @@ static bool chessGameInTournament(ChessTournament tournament, char* game_id){
     return false;
 }
 
-static PlayerID buildPlayerIdFromMap (Map players, int id_int) {
+/**
+ * getPlayerIDFromMap: inserts the relevant PlayerID into id. If no player has ever been entered to the system
+ *                      with  id_int, id will be made with version 0.
+ *
+ * @param players    - a map that contains the chess system players. Must be non-NULL.
+ * @param id_int     - the player id. Must be positive.
+ * @return
+ *     a PlayerID which contains:
+ *          the player's ID - if there is such a player in the system with int_id.
+ *          a new id that never existed in the system's players map -
+ *                      if there was a player with such id_int, but it was deleted.
+ *          NULL - if there was a memory problem or the inputs were corrupted.
+ */
+PlayerID buildPlayerIdFromMap (Map players, int id_int) {
     if(!players || id_int <= 0) {
         return NULL;
     }
