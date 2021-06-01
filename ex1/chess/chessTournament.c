@@ -281,6 +281,7 @@ ChessResult tournamentAddGame(ChessTournament tournament, ChessGame game){
             playerIDDestroy(player2_id);
             playerDestroy(player2);
         }
+        playerDestroy(player2);
     }
     player1 = mapGet(tournament->tournament_players, player1_id);
     player2 = mapGet(tournament->tournament_players, player2_id);
@@ -353,6 +354,7 @@ ChessResult tournamentEndTournament(ChessTournament tournament) {
     // In a case of a single player has max rank
     if(mapGetSize(players_have_max_rank) == 1){
         tournament->tournament_winner_player_id = (PlayerID)mapGetFirst(players_have_max_rank);
+        mapDestroy(players_have_max_rank);
         return CHESS_SUCCESS;
     }
     // Else, there are multiple players have max score. Continue calculating max_win_games among players have max score
@@ -393,6 +395,7 @@ ChessResult tournamentEndTournament(ChessTournament tournament) {
     // In a case of a single player has max win_games
     if(mapGetSize(players_win_games) == 1){
         tournament->tournament_winner_player_id = (PlayerID)mapGetFirst(max_win_games_players);
+        mapDestroy(max_win_games_players);
         return CHESS_SUCCESS;
     }
     // Else, there are multiple players have max win_games, compare min lost_games among those players.
@@ -596,9 +599,10 @@ static PlayerID playersIDMapGetLastVersion(Map tournament_players, int player_in
         return NULL;
     }
 
-    PlayerID player_id_last_version;
+    PlayerID player_id_last_version = NULL;
     MAP_FOREACH(PlayerID, player_id, tournament_players){
         if (playerIDGetIntID(player_id) <= player_int_id){
+            playerIDDestroy(player_id_last_version);
             player_id_last_version = playerIDCopy(player_id);
         }
         else{
