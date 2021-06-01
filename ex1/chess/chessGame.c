@@ -17,7 +17,7 @@ struct chess_game_t{
 };
 
 /**
-* createGameID: Created a game ID in accordance to received data.
+* createGameID: Creates a game ID in accordance to received data.
  *                  The game id is of form tour_id1_id2, where tour is the received tournament_id,
  *                  id1 is player1_id_str, and id2 is player2_id_str
 * @param player1_id_str - a string representing game's first player ID.
