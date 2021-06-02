@@ -26,6 +26,8 @@ set(CHESS_C_FILES
         chess/chessPlayerID.c
         chess/chessTournament.c
         chess/chessSystem.c
+        chess/chessMapUtils.c
+        chess/strUtils.c
         )
 set(MAP_C_FILES
         map/map.c

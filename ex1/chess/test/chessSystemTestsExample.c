@@ -79,6 +79,12 @@ const char* testNames[] = {
         "testChessPrintLevelsAndTournamentStatistics"
 };
 
+#define NUMBER_TESTS 15
+
+void yellow(){
+  printf("\033[1;33m");
+}
+
 int main(int argc, char *argv[]) {
     if (argc == 1) {
         for (int test_idx = 0; test_idx < NUMBER_TESTS; test_idx++) {
