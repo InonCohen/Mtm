@@ -19,21 +19,21 @@ include_directories(chess/test)
 
 # Add the names of your source files here
 set(CHESS_C_FILES
-        Maaruf/map.c
-        Maaruf/chessSystem.c
-        Maaruf/chessTournament.c
-        Maaruf/chessPlayerID.c
-        Maaruf/chessGame.c
-        Maaruf/chessDefs.h
-        Maaruf/chessPlayer.c
-        Maaruf/chessMapUtils.c
-        Maaruf/strUtils.c
-        Maaruf/DLLNode.c
-        Maaruf/LinkedList.c
+        chess/map.c
+        chess/chessSystem.c
+        chess/chessTournament.c
+        chess/chessPlayerID.c
+        chess/chessGame.c
+        chess/chessDefs.h
+        chess/chessPlayer.c
+        chess/chessMapUtils.c
+        chess/strUtils.c
+        chess/DLLNode.c
+        chess/LinkedList.c
         )
 set(MAP_C_FILES)
 set(TEST_C_FILES
-        Maaruf/chessSystemTestsExample.c)
+        chess/chessSystemTestsExample.c)
 
 ## If needed, add libaries and set target properties.
 ## Notice that this part will have duplicate problems with "include_directories" section!

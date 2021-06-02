@@ -396,7 +396,6 @@ ChessResult tournamentFindWinner(ChessTournament tournament){
         }
         playerIDDestroy(player_id);
     }
-    /**TODO: Ohad, please notice the requirements for the winner - th most important thing is rank, then minimal number of LOSING GAMES, then maximal number of winning games, then lowest id... it goes a bit backwards here.*/
     // Find all players with rank max_rank
     Map players_have_max_rank = mapCopy(players_rank);
     if(!players_have_max_rank){
@@ -424,11 +423,11 @@ ChessResult tournamentFindWinner(ChessTournament tournament){
         mapDestroy(players_have_max_rank);
         return CHESS_OUT_OF_MEMORY;
     }
-    ChessPlayer first_player = mapGet(players_have_max_rank, first_id_in_list);
+    ChessPlayer first_player = mapGet(tournament->tournament_players, first_id_in_list);
     int min_losing_games = playerGetNumOfLosses(first_player);
     playerIDDestroy(first_id_in_list);
     MAP_FOREACH(PlayerID, player_id, players_have_max_rank){
-        ChessPlayer current_player = mapGet(players_have_max_rank, player_id);
+        ChessPlayer current_player = mapGet(tournament->tournament_players, player_id);
         int num_of_games_lost = playerGetNumOfLosses(current_player);
         if(num_of_games_lost<min_losing_games){
             min_losing_games = num_of_games_lost;
@@ -441,7 +440,7 @@ ChessResult tournamentFindWinner(ChessTournament tournament){
         return CHESS_OUT_OF_MEMORY;
     }
     MAP_FOREACH(PlayerID, player_id, players_have_max_rank) {
-        ChessPlayer current_player = mapGet(players_have_max_rank, player_id);
+        ChessPlayer current_player = mapGet(tournament->tournament_players, player_id);
         if(playerGetNumOfLosses(current_player)>min_losing_games){
             mapRemove(minimal_losers, player_id);
         }
