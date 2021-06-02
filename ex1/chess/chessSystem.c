@@ -373,13 +373,13 @@ ChessResult chessRemovePlayer(ChessSystem chess, int player_id){
     if(!new_player_id){
         return CHESS_OUT_OF_MEMORY;
     }
-    ChessPlayer player = mapGet(players, new_player_id);
-    if(!player){
+    ChessPlayer player_in_system = mapGet(players, new_player_id);
+    if(!player_in_system){
         playerIDDestroy(new_player_id);
         return CHESS_PLAYER_NOT_EXIST;
     }
-    //Remove player from all its games in the entire system
-    Map player_games = playerGetGames(player);
+    //Remove player_in_system from all its games in the entire system
+    Map player_games = playerGetGames(player_in_system);
     MAP_FOREACH(char*, iter, player_games) {
         ChessGame current_game_in_player = (ChessGame) mapGet(player_games, iter);
         int current_game_tournament_id = gameGetTournamentID(current_game_in_player);
@@ -391,16 +391,17 @@ ChessResult chessRemovePlayer(ChessSystem chess, int player_id){
             Map players_of_tournament = tournamentGetPlayers(current_tournament);
             Map games_of_tournament = tournamentGetGames(current_tournament);
             ChessGame current_game_in_tournament = (ChessGame) mapGet(games_of_tournament, iter);
+            ChessPlayer player_in_tournament = (ChessPlayer)mapGet(players, new_player_id);
             ChessPlayer other_player_in_system = mapGet(players, other_player_id);
             ChessPlayer other_player_in_tournament = mapGet(players_of_tournament, other_player_id);
-            gameUpdateLoser(current_game_in_player, player, other_player_in_system);
-            gameUpdateLoser(current_game_in_tournament, player, other_player_in_tournament);
+            gameUpdateLoser(current_game_in_player, player_in_system, other_player_in_system);
+            gameUpdateLoser(current_game_in_tournament, player_in_tournament, other_player_in_tournament);
             gameMarkDeletedPlayerTrue(current_game_in_player);
         }
         free(iter);
     }
 
-    //remove player from all active tournaments
+    //remove player_in_system from all active tournaments
     MAP_FOREACH(char*, iter, player_games) {
         ChessGame current_game = (ChessGame) mapGet(player_games, iter);
         int current_tournament_id = gameGetTournamentID(current_game);
@@ -411,7 +412,7 @@ ChessResult chessRemovePlayer(ChessSystem chess, int player_id){
         free(iter);
     }
     playerIDDestroy(new_player_id);
-    playerSetIsDeleted(player);
+    playerSetIsDeleted(player_in_system);
     return CHESS_SUCCESS;
 }
 /**
