@@ -443,7 +443,7 @@ bool testSavePlayerLevelsAndTournamentStatistics_maaroof()
 
     ASSERT_TEST(chessAddGame(sys1, 4, player_1, player_2, FIRST_PLAYER, 6) == CHESS_SUCCESS);
     ASSERT_TEST(chessEndTournament(sys1, 4) == CHESS_SUCCESS);
-    fileName = "/Users/ohadbenacot/CLionProjects/Mtm/ex1/chess/test/maaruf_our_output/tournament_statistics_1.txt";
+    fileName = "/Users/ohadbenacot/CLionProjects/Mtm/ex1/chess/test/your_output/tournament_statistics_1.txt";
     ASSERT_TEST(chessSaveTournamentStatistics(sys1, fileName) == CHESS_SUCCESS);
     
     FILE* f1 = fopen("your_output/tournament_statistics_1.txt", "r");
