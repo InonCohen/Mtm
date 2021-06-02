@@ -47,7 +47,11 @@ static bool chessGameInTournament(ChessTournament tournament, char* game_id){
     }
     Map games = tournamentGetGames(tournament);
     if(mapContains(games,game_id)){
-        if (gamePlayerIsDeleted(mapGet(games,game_id))) {
+        ChessGame game = mapGet(games,game_id);
+        if(!game){
+            return false;
+        }
+        if (gamePlayerIsDeleted(game)) {
             return false;
         }
         else{

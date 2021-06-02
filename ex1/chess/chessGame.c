@@ -78,6 +78,7 @@ ChessGame gameCopy(ChessGame game){
     new_game->tournament_id = game->tournament_id;
     new_game->play_time = game->play_time;
     new_game->game_winner = game->game_winner;
+    new_game->player_deleted = game->player_deleted;
     int len_of_id = (int)strlen(game->id);
     char* id_copy = malloc(len_of_id + 1);
     if(!id_copy){

@@ -128,7 +128,11 @@ MapKeyElement playersMapCopyKey(MapDataElement key){
     if(!key){
         return NULL;
     }
-    return playerIDCopy((PlayerID)key);
+    PlayerID to_return = playerIDCopy((PlayerID)key);
+    if(!to_return){
+        return NULL;
+    }
+    return (void*)to_return;
 }
 
 void playersMapFreeData(MapDataElement data){
