@@ -116,9 +116,15 @@ ChessPlayer playerCopy(ChessPlayer player){
             return NULL;
         }
     }
+    else{
+        player_copy->games = mapCreate(gamesMapCopyData, stringCopyFunc, gamesMapFreeData, mapFreeStringKey, mapCompareStringKeys);
+        if(!player_copy->games){
+            free(player_copy);
+        }
+    }
     player_copy->id = playerIDCopy(player->id);
     if(!player_copy->id){
-        mapDestroy(player->games);
+        mapDestroy(player_copy->games);
         playerDestroy(player_copy);
         return NULL;
     }

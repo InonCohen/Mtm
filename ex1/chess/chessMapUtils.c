@@ -41,7 +41,7 @@ MapDataElement playersMapCopyData(MapDataElement data){
     if(!copy){
         return NULL;
     }
-    return copy;
+    return (void*)copy;
 }
 
 void gamesMapFreeData(void* to_free){
