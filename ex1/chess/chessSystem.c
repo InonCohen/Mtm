@@ -556,7 +556,7 @@ ChessResult chessSaveTournamentStatistics (ChessSystem chess, char* path_file){
             int num_of_players = tournamentGetNumOfAllPlayers(current_tournament);
             fprintf(file, "%d\n", winner_int_id);
             fprintf(file, "%d\n", longest_game_time);
-            fprintf(file, "%f.2f\n", average_game_time);
+            fprintf(file, "%.2f\n", average_game_time);
             fprintf(file, "%s\n", location);
             fprintf(file, "%d\n", num_of_games);
             fprintf(file, "%d\n", num_of_players);
