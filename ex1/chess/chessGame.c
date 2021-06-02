@@ -32,7 +32,7 @@ static char* createGameID(char* player1_id_str, char* player2_id_str, int tourna
 
 ChessGame gameCreate(int tournament_id, PlayerID player1_id, PlayerID player2_id,
                           int play_time, Winner winner){
-    if(tournament_id<=0||!player1_id||!player2_id||play_time<0||(winner!=FIRST_PLAYER && winner!=SECOND_PLAYER)){
+    if(tournament_id<=0||!player1_id||!player2_id||play_time<0||(winner!=FIRST_PLAYER && winner!=SECOND_PLAYER && winner!=DRAW)){
         return NULL;
     }
     if (!playerIDCompare(player1_id, player2_id)){
