@@ -208,7 +208,6 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
         playerIDDestroy(player2_id);
         return CHESS_GAME_ALREADY_EXISTS;
     }
-
     if(play_time < 0){
         gameDestroy(game);
         playerIDDestroy(player1_id);
@@ -338,7 +337,6 @@ ChessResult chessRemoveTournament (ChessSystem chess, int tournament_id){
     ChessTournament tournament_to_remove = mapGet(chess->tournaments, &tournament_id);
     Map tournament_games = tournamentGetGames(tournament_to_remove);
     if (mapGetSize(tournament_games) > 0) {
-        return CHESS_TOURNAMENT_NOT_EXIST;
         MAP_FOREACH(char*, iter, tournament_games) {
             ChessGame current_game = mapGet(tournament_games, iter);
             PlayerID id1 = gameGetPlayer1ID(current_game);
