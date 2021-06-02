@@ -700,7 +700,7 @@ const char* testNames[] = {
         "testPlayerLevelsAdvanced_maaroof"
 };
 
-#define NUMBER_TESTS 8 //TODO: change to 15
+#define NUMBER_TESTS 15 //TODO: change to 15
 void yellow(){
   printf("\033[1;33m");
 }
