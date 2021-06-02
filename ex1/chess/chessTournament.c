@@ -733,7 +733,6 @@ static ChessResult tournamentAddPlayer(ChessTournament tournament, ChessPlayer p
     }
     MapResult map_result = mapPut(tournament->tournament_players, player_id, player);
     if (map_result == MAP_OUT_OF_MEMORY) {
-
         return CHESS_OUT_OF_MEMORY;
     }
     return CHESS_SUCCESS;

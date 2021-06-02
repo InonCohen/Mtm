@@ -112,7 +112,7 @@ ChessPlayer playerCopy(ChessPlayer player){
     if(player->games){
         player_copy->games = mapCopy(player->games);
         if(!player_copy->games){
-            playerDestroy(player_copy);
+            free(player_copy);
             return NULL;
         }
     }
