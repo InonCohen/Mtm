@@ -378,6 +378,7 @@ ChessResult chessRemovePlayer(ChessSystem chess, int player_id){
         playerIDDestroy(new_player_id);
         return CHESS_PLAYER_NOT_EXIST;
     }
+    //Remove player from all its games
     Map player_games = playerGetGames(player);
     MAP_FOREACH(char*, iter, player_games) {
         ChessGame current_game = (ChessGame) mapGet(player_games, iter);
@@ -389,9 +390,17 @@ ChessResult chessRemovePlayer(ChessSystem chess, int player_id){
         assert(current_tournament != NULL);
         if (!tournamentIsOver(current_tournament)) {
             gameUpdateLoser(current_game, player, other_player);
+            gameMarkDeletedPlayerTrue(current_game);
+        }
+        free(iter);
+    }
+    MAP_FOREACH(char*, iter, player_games) {
+        ChessGame current_game = (ChessGame) mapGet(player_games, iter);
+        int current_tournament_id = gameGetTournamentID(current_game);
+        ChessTournament current_tournament = mapGet(chess->tournaments, &current_tournament_id);
+        if(!tournamentIsOver(current_tournament)){
             tournamentRemovePlayer(current_tournament, new_player_id);
         }
-        gameMarkDeletedPlayerTrue(current_game);
         free(iter);
     }
     playerIDDestroy(new_player_id);

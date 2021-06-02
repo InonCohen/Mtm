@@ -94,8 +94,15 @@ void  testChessGameCreateAndDestroy(){
 
 void testChessGameAdd(ChessSystem sys) {
     printf("Testing Add...\n");
-    int player1 = 12, player2 = 17, play_time = 30, tour_id = 1;
+    int player1 = 1, player2 = 2, player3 = 3, play_time = 30, tour_id = 1;
     ChessResult res = chessAddGame(sys, tour_id, player1, player2, FIRST_PLAYER, play_time);
+    if (res != CHESS_SUCCESS) {
+        printf("An error occurred. Code: %d\n", res);
+    }
+    else{
+        printf("\nTEST FINISHED SUCCESSFULLY\n\n");
+    }
+    res = chessAddGame(sys, tour_id, player1, player3, FIRST_PLAYER, play_time);
     if (res != CHESS_SUCCESS) {
         printf("An error occurred. Code: %d\n", res);
     }
@@ -106,7 +113,7 @@ void testChessGameAdd(ChessSystem sys) {
 
 void testChessRemovePlayer(ChessSystem sys){
     printf("Testing RemovePlayer...\n");
-    ChessResult res = chessRemovePlayer(sys,12);
+    ChessResult res = chessRemovePlayer(sys,1);
     if(res != CHESS_SUCCESS){
         printf("An error occurred. Code: %d\n", res);
         return;
@@ -124,7 +131,7 @@ void testChessCalcAvgPlayTime(ChessSystem sys){
         printf("An error occurred. Code: %d\n", res);
         return;
     }
-    avg = chessCalculateAveragePlayTime(sys,17, &res);
+    avg = chessCalculateAveragePlayTime(sys,2, &res);
     if(res != CHESS_SUCCESS){
         printf("An error occurred. Code: %d\n", res);
     }
@@ -161,15 +168,15 @@ int main(){
     if(res != CHESS_SUCCESS) {
         printf("Adding Tournament to Chess Failed. Error: %d\n", res);
     }
+    res = chessAddTournament(sys, 2, 50, "Belgium");
+    if(res != CHESS_SUCCESS) {
+        printf("Adding Tournament to Chess Failed. Error: %d\n", res);
+    }
     testChessGameAdd(sys);
     testChessRemovePlayer(sys);
     testChessCalcAvgPlayTime(sys);
     testChessGameAdd(sys);
     testChessPrintPlayersLevels(sys);
-    res = chessRemoveTournament(sys, 1);
-    if(res != CHESS_SUCCESS) {
-        printf("Removing Tournament to Chess Failed. Error: %d\n", res);
-    }
     chessDestroy(sys);
     printf("ALL TESTS FINISHED SUCCESSFULLY\n\n");
     return 0;
