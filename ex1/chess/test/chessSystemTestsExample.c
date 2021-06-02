@@ -702,6 +702,7 @@ const char* testNames[] = {
 };
 
 #define NUMBER_TESTS 15
+
 void yellow(){
   printf("\033[1;33m");
 }
