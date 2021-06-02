@@ -276,15 +276,17 @@ ChessResult tournamentAddGame(ChessTournament tournament, ChessGame game){
     // Insert players from game into tournament->players
     bool player1_is_new = false;
     bool player2_is_new = false;
-
     PlayerID player1_id = gameGetPlayer1ID(game);
     ChessPlayer player1 = mapGet(tournament->tournament_players, player1_id);
     if (!player1){
+        player1_is_new = true;
         player1 = playerCreate(player1_id);
         ChessResult chess_result = tournamentAddPlayer(tournament, player1);
         if(chess_result != CHESS_SUCCESS){
+            mapRemove(tournament->tournament_games, game_id);
             playerIDDestroy(player1_id);
             playerDestroy(player1);
+            return chess_result;
         }
         playerDestroy(player1);
         player1 = NULL;
@@ -292,18 +294,23 @@ ChessResult tournamentAddGame(ChessTournament tournament, ChessGame game){
     PlayerID player2_id = gameGetPlayer2ID(game);
     ChessPlayer player2 = mapGet(tournament->tournament_players, player2_id);
     if (!player2){
+        player2_is_new = true;
         player2 = playerCreate(player2_id);
         ChessResult chess_result = tournamentAddPlayer(tournament, player2);
         if(chess_result != CHESS_SUCCESS){
+            mapRemove(tournament->tournament_games, game_id);
             playerIDDestroy(player2_id);
             playerDestroy(player2);
+            if(player1_is_new){
+                mapRemove(tournament->tournament_players,player1_id);
+            }
+            return chess_result;
         }
         playerDestroy(player2);
         player2 = NULL;
     }
     player1 = mapGet(tournament->tournament_players, player1_id);
     player2 = mapGet(tournament->tournament_players, player2_id);
-  
     //TODO: Ohad, I Added these lines, please check their correctness
     int player1_num_of_games = playerGetNumOfGames(player1);
     int player2_num_of_games = playerGetNumOfGames(player2);
