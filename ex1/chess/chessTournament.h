@@ -83,4 +83,5 @@ int findMinLosesPlayerID(ChessTournament tournament);
  */
 int findMaxWinsPlayerID(ChessTournament tournament);
 
+
 #endif //EX1_CHESSTOURNAMENT_H

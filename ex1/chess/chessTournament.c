@@ -222,11 +222,7 @@ Map tournamentGetPlayers(ChessTournament tournament){
     if (!tournament){
         return NULL;
     }
-    Map result = mapCopy(tournament->tournament_players);
-    if (!result){
-        return NULL;
-    }
-    return result;
+    return tournament->tournament_players;
 }
 
 char* tournamentGetTournamentLocation(ChessTournament tournament){
@@ -499,10 +495,10 @@ ChessResult tournamentRemovePlayer(ChessTournament tournament, PlayerID player_i
     // For every game that player is taking part of set rival to be the winner.
     MAP_FOREACH(char*, game_id, tournament->tournament_games){
         ChessGame game = mapGet(tournament->tournament_games, game_id);
-        if (gameGetPlayer1ID(game) == player_id){
+        if (playerIDCompare(gameGetPlayer1ID(game), player_id)){
             gameSetWinner(game,SECOND_PLAYER);
         }
-        if (gameGetPlayer2ID(game) == player_id){
+        if (playerIDCompare(gameGetPlayer2ID(game), player_id)){
             gameSetWinner(game,FIRST_PLAYER);
         }
         free(game_id);
@@ -596,7 +592,7 @@ static Map buildPlayersRankMap(ChessTournament tournament){
     if(!tournament){
         return NULL;
     }
-    Map active_players = tournamentGetPlayers(tournament);
+    Map active_players = mapCopy(tournamentGetPlayers(tournament));
     if (!active_players) {
         return NULL;
     }
