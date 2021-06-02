@@ -67,6 +67,8 @@ int tournamentGetNumOfGames(ChessTournament tournament);
 
 int tournamentGetNumOfAllPlayers(ChessTournament tournament);
 
+ChessResult tournamentFindWinner(ChessTournament tournament);
+
 ChessResult tournamentEndTournament(ChessTournament tournament);
 /**
  * findMaxWinsPlayerID: Finds the *single* player_id with the less Loses. If There is no such player return 0.

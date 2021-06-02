@@ -17,7 +17,7 @@ struct chess_game_t{
 };
 
 /**
-* createGameID: Created a game ID in accordance to received data.
+* createGameID: Creates a game ID in accordance to received data.
  *                  The game id is of form tour_id1_id2, where tour is the received tournament_id,
  *                  id1 is player1_id_str, and id2 is player2_id_str
 * @param player1_id_str - a string representing game's first player ID.
@@ -32,7 +32,7 @@ static char* createGameID(char* player1_id_str, char* player2_id_str, int tourna
 
 ChessGame gameCreate(int tournament_id, PlayerID player1_id, PlayerID player2_id,
                           int play_time, Winner winner){
-    if(tournament_id<=0||!player1_id||!player2_id||play_time<0||(winner!=FIRST_PLAYER && winner!=SECOND_PLAYER)){
+    if(tournament_id<=0||!player1_id||!player2_id||play_time<0||(winner!=FIRST_PLAYER && winner!=SECOND_PLAYER && winner!=DRAW)){
         return NULL;
     }
     if (!playerIDCompare(player1_id, player2_id)){
@@ -78,6 +78,7 @@ ChessGame gameCopy(ChessGame game){
     new_game->tournament_id = game->tournament_id;
     new_game->play_time = game->play_time;
     new_game->game_winner = game->game_winner;
+    new_game->player_deleted = game->player_deleted;
     int len_of_id = (int)strlen(game->id);
     char* id_copy = malloc(len_of_id + 1);
     if(!id_copy){

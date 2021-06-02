@@ -19,20 +19,21 @@ include_directories(chess/test)
 
 # Add the names of your source files here
 set(CHESS_C_FILES
-        chess/strUtils.c
-        chess/chessMapUtils.c
-        chess/chessGame.c
-        chess/chessPlayer.c
-        chess/chessPlayerID.c
-        chess/chessTournament.c
+        map/map.c
+        map/DLLNode.c
+        map/LinkedList.c
         chess/chessSystem.c
+        chess/chessTournament.c
+        chess/chessPlayerID.c
+        chess/chessGame.c
+        chess/chessDefs.h
+        chess/chessPlayer.c
+        chess/chessMapUtils.c
+        chess/strUtils.c
         chess/chessMapUtils.c
         chess/strUtils.c
         )
-set(MAP_C_FILES
-        map/map.c
-        map/DLLNode.c
-        map/LinkedList.c)
+set(MAP_C_FILES)
 set(TEST_C_FILES
         chess/test/chessSystemTestsExample.c)
 

@@ -41,7 +41,7 @@ MapDataElement playersMapCopyData(MapDataElement data){
     if(!copy){
         return NULL;
     }
-    return copy;
+    return (void*)copy;
 }
 
 void gamesMapFreeData(void* to_free){
@@ -128,7 +128,11 @@ MapKeyElement playersMapCopyKey(MapDataElement key){
     if(!key){
         return NULL;
     }
-    return playerIDCopy((PlayerID)key);
+    PlayerID to_return = playerIDCopy((PlayerID)key);
+    if(!to_return){
+        return NULL;
+    }
+    return (void*)to_return;
 }
 
 void playersMapFreeData(MapDataElement data){
@@ -169,4 +173,3 @@ int doubleCompFunc(MapKeyElement key1, MapKeyElement key2) {
         return 1;
     }
 }
-/*End: Internal map's utility functions of mapElement */

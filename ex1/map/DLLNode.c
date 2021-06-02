@@ -101,10 +101,10 @@ Node nodeCopy (Node node){
 }
 
 NodeKeyElement nodeGetKey(Node node){
-    if(node == NULL){
+    if(!node){
         return NULL;
     }
-    if(node->key == NULL){
+    if(!node->key){
         return NULL;
     }
     NodeKeyElement key_copy = (node->copyKeyFunc)(node->key);
