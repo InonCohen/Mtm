@@ -134,12 +134,8 @@ void chessDestroy(ChessSystem chess){
     if(!chess){
         return;
     }
-    if(chess->tournaments){
-        mapDestroy(chess->tournaments);
-    }
-    if(chess->players){
-        mapDestroy(chess->players);
-    }
+    mapDestroy(chess->tournaments);
+    mapDestroy(chess->players);
     free(chess);
 }//Done.
 
@@ -427,10 +423,6 @@ ChessResult chessEndTournament (ChessSystem chess, int tournament_id){
     }
     if(tournamentIsOver(tournament)){
         return CHESS_TOURNAMENT_ENDED;
-    }
-    Map tournament_games = tournamentGetGames(tournament);
-    if(mapGetSize(tournament_games) == 0){
-        return CHESS_NO_GAMES;
     }
     ChessResult result = tournamentEndTournament(tournament);
     if(result == CHESS_SUCCESS){
