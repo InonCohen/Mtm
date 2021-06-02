@@ -30,7 +30,8 @@ set(CHESS_C_FILES
         chess/chessPlayer.c
         chess/chessMapUtils.c
         chess/strUtils.c
-
+        chess/chessMapUtils.c
+        chess/strUtils.c
         )
 set(MAP_C_FILES)
 set(TEST_C_FILES
