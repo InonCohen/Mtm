@@ -35,4 +35,3 @@ set(TEST_C_FILES
 
 add_executable(chessSystem ${CHESS_C_FILES} ${MAP_C_FILES} ${TEST_C_FILES})
 
-

@@ -148,7 +148,6 @@ void gameSetWinner(ChessGame game, Winner winner){
     game->game_winner = winner;
 }
 
-
 bool gamePlayerIsDeleted(ChessGame game){
     if(!game){
         return true;
