@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdio.h>
-#include <assert.h>
 
 #define BAD_INPUT (-999)
 typedef int make_iso_compilers_happy;
@@ -35,17 +34,18 @@ bool isListSorted(Node list){
     return true;
 }
 
-Node copyNode(Node node){
-    if(!node){
+Node copyList(Node list){
+    if(!list){
         return NULL;
     }
-    Node node_copy = malloc(sizeof (*node_copy));
-    if(!node_copy){
+    Node list_copy = malloc(sizeof (*list_copy));
+    if(!list_copy){
         return NULL;
     }
-    node_copy->x = node->x;
-    node_copy->next = node->next;
-    return node_copy;
+    list_copy->x = list->x;
+    list_copy->next = copyList(list->next);
+
+    return list_copy;
 }
 
 void destroyList(Node list){
@@ -84,34 +84,47 @@ Node mergeSortedLists(Node list1, Node list2, ErrorCode *error_code){
         return NULL;
     }
 
-//    Node iterator1 = list1, iterator2 = list2;
     Node merged_sorted_list = malloc(sizeof(*merged_sorted_list));
     if(!merged_sorted_list){
         *error_code = MEMORY_ERROR;
         return NULL;
     }
+    merged_sorted_list->next = NULL;
+    Node iter1 = list1, iter2 = list2, iter_merged = merged_sorted_list;
 
-    if(list1->x <= list2->x){
-        merged_sorted_list->x = list1->x;
+    if(iter1->x <= iter2->x){
+        iter_merged->x = iter1->x;
+        iter1 = iter1->next;
     }
     else{
-        merged_sorted_list->x = list2->x;
+        iter_merged->x = iter2->x;
+        iter2 = iter2->next;
+    }
+    iter_merged = iter_merged->next;
+    while(iter1 || iter2){
+        iter_merged = malloc(sizeof (*iter_merged));
+        if(iter1 == NULL){
+            iter_merged = copyList(iter2);
+            iter2 = NULL;
+            continue;
+        }
+
+        if(iter2 == NULL){
+            iter_merged = iter1;
+            iter1 = NULL;
+            continue;
+        }
+
+        if(iter1->x < iter2->x){
+            merged_sorted_list->x = iter1->x;
+            merged_sorted_list->next = iter1->next;
+        }
+
+
+        iter1 = iter1->next;
+        iter2 = iter2->next;
     }
 
-//    while(iterator1 && iterator2){
-//        merged_sorted_list = malloc(sizeof(*merged_sorted_list));
-//        if(!merged_sorted_list){
-//            *error_code = MEMORY_ERROR;
-//            destroyList(merged_sorted_list);
-//            return NULL;
-//        }
-//        if(iterator1->x < iterator2->x){
-//            merged_sorted_list->x = iterator1->x;
-//            merged_sorted_list->next = iterator1->next;
-//        }
-//        iterator1 = iterator1->next;
-//        iterator2 = iterator2->next;
-//    }
     list1 = list1->next;
     list2 = list2->next;
     *error_code = SUCCESS;
@@ -174,17 +187,17 @@ ErrorCode listGeneralTest() {
         iter2 = iter2->next;
     }
 
-    assert(isListSorted(list1));
-    assert(isListSorted(list2));
-    printList(list1);
-    printList(list2);
+    Node copy_list = copyList(list1);
     destroyList(list1);
     destroyList(list2);
+    destroyList(copy_list);
     return SUCCESS;
 }
 
 
 int main(){
+    printf("$$$$$$$$$$$\n");
     listGeneralTest();
+    printf("$$$$$$$$$$$\n");
 
 }
