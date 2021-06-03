@@ -1,12 +1,12 @@
 #ifndef EX1_CHESSTOURNAMENT_H
 #define EX1_CHESSTOURNAMENT_H
 #include <stdbool.h>
-#include "../map/map.h"
+#include "map.h"
 #include "chessSystem.h"
 #include "chessGame.h"
 #include "chessPlayerID.h"
 
-/** Type for representing a chess game in a tournament */
+/** Type for representing a chess tournament in system */
 typedef struct chess_tournament_t *ChessTournament;
 
 /**
@@ -37,7 +37,6 @@ ChessTournament tournamentCopy(ChessTournament src_tournament);
  * @param tournament Tournament to destroy
  */
 void tournamentDestroy(ChessTournament tournament);
-
 /**
  * Get map of games of a tournament.
  * @param tournament Tournament to get Map of games from.
@@ -77,6 +76,7 @@ PlayerID tournamentGetWinnerPlayerID(ChessTournament tournament);
  * @return
  *  true if tournament is over, false otherwise.
  */
+
 bool tournamentIsOver(ChessTournament tournament);
 
 /**
@@ -98,30 +98,66 @@ bool tournamentLocationIsValid(const char* tournament_name);
  *  3. Foreach player call tournamentAddGameForPlayer(tournament, player)
  *      RAISES: CHESS_EXCEEDED_GAMES, CHESS_OUT_OF_MEMORY
  *  4. Finally, Add the game into  tournament_games and return CHESS_SUCCESS
- * @param tournament: tournament to add game into
- * @param game: game to be added
- * @return TOURNAMENT_SUCCESS if game was added successfully, matching TournamentResult otherwise.
+ *
+ * @param tournament - chess tournament to which game is to be added. Must be non-NULL.
+ * @param game - the game to be added.
+
+ * @return
+ *     CHESS_NULL_ARGUMENT - if tournament or game are NULL.
+ *     CHESS_OUT_OF_MEMORY - if an allocation failed
+ *     CHESS_TOURNAMENT_ENDED - if the tournament already ended
+ *     CHESS_GAME_ALREADY_EXISTS - if there is already a game in the tournament with the same two players
+ *                                  (both were not removed).
+ *     CHESS_EXCEEDED_GAMES - if one of the players played the maximum number of games allowed
+ *     CHESS_SUCCESS - if game was added successfully.
+
  */
 ChessResult tournamentAddGame(ChessTournament tournament, ChessGame game);
 
 /**
+
  * TODO: USE IT
  * tournamentRemovePlayer: remove a player from
  * @param player_id
+ * tournamentRemovePlayer: removes the player from the target tournament.
+ *
+ * @param tournament - tournament that contains the player. Must be non-NULL.
+ * @param player_id - the player id. Must be non-NULL.
+ *
+ * @return
+ *     CHESS_NULL_ARGUMENT - if tournament or player_id are NULL.
+ *     CHESS_PLAYER_NOT_EXIST - if the player does not exist in the tournament.
+ *     CHESS_SUCCESS - if player was removed successfully.
  */
 ChessResult tournamentRemovePlayer(ChessTournament tournament, PlayerID player_id);
 
 /**
- * @param tournament Tournament to calculate longest game time for.
+ * tournamentGetWinnerPlayerID: returns the ID of the winner of target tournament
+ * @param tournament - target tournament
  * @return
- *  longest game time <int>, or a negative number if an error occurred.
+ *      NULL if tournament is NULL or if it is still ongoing (no winner yet)
+ *      The tournament's winner ID, otherwise
+ */
+PlayerID tournamentGetWinnerPlayerID(ChessTournament tournament);
+
+/**
+ * tournamentGetLongestGameTime: returns the time duration in seconds of the longest
+ *                              game in target tournament
+ * @param tournament - target tournament
+ * @return
+ *      (-999) if tournament is NULL or no games were played yet
+ *      the longest time of an existing game in the tournament, otherwise
  */
 int tournamentGetLongestGameTime(ChessTournament tournament);
 
 /**
- * @param tournament Tournament to calculate average game time for.
+ * tournamentGetAverageGameTime: returns the average time duration in seconds of games in target
+ *                              tournament
+ * @param tournament - target tournament
  * @return
- *  average game time <double>, or a negative number if an error occurred.
+ *      (-999) if tournament is NULL
+ *      the average time of a game in the tournament, otherwise
+ *      Notice: if no games took place, the average time for game is 0
  */
 double tournamentGetAverageGameTime(ChessTournament tournament);
 

@@ -20,6 +20,7 @@ set(CHESS_C_FILES
         chess/chessSystem.c
         chess/chessTournament.c
         chess/chessGame.c
+        chess/chessDefinitions.h
         chess/chessPlayer.c
         chess/chessPlayerID.c
         chess/chessDefs.h

@@ -1,6 +1,7 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <stdio.h>
+
 
 #define BAD_INPUT (-999)
 typedef int make_iso_compilers_happy;
@@ -67,11 +68,14 @@ void printList(Node list){
 
     Node iter = list;
     printf("Printing List...\n");
-    while(iter->next){
-        printf("Node Data: %d\n", iter->x);
+    while(iter) {
+        printf("%d", iter->x);
+        if (iter->next) {
+            printf(" -> ");
+        }
+        printf("\n");
         iter = iter->next;
     }
-    printf("\n");
 }
 
 Node mergeSortedLists(Node list1, Node list2, ErrorCode *error_code){
@@ -83,50 +87,32 @@ Node mergeSortedLists(Node list1, Node list2, ErrorCode *error_code){
         *error_code = UNSORTED_LIST;
         return NULL;
     }
-
-    Node merged_sorted_list = malloc(sizeof(*merged_sorted_list));
-    if(!merged_sorted_list){
+    Node merged_sorted_list = NULL;
+    Node iter1 = list1, iter2 = list2, *iter_merged = &merged_sorted_list;
+    while(iter1 && iter2) {
+        *iter_merged = malloc(sizeof(**iter_merged));
+        if (!(*iter_merged)) {
+            destroyList(merged_sorted_list);
+            *error_code = MEMORY_ERROR;
+            return NULL;
+        }
+        (*iter_merged)->next = NULL;
+        if (iter1->x <= iter2->x) {
+            (*iter_merged)->x = iter1->x;
+            iter1 = iter1->next;
+        } else {
+            (*iter_merged)->x = iter2->x;
+            iter2 = iter2->next;
+        }
+        (*iter_merged) = (*iter_merged)->next;
+    }
+    Node rest_to_copy = (iter1==NULL) ? iter2 : iter1;
+    (*iter_merged) = copyList(rest_to_copy);
+    if(!(*iter_merged)) {
+        destroyList(merged_sorted_list);
         *error_code = MEMORY_ERROR;
         return NULL;
     }
-    merged_sorted_list->next = NULL;
-    Node iter1 = list1, iter2 = list2, iter_merged = merged_sorted_list;
-
-    if(iter1->x <= iter2->x){
-        iter_merged->x = iter1->x;
-        iter1 = iter1->next;
-    }
-    else{
-        iter_merged->x = iter2->x;
-        iter2 = iter2->next;
-    }
-    iter_merged = iter_merged->next;
-    while(iter1 || iter2){
-        iter_merged = malloc(sizeof (*iter_merged));
-        if(iter1 == NULL){
-            iter_merged = copyList(iter2);
-            iter2 = NULL;
-            continue;
-        }
-
-        if(iter2 == NULL){
-            iter_merged = iter1;
-            iter1 = NULL;
-            continue;
-        }
-
-        if(iter1->x < iter2->x){
-            merged_sorted_list->x = iter1->x;
-            merged_sorted_list->next = iter1->next;
-        }
-
-
-        iter1 = iter1->next;
-        iter2 = iter2->next;
-    }
-
-    list1 = list1->next;
-    list2 = list2->next;
     *error_code = SUCCESS;
     return merged_sorted_list;
 }
@@ -138,7 +124,6 @@ Node mergeSortedLists(Node list1, Node list2, ErrorCode *error_code){
  */
 ErrorCode listGeneralTest() {
     int SIZE = 5;
-
     // Creating Nodes
     Node iter1 = malloc(sizeof(*iter1));
     if (!iter1) {
@@ -149,7 +134,6 @@ ErrorCode listGeneralTest() {
         free(iter1);
         return MEMORY_ERROR;
     }
-
     // Saves a ptr to list start
     Node list1 = iter1;
     Node list2 = iter2;
@@ -160,7 +144,6 @@ ErrorCode listGeneralTest() {
     iter1->next = next1;
     iter2->x = 0;
     iter2->next = next2;
-
     // Build List
     for (int i = 0; i < SIZE; i++) {
         next1 = malloc(sizeof(*next1));
@@ -180,13 +163,11 @@ ErrorCode listGeneralTest() {
         }
         next2->x = (i+1) * 2;
         next2->next = NULL;
-
         iter1->next = next1;
         iter2->next = next2;
         iter1 = iter1->next;
         iter2 = iter2->next;
     }
-
     Node copy_list = copyList(list1);
     destroyList(list1);
     destroyList(list2);

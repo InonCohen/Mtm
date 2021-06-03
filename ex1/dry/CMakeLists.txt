@@ -11,3 +11,4 @@ set(MTM_FLAGS_RELEASE "${MTM_FLAGS_DEBUG} -DNDEBUG")
 set(CMAKE_C_FLAGS ${MTM_FLAGS_RELEASE})
 
 add_executable(dry dry.c)
+

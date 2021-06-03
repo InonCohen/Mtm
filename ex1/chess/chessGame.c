@@ -5,7 +5,7 @@
 #include "chessGame.h"
 #include "chessSystem.h"
 #include "chessPlayerID.h"
-
+#define BAD_INPUT (-999)
 struct chess_game_t{
     char* id;
     int tournament_id;

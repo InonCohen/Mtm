@@ -18,3 +18,7 @@
 /ex1/cmake-build-debug/
 *.log
 *.log
+/ex1/cmake-build-debug/
+/ex1/cmake-build-debug/
+/ex1/cmake-build-debug/Testing/
+/ex1/cmake-build-debug/

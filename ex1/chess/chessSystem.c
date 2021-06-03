@@ -3,7 +3,7 @@
 #include <assert.h>
 #include <ctype.h>
 #include <string.h>
-#include "../map/map.h"
+#include "map.h"
 #include "chessMapUtils.h"
 #include "chessSystem.h"
 #include "chessTournament.h"

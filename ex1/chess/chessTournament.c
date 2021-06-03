@@ -1,7 +1,8 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
-#include "../map/map.h"
+#include "map.h"
+#include "strUtils.h"
 #include "chessSystem.h"
 #include "chessTournament.h"
 #include "chessMapUtils.h"
@@ -11,6 +12,7 @@
 
 #define WIN_GAME_SCORE 2
 #define DRAW_GAME_SCORE 1
+#define BAD_INPUT (-999)
 
 struct chess_tournament_t{
     int tournament_id;
@@ -229,7 +231,7 @@ char* tournamentGetTournamentLocation(ChessTournament tournament){
 
 bool tournamentIsOver(ChessTournament tournament){
     if(!tournament){
-        return NULL;
+        return true;
     }
     return tournament->tournament_winner_player_id != NULL;
 }
@@ -404,6 +406,9 @@ double tournamentGetAverageGameTime(ChessTournament tournament){
         return (double)BAD_INPUT;
     }
     Map games = tournament->tournament_games;
+    if(mapGetSize(games) == 0){
+        return 0;
+    }
     int all_time = 0;
     MAP_FOREACH(char*, iter, games){
         ChessGame current_game = mapGet(games, iter);

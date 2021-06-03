@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "chessDefs.h"
+#include "chessDefinitions.h"
 #include "chessSystem.h"
 #include "chessPlayerID.h"
 #include "chessPlayer.h"
@@ -20,7 +20,6 @@
 *     NULL if an invalid argument was sent or if a memory allocation failed
 *     a new ChessGame otherwise
 */
-
 ChessGame gameCreate(int tournament_id, PlayerID player1_id, PlayerID player2_id, int play_time, Winner winner);
 
 /**
@@ -31,7 +30,6 @@ ChessGame gameCreate(int tournament_id, PlayerID player1_id, PlayerID player2_id
 * 	NULL if a NULL was sent or a memory allocation failed.
 * 	A ChessGame identical to game otherwise.
 */
-
 ChessGame gameCopy(ChessGame game);
 
 /**
@@ -117,8 +115,8 @@ void gameSetWinner(ChessGame game, Winner winner);
 * gamePlayerIsDeleted: Returns whether one or more of the game's players were deleted
 * @param game - The game of which players status is required.
 * @return
-* 	true if a NULL pointer was sent.
-* 	Otherwise the game player_deleted field, which indicates if at least one of the players is marked as deleted
+* 	true if a NULL pointer was sent or one (or more) of the game's players was deleted.
+* 	false otherwise
 */
 bool gamePlayerIsDeleted(ChessGame game);
 
