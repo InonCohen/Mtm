@@ -237,8 +237,8 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
             return CHESS_OUT_OF_MEMORY;
         }
     }
-    PlayerResult player_res = playerAddGame(player1, game);
-    if (player_res != PLAYER_SUCCESS) {
+    ChessResult player_res = playerAddGame(player1, game);
+    if (player_res != CHESS_SUCCESS) {
         if (player1_is_new) {
             playerDestroy(player1);
         }
@@ -251,7 +251,7 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
         return (ChessResult)player_res;
     }
     player_res = playerAddGame(player2, game);
-    if (player_res != PLAYER_SUCCESS) {
+    if (player_res != CHESS_SUCCESS) {
         if (player1_is_new) {
             playerDestroy(player1);
         }
