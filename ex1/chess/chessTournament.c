@@ -20,7 +20,6 @@ struct chess_tournament_t{
     PlayerID tournament_winner_player_id;
     Map tournament_games;
     Map tournament_players;
-    Map games_counter_of_players;
 };
 
 /**
@@ -118,7 +117,6 @@ ChessTournament tournamentCreate(int tournament_id, int max_games_per_player, co
     strcpy(result->tournament_location, tournament_location);
     result->tournament_games = tournament_games;
     result->tournament_players = tournament_players;
-    result->games_counter_of_players = games_counter_of_players;
     return result;
 }
 
@@ -156,20 +154,11 @@ ChessTournament tournamentCopy(ChessTournament src_tournament){
         free(dst_tournament);
         return NULL;
     }
-    Map games_counter_of_players = mapCopy(src_tournament->games_counter_of_players);
-    if(!games_counter_of_players){
-        free(dst_tournament->tournament_location);
-        playerIDDestroy(dst_tournament_winner_player_id);
-        mapDestroy(tournament_games);
-        free(dst_tournament);
-        return NULL;
-    }
     Map tournament_players = mapCopy(src_tournament->tournament_players);
     if(!tournament_players){
         free(dst_tournament->tournament_location);
         playerIDDestroy(dst_tournament_winner_player_id);
         mapDestroy(tournament_games);
-        mapDestroy(games_counter_of_players);
         free(dst_tournament);
         return NULL;
     }
@@ -180,7 +169,6 @@ ChessTournament tournamentCopy(ChessTournament src_tournament){
     dst_tournament->tournament_winner_player_id = dst_tournament_winner_player_id;
     dst_tournament->tournament_games = tournament_games;
     dst_tournament->tournament_players = tournament_players;
-    dst_tournament->games_counter_of_players = games_counter_of_players;
     return dst_tournament;
 }
 
@@ -197,9 +185,6 @@ void tournamentDestroy(ChessTournament tournament){
     }
     if(tournament->tournament_players) {
         mapDestroy(tournament->tournament_players);
-    }
-    if(tournament->games_counter_of_players) {
-        mapDestroy(tournament->games_counter_of_players);
     }
     free(tournament);
 }
