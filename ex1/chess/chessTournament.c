@@ -307,14 +307,12 @@ ChessResult tournamentAddGame(ChessTournament tournament, ChessGame game){
     }
     player1 = mapGet(tournament->tournament_players, player1_id);
     player2 = mapGet(tournament->tournament_players, player2_id);
-    //TODO: Ohad, I Added these lines, please check their correctness
     int player1_num_of_games = playerGetNumOfGames(player1);
     int player2_num_of_games = playerGetNumOfGames(player2);
     if(player1_num_of_games == tournament->max_games_per_player || player2_num_of_games == tournament->max_games_per_player){
         mapRemove(tournament->tournament_games, game_id);
         return CHESS_EXCEEDED_GAMES;
     }
-            //End of comment
     PlayerResult res = playerAddGame(player1, game);
     if(res != PLAYER_SUCCESS)
     {
@@ -621,24 +619,28 @@ static Map buildPlayersRankMap(ChessTournament tournament){
         ChessGame current_game = mapGet(tournament->tournament_games, current_game_id);
         PlayerID player1_id = gameGetPlayer1ID(current_game);
         PlayerID player2_id = gameGetPlayer2ID(current_game);
-        int *player1_rank_ptr = NULL, *player2_rank_ptr=NULL;
-        if(mapContains(players_rank, player1_id)){
-            player1_rank_ptr = (int*)mapGet(players_rank, player1_id);
+        int *player1_rank_ptr = NULL, *player2_rank_ptr = NULL;
+        if (mapContains(players_rank, player1_id)) {
+            player1_rank_ptr = (int *) mapGet(players_rank, player1_id);
         }
-        if(mapContains(players_rank, player2_id)) {
-            player2_rank_ptr = (int*)mapGet(players_rank, player2_id);
+        if (mapContains(players_rank, player2_id)) {
+            player2_rank_ptr = (int *) mapGet(players_rank, player2_id);
         }
-        if (gameGetWinner(current_game) == FIRST_PLAYER && player1_rank_ptr){
-            (*player1_rank_ptr) += WIN_GAME_SCORE;
+        if (gameGetWinner(current_game) == FIRST_PLAYER) {
+            if (player1_rank_ptr) {
+                (*player1_rank_ptr) += WIN_GAME_SCORE;
+            }
         }
-        else if (gameGetWinner(current_game) == SECOND_PLAYER && player2_rank_ptr){
-            (*player2_rank_ptr) += WIN_GAME_SCORE;
+        if (gameGetWinner(current_game) == SECOND_PLAYER) {
+            if (player2_rank_ptr) {
+                (*player2_rank_ptr) += WIN_GAME_SCORE;
+            }
         }
-        else{
-            if(player1_rank_ptr){
+        if (gameGetWinner(current_game) == DRAW) {
+            if (player1_rank_ptr) {
                 (*player1_rank_ptr) += DRAW_GAME_SCORE;
             }
-            if(player2_rank_ptr){
+            if (player2_rank_ptr) {
                 (*player2_rank_ptr) += DRAW_GAME_SCORE;
             }
         }

@@ -624,9 +624,7 @@ bool testTournamentWinner_maaroof() {
     ASSERT_TEST(chessAddGame(sys1, 2, player_3, player_2, SECOND_PLAYER, 6) == CHESS_SUCCESS);
     ASSERT_TEST(chessAddGame(sys1, 2, player_4, player_5, FIRST_PLAYER, 7) == CHESS_SUCCESS);
     ASSERT_TEST(chessAddGame(sys1, 2, player_4, player_6, FIRST_PLAYER, 8) == CHESS_SUCCESS);
-
     ASSERT_TEST(chessRemovePlayer(sys1,3) == CHESS_SUCCESS);//remove winner
-
     ASSERT_TEST(chessEndTournament(sys1, 2) == CHESS_SUCCESS);
     file_name = "your_output/winner_of_tour_2.txt";
     chessSaveTournamentStatistics(sys1, file_name);
@@ -634,7 +632,6 @@ bool testTournamentWinner_maaroof() {
     ASSERT_TEST(f != NULL);
     ASSERT_TEST(chessSavePlayersLevels(sys1, f) == CHESS_SUCCESS);
     fclose(f);
-
     //sys2:
     ASSERT_TEST(chessAddGame(sys2, 2, player_1, player_5, DRAW, 1) == CHESS_SUCCESS);
     ASSERT_TEST(chessAddGame(sys2, 2, player_1, player_6, DRAW, 2) == CHESS_SUCCESS);
@@ -644,9 +641,7 @@ bool testTournamentWinner_maaroof() {
     ASSERT_TEST(chessAddGame(sys2, 2, player_3, player_2, SECOND_PLAYER, 6) == CHESS_SUCCESS);
     ASSERT_TEST(chessAddGame(sys2, 2, player_4, player_5, FIRST_PLAYER, 7) == CHESS_SUCCESS);
     ASSERT_TEST(chessAddGame(sys2, 2, player_4, player_6, FIRST_PLAYER, 8) == CHESS_SUCCESS);
-
     ASSERT_TEST(chessRemovePlayer(sys2, 3) == CHESS_SUCCESS);//remove winner
-
     ASSERT_TEST(chessEndTournament(sys2, 2) == CHESS_SUCCESS);
     file_name = "your_output/winner_of_tour_2_sys2.txt";
     chessSaveTournamentStatistics(sys2, file_name);
@@ -654,11 +649,8 @@ bool testTournamentWinner_maaroof() {
     ASSERT_TEST(f != NULL);
     ASSERT_TEST(chessSavePlayersLevels(sys2, f) == CHESS_SUCCESS);
     fclose(f);
-
     chessDestroy(sys2);
     chessDestroy(sys1);
-    
-   
     return true;
 }
 

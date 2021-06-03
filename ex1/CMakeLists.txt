@@ -33,7 +33,7 @@ set(CHESS_C_FILES
         )
 set(MAP_C_FILES)
 set(TEST_C_FILES
-        chess/chessSystemTestsExample.c)
+        Maaruf/chessSystemTestsExample.c)
 
 ## If needed, add libaries and set target properties.
 ## Notice that this part will have duplicate problems with "include_directories" section!

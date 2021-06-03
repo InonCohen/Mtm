@@ -8,6 +8,7 @@
 #include "../strUtils.h"
 #include "../chessSystem.h"
 #include "../chessTournament.h"
+#include "test_utilities.h"
 #define LENGTH_OF_ZERO_STRING 2
 #define MORE_LENGTH 3
 #define SEP "-"
@@ -157,27 +158,59 @@ void testChessPrintPlayersLevels(ChessSystem sys){
 }
 
 int main(){
-    printf("TESTING CHESS GAME\n\n");
-    testChessGameCreateAndDestroy();
-    ChessSystem sys = chessCreate();
-    if(!sys){
-        printf("Couldn't Create sys\n");
-        exit(1);
-    }
-    ChessResult res = chessAddTournament(sys, 1, 50, "Belgium");
-    if(res != CHESS_SUCCESS) {
-        printf("Adding Tournament to Chess Failed. Error: %d\n", res);
-    }
-    res = chessAddTournament(sys, 2, 50, "Belgium");
-    if(res != CHESS_SUCCESS) {
-        printf("Adding Tournament to Chess Failed. Error: %d\n", res);
-    }
-    testChessGameAdd(sys);
-    testChessRemovePlayer(sys);
-    testChessCalcAvgPlayTime(sys);
-    testChessGameAdd(sys);
-    testChessPrintPlayersLevels(sys);
-    chessDestroy(sys);
-    printf("ALL TESTS FINISHED SUCCESSFULLY\n\n");
+    ChessSystem sys1 = chessCreate();
+
+
+    ASSERT_TEST(chessAddTournament(sys1, 1, 5, "Location one") == CHESS_SUCCESS);
+    ASSERT_TEST(chessAddTournament(sys1, 2, 5, "Location two") == CHESS_SUCCESS);
+
+
+    int player_1 = 1;
+    int player_2 = 2;
+    int player_3 = 3;
+    int player_4 = 4;
+    int player_5 = 5;
+    int player_6 = 6;
+
+//tournament_1
+    ASSERT_TEST(chessAddGame(sys1, 1, player_1, player_5, DRAW, 1) == CHESS_SUCCESS);
+    ASSERT_TEST(chessAddGame(sys1, 1, player_1, player_6, DRAW, 2) == CHESS_SUCCESS);
+    ASSERT_TEST(chessAddGame(sys1, 1, player_1, player_2, FIRST_PLAYER, 3) == CHESS_SUCCESS);
+    ASSERT_TEST(chessAddGame(sys1, 1, player_1, player_3, SECOND_PLAYER, 4) == CHESS_SUCCESS);
+    ASSERT_TEST(chessAddGame(sys1, 1, player_3, player_4, FIRST_PLAYER, 5) == CHESS_SUCCESS);
+    ASSERT_TEST(chessAddGame(sys1, 1, player_3, player_2, SECOND_PLAYER, 6) == CHESS_SUCCESS);
+    ASSERT_TEST(chessAddGame(sys1, 1, player_4, player_5, FIRST_PLAYER, 7) == CHESS_SUCCESS);
+    ASSERT_TEST(chessAddGame(sys1, 1, player_4, player_6, FIRST_PLAYER, 8) == CHESS_SUCCESS);
+
+    ASSERT_TEST(chessEndTournament(sys1, 1) == CHESS_SUCCESS);
+    char* file_name = "your_output/winner_of_tour_1.txt";
+    FILE* f = fopen("your_output/test_player_score_1.txt", "w");
+    ASSERT_TEST(f != NULL);
+    ASSERT_TEST(chessSavePlayersLevels(sys1, f) == CHESS_SUCCESS);
+    ASSERT_TEST(chessSaveTournamentStatistics(sys1, file_name) == CHESS_SUCCESS);
+    fclose(f);
+
+//tournament_2
+    ASSERT_TEST(chessAddGame(sys1, 2, player_1, player_5, DRAW, 1) == CHESS_SUCCESS);
+    ASSERT_TEST(chessAddGame(sys1, 2, player_1, player_6, DRAW, 1) == CHESS_SUCCESS);
+    ASSERT_TEST(chessAddGame(sys1, 2, player_1, player_2, FIRST_PLAYER, 1) == CHESS_SUCCESS);
+    ASSERT_TEST(chessAddGame(sys1, 2, player_1, player_3, SECOND_PLAYER, 1) == CHESS_SUCCESS);
+    ASSERT_TEST(chessAddGame(sys1, 2, player_3, player_4, FIRST_PLAYER, 1) == CHESS_SUCCESS);
+    ASSERT_TEST(chessAddGame(sys1, 2, player_3, player_2, SECOND_PLAYER, 1) == CHESS_SUCCESS);
+    ASSERT_TEST(chessAddGame(sys1, 2, player_4, player_5, FIRST_PLAYER, 1) == CHESS_SUCCESS);
+    ASSERT_TEST(chessAddGame(sys1, 2, player_4, player_6, FIRST_PLAYER, 1) == CHESS_SUCCESS);
+
+    ASSERT_TEST(chessRemovePlayer(sys1,3) == CHESS_SUCCESS);//remove winner
+
+    ASSERT_TEST(chessEndTournament(sys1, 2) == CHESS_SUCCESS);
+    file_name = "your_output/winner_of_tour_2.txt";
+    chessSaveTournamentStatistics(sys1, file_name);
+    f = fopen("your_output/test_player_score_2_after_remove.txt", "w");
+    ASSERT_TEST(f != NULL);
+    ASSERT_TEST(chessSavePlayersLevels(sys1, f) == CHESS_SUCCESS);
+    fclose(f);
+
+    chessDestroy(sys1);
+
     return 0;
 }
