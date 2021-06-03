@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="EX1"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/cmake-build-debug-csl3"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j32 -f &quot;/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/cmake-build-debug-csl3/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/gmake -j32 -f &quot;/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/cmake-build-debug-csl3/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j32 -f &quot;/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/cmake-build-debug-csl3/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j32 -f &quot;/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/cmake-build-debug-csl3/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/cmake-build-debug-csl3"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j32 -f &quot;/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/cmake-build-debug-csl3/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/gmake -j32 -f &quot;/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/cmake-build-debug-csl3/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j32 -f &quot;/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/cmake-build-debug-csl3/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j32 -f &quot;/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/cmake-build-debug-csl3/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/cmake-build-debug-csl3"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j32 -f &quot;/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/cmake-build-debug-csl3/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/gmake -j32 -f &quot;/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/cmake-build-debug-csl3/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j32 -f &quot;/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/cmake-build-debug-csl3/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j32 -f &quot;/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/cmake-build-debug-csl3/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="chessSystem">
+				<Option output="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/cmake-build-debug-csl3/chessSystem" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/cmake-build-debug-csl3"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/map"/>
+					<Add directory="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/chess"/>
+					<Add directory="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/chess/test"/>
+					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/4.8.5/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j32 -f &quot;/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/cmake-build-debug-csl3/Makefile&quot;  VERBOSE=1 chessSystem"/>
+					<CompileFile command="/usr/bin/gmake -j32 -f &quot;/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/cmake-build-debug-csl3/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j32 -f &quot;/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/cmake-build-debug-csl3/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j32 -f &quot;/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/cmake-build-debug-csl3/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="chessSystem/fast">
+				<Option output="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/cmake-build-debug-csl3/chessSystem" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/cmake-build-debug-csl3"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/map"/>
+					<Add directory="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/chess"/>
+					<Add directory="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/chess/test"/>
+					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/4.8.5/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -j32 -f &quot;/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/cmake-build-debug-csl3/Makefile&quot;  VERBOSE=1 chessSystem/fast"/>
+					<CompileFile command="/usr/bin/gmake -j32 -f &quot;/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/cmake-build-debug-csl3/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j32 -f &quot;/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/cmake-build-debug-csl3/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j32 -f &quot;/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/cmake-build-debug-csl3/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/DLLNode.c">
+			<Option target="chessSystem"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/DLLNode.h">
+			<Option target="chessSystem"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/LinkedList.c">
+			<Option target="chessSystem"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/LinkedList.h">
+			<Option target="chessSystem"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/chessGame.c">
+			<Option target="chessSystem"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/chessGame.h">
+			<Option target="chessSystem"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/chessMapUtils.c">
+			<Option target="chessSystem"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/chessMapUtils.h">
+			<Option target="chessSystem"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/chessPlayer.c">
+			<Option target="chessSystem"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/chessPlayer.h">
+			<Option target="chessSystem"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/chessPlayerID.c">
+			<Option target="chessSystem"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/chessPlayerID.h">
+			<Option target="chessSystem"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/chessSystem.c">
+			<Option target="chessSystem"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/chessSystem.h">
+			<Option target="chessSystem"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/chessTournament.c">
+			<Option target="chessSystem"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/chessTournament.h">
+			<Option target="chessSystem"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/map.c">
+			<Option target="chessSystem"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/map.h">
+			<Option target="chessSystem"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/strUtils.c">
+			<Option target="chessSystem"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/strUtils.h">
+			<Option target="chessSystem"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/test/chessSystemTestsExample.c">
+			<Option target="chessSystem"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
