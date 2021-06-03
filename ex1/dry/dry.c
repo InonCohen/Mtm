@@ -4,7 +4,7 @@
 #include <assert.h>
 
 #define BAD_INPUT (-999)
-
+typedef int make_iso_compilers_happy;
 typedef struct node_t {
     int x;
     struct node_t *next;
@@ -65,7 +65,7 @@ void printList(Node list){
         return;
     }
 
-    Node iter = copyNode(list);
+    Node iter = list;
     printf("Printing List...\n");
     while(iter->next){
         printf("Node Data: %d\n", iter->x);
@@ -90,6 +90,7 @@ Node mergeSortedLists(Node list1, Node list2, ErrorCode *error_code){
         *error_code = MEMORY_ERROR;
         return NULL;
     }
+
     if(list1->x <= list2->x){
         merged_sorted_list->x = list1->x;
     }
@@ -139,7 +140,6 @@ ErrorCode listGeneralTest() {
     // Saves a ptr to list start
     Node list1 = iter1;
     Node list2 = iter2;
-
     // Init List Node Zero
     Node next1 = NULL;
     Node next2 = NULL;
@@ -150,7 +150,6 @@ ErrorCode listGeneralTest() {
 
     // Build List
     for (int i = 0; i < SIZE; i++) {
-
         next1 = malloc(sizeof(*next1));
         if (!next1) {
             destroyList(list1);
@@ -175,8 +174,12 @@ ErrorCode listGeneralTest() {
         iter2 = iter2->next;
     }
 
+    assert(isListSorted(list1));
+    assert(isListSorted(list2));
     printList(list1);
     printList(list2);
+    destroyList(list1);
+    destroyList(list2);
     return SUCCESS;
 }
 
