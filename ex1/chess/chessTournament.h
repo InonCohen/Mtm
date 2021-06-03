@@ -10,97 +10,94 @@
 typedef struct chess_tournament_t *ChessTournament;
 
 /**
-* tournamentCreate: Allocates a new tournament.
-*
-* @param tournament_id - the id number that is unique to the new tournament in the system
-* @param max_games_per_player - the maximal number of games a player can play in that tournament
-* @param tournament_location - a string representing the place where the tournament takes place
-*                              Must begin with a capital letter, then followed by lower_case
-*                              letters and spaces only
-* @return
-*     NULL if an invalid argument was sent or if a memory allocation failed
-*     a new ChessTournament otherwise
-*/
+ * Creates a new tournament, set the params described below as attributes. In addition, set the attribute
+ * winner_player_id to NULL and creates games and players empty Maps.
+ * Assumptions:
+ *  - Tournament properties validity-check is made by Chess System.
+ * @param tournament_id
+ * @param max_games_per_player
+ * @param tournament_location Must begin with a capital letter and trailing lowercase/space characters
+ * @return
+ *      an initialized ChessTournament object, or NULL in a case of an error occurred.
+ */
 ChessTournament tournamentCreate(int tournament_id, int max_games_per_player, const char* tournament_location);
 
 /**
-* tournamentCopy: Creates a copy of target tournament.
-*
-* @param src_tournament - Target tournament.
-* @return
-* 	NULL if a NULL was sent or a memory allocation failed.
-* 	A ChessTournament identical to src_tournament otherwise.
-*/
+ * Creates a shallow copy of a tournament.
+ * Assumptions:
+ *  - Tournament properties validity-check is made by Chess System.
+ * @param src_tournament Tournament to copy.
+ * @return
+ *      the copied ChessTournament, or NULL in a case an error ocurred.
+ */
 ChessTournament tournamentCopy(ChessTournament src_tournament);
 
 /**
-* tournamentDestroy: Deallocates an existing tournament and its components.
-*
-* @param tournament - Target tournament to be deallocated. If tournament is
-*                   NULL nothing will be done
-*/
+ * Destroys a tournament
+ * @param tournament Tournament to destroy
+ */
 void tournamentDestroy(ChessTournament tournament);
-
 /**
-* tournamentGetID: Returns the id of the tournament
-* @param tournament - The tournament of which id is required
-* @return
-* 	NULL if a NULL pointer was sent.
-* 	Otherwise the tournament ID.
-*/
-int tournamentGetID(ChessTournament tournament);
-
-/**
- * tournamentGetGames: Get the Map of games of the tournament.
- * @param tournament - The tournament to get Map of games from.
+ * Get map of games of a tournament.
+ * @param tournament Tournament to get Map of games from.
  * @return
- *      A Map of the tournament games.
- *      Notice: returns a reference to the original Map, not a copy.
+ *  Map of tournament games.
+ *  Notice: returns a pointer to original Map, not a copy.
  */
 Map tournamentGetGames(ChessTournament tournament);
 
 /**
- * tournamentGetPlayers: Get the Map of players of the tournament.
- * @param tournament
+ * Get map of players of a tournament.
+ * @param tournament Tournament to get Map of players from.
  * @return
- *      A Map of the tournament players.
- *      Notice: returns a reference to the original Map, not a copy.
+ *  Map of tournament_players.
+ *  Notice: returns a pointer to original Map, not a copy.
  */
 Map tournamentGetPlayers(ChessTournament tournament);
 
-//TODO: Document, get source, is it used?
-Map tournamentGetGamesCounterOfPlayers(ChessTournament tournament);
-
 /**
-* tournamentGetTournamentLocation: Returns the location of the tournament
-* @param tournament - The tournament of which location is required
-* @return
-* 	NULL if a NULL pointer was sent.
-* 	Otherwise the tournament location string.
-*      Notice: returns a reference to the original string, not a copy.
-*/
+ * Get location of a tournament.
+ * @param tournament Tournament to get Map of players from.
+ * @return
+ *  tournament location pointer.
+ */
 char* tournamentGetTournamentLocation(ChessTournament tournament);
 
 /**
-* tournamentIsOver: Returns whether the tournament is over, aka there is a winner
-* @param tournament - The tournament of which finished status is required.
-* @return
-* 	true if a NULL pointer was sent or the tournament is over.
-* 	false otherwise
- * 	*/
+ *
+ * @param tournament Tournament to get a winner_player_id
+ * @return
+ *  PlayerID of the winner if exist, NULL otherwise
+ */
+PlayerID tournamentGetWinnerPlayerID(ChessTournament tournament);
+
+/**
+ * @param tournament Tournament to check if is over, meaning that there is a winner to the tournament.
+ * @return
+ *  true if tournament is over, false otherwise.
+ */
+
 bool tournamentIsOver(ChessTournament tournament);
 
 /**
- * tournamentLocationIsValid: Check if a tournament name is valid, by the following rules:
+ * Check if a tournament name is valid by the following rules:
  *  - Starts with a capital letter.
  *  - Following letters can be only lowercase or space.
  * @param tournament_name: Tournament name to check
- * @return true if name is valid and non-NULL, false otherwise.
+ * @return
+ *  true if name is valid, false otherwise.
  */
 bool tournamentLocationIsValid(const char* tournament_name);
 
 /**
- * tournamentAddGame: add a new match to a chess tournament.
+ * tournamentAddGame: Add a game into tournament.
+ *  Do:
+ *  1. Check arguments validity
+ *      RAISES: CHESS_NULL_ARGUMENT, CHESS_TOURNAMENT_ENDED, CHESS_GAME_ALREADY_EXISTS
+ *  2. Foreach player call addPlayer(tournament, player).
+ *  3. Foreach player call tournamentAddGameForPlayer(tournament, player)
+ *      RAISES: CHESS_EXCEEDED_GAMES, CHESS_OUT_OF_MEMORY
+ *  4. Finally, Add the game into  tournament_games and return CHESS_SUCCESS
  *
  * @param tournament - chess tournament to which game is to be added. Must be non-NULL.
  * @param game - the game to be added.
@@ -113,10 +110,15 @@ bool tournamentLocationIsValid(const char* tournament_name);
  *                                  (both were not removed).
  *     CHESS_EXCEEDED_GAMES - if one of the players played the maximum number of games allowed
  *     CHESS_SUCCESS - if game was added successfully.
+
  */
 ChessResult tournamentAddGame(ChessTournament tournament, ChessGame game);
 
 /**
+
+ * TODO: USE IT
+ * tournamentRemovePlayer: remove a player from
+ * @param player_id
  * tournamentRemovePlayer: removes the player from the target tournament.
  *
  * @param tournament - tournament that contains the player. Must be non-NULL.
@@ -159,25 +161,33 @@ int tournamentGetLongestGameTime(ChessTournament tournament);
  */
 double tournamentGetAverageGameTime(ChessTournament tournament);
 
+/**
+ * @param tournament Tournament to calculate number of games for.
+ * @return
+ *  number of games <int>, or a negative number if an error occurred.
+ */
 int tournamentGetNumOfGames(ChessTournament tournament);
 
+/**
+ *
+ * @param tournament Tournament to calculate number of players for.
+ * @return
+ *  number of players <int>, or a negative number if an error occurred.
+ */
 int tournamentGetNumOfAllPlayers(ChessTournament tournament);
 
-ChessResult tournamentFindWinner(ChessTournament tournament);
-
+/**
+ * End a tournament if it isn't empty (returns CHESS_NO_GAMES otherwise).
+ * Tournament Winner Calculate: the winner of a tournament:
+ *  - A single player with max points
+ *  - Else, a single player with max winning games from players meet the previous requirements.
+ *  - Else, a single player with min loses from players meet the previous requirements.
+ *  - Else, a single player with min id meet the previous requirements.
+ * Finally, set it in an internal property: tournament->tournament_winner_player_id
+ * @param tournament
+ * @return
+ *  CHESS_SUCCESS if tournament ended successfully, proper ChessResult otherwise.
+ */
 ChessResult tournamentEndTournament(ChessTournament tournament);
-/**
- * findMaxWinsPlayerID: Finds the *single* player_id with the less Loses. If There is no such player return 0.
- * @param tournament
- * @return
- */
-int findMinLosesPlayerID(ChessTournament tournament);
-/**
- * findMaxWinsPlayerID: Finds the *single* player_id with the most wins. If There is no such player return 0.
- * @param tournament
- * @return
- */
-int findMaxWinsPlayerID(ChessTournament tournament);
-
 
 #endif //EX1_CHESSTOURNAMENT_H

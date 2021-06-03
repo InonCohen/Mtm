@@ -30,18 +30,20 @@ PlayerID playerIDCreate(int id, int version){
     if(!version_str){
         return NULL;
     }
-    int id_length = strlen(id_str);
-    int version_length = strlen(id_str);
+    int id_length = (int)strlen(id_str);
+    int version_length = (int)strlen(id_str);
     char* combined = createEmptyString(id_length+strlen(ID_SEP)+version_length+1);
     if(!combined){
         free(id_str);
         free(version_str);
         free(new_id);
+        return NULL;
     }
     strcat(combined, id_str);
     strcat(combined, ID_SEP);
     strcat(combined, version_str);
-    new_id->full_id = malloc(strlen(combined)+1);
+    int str_full_size = (int)strlen(combined) + 1;
+    new_id->full_id = malloc(str_full_size);
     if(!new_id->full_id){
         free(id_str);
         free(version_str);
@@ -99,27 +101,6 @@ int playerIDGetIntID(PlayerID player_id){
         return BAD_INPUT;
     }
     return player_id->id_int;
-}
-
-char* playerIDGetStringID(PlayerID player_id){
-    if(!player_id){
-        return NULL;
-    }
-    return (player_id->id_str);
-}
-
-int playerIDGetIntVersion(PlayerID player_id){
-    if(!player_id){
-        return BAD_INPUT;
-    }
-    return (player_id->version_int);
-}
-
-char* playerIDGetStringVersion(PlayerID player_id){
-    if(!player_id){
-        return NULL;
-    }
-    return (player_id->version_str);
 }
 
 int playerIDCompare(PlayerID id1, PlayerID id2){
