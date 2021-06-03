@@ -1,6 +1,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <assert.h>
+
+#define BAD_INPUT (-999)
 
 typedef struct node_t {
     int x;
@@ -32,6 +35,19 @@ bool isListSorted(Node list){
     return true;
 }
 
+Node copyNode(Node node){
+    if(!node){
+        return NULL;
+    }
+    Node node_copy = malloc(sizeof (*node_copy));
+    if(!node_copy){
+        return NULL;
+    }
+    node_copy->x = node->x;
+    node_copy->next = node->next;
+    return node_copy;
+}
+
 void destroyList(Node list){
     if(!list){
         return;
@@ -45,9 +61,17 @@ void destroyList(Node list){
 }
 
 void printList(Node list){
-    while(list){
-        printf("%d", list->x);
+    if(!list){
+        return;
     }
+
+    Node iter = copyNode(list);
+    printf("Printing List...\n");
+    while(iter->next){
+        printf("Node Data: %d\n", iter->x);
+        iter = iter->next;
+    }
+    printf("\n");
 }
 
 Node mergeSortedLists(Node list1, Node list2, ErrorCode *error_code){
@@ -93,44 +117,71 @@ Node mergeSortedLists(Node list1, Node list2, ErrorCode *error_code){
     return merged_sorted_list;
 }
 
+/**
+ * listGeneralTest: Test for creating a list and print it.
+ * @return
+ *  MEMORY_ERROR if fails, SUCCESS otherwise.
+ */
+ErrorCode listGeneralTest() {
+    int SIZE = 5;
+
+    // Creating Nodes
+    Node iter1 = malloc(sizeof(*iter1));
+    if (!iter1) {
+        return MEMORY_ERROR;
+    }
+    Node iter2 = malloc(sizeof(*iter2));
+    if (!iter2) {
+        free(iter1);
+        return MEMORY_ERROR;
+    }
+
+    // Saves a ptr to list start
+    Node list1 = iter1;
+    Node list2 = iter2;
+
+    // Init List Node Zero
+    Node next1 = NULL;
+    Node next2 = NULL;
+    iter1->x = 0;
+    iter1->next = next1;
+    iter2->x = 0;
+    iter2->next = next2;
+
+    // Build List
+    for (int i = 0; i < SIZE; i++) {
+
+        next1 = malloc(sizeof(*next1));
+        if (!next1) {
+            destroyList(list1);
+            destroyList(list2);
+            return MEMORY_ERROR;
+        }
+        next1->x = (i+1);
+        next1->next = NULL;
+
+        next2 = malloc(sizeof(*next2));
+        if (!next2) {
+            destroyList(list1);
+            destroyList(list2);
+            return BAD_INPUT;
+        }
+        next2->x = (i+1) * 2;
+        next2->next = NULL;
+
+        iter1->next = next1;
+        iter2->next = next2;
+        iter1 = iter1->next;
+        iter2 = iter2->next;
+    }
+
+    printList(list1);
+    printList(list2);
+    return SUCCESS;
+}
+
 
 int main(){
-    int SIZE=5;
-    Node begin1, begin2;
-    Node next1 = NULL, next2 = NULL;
-    begin1 = malloc(sizeof (*begin1));
-    if(!begin1){
-        return 0;
-    }
-    begin2 = malloc(sizeof (*begin2));
-    if(!begin2){
-        free(begin1);
-        return 0;
-    }
-    begin1->x = 0;
-    begin1->next = next1;
-    begin2->x = 0;
-    begin1->next = next2;
+    listGeneralTest();
 
-    for(int i=0;i<SIZE;i++){
-        next1->x = i;
-        next2->x = i*2;
-
-        next1 = malloc(sizeof (*next1));
-        if(!next1){
-            destroyList(begin1);
-            return 0;
-        }
-        next2 = malloc(sizeof (*next2));
-        if(!next2){
-            destroyList(begin1);
-            destroyList(begin2);
-            return 0;
-        }
-
-        next1->next = next1;
-        begin2->next = next2;
-    }
-
-    return 0;
 }
