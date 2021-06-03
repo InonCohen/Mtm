@@ -3,7 +3,7 @@
 #include <string.h>
 #include "../DLLNode.h"
 #include "../LinkedList.h"
-#include "../map.h"
+#include "map.h"
 
 #define BAD_KEY -999
 

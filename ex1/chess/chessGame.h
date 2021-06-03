@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "chessDefs.h"
+#include "chessDefinitions.h"
 #include "chessSystem.h"
 #include "chessPlayerID.h"
 #include "chessPlayer.h"

@@ -4,6 +4,8 @@
 #include "strUtils.h"
 #include "chessSystem.h"
 
+#define BAD_INPUT (-999)
+
 struct chess_player_id{
     char* full_id;
     int id_int;

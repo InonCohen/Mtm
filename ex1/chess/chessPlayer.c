@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include "../map/map.h"
+#include "map.h"
 #include "chessMapUtils.h"
 #include "chessGame.h"
 #include "chessPlayer.h"
@@ -12,6 +12,7 @@
 #define DRAW_WEIGHT 2
 #define ADD '+'
 #define REMOVE '-'
+#define BAD_INPUT (-999)
 
 struct chess_player_t{
     PlayerID id;

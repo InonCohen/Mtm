@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
-#include "../map/map.h"
+#include "map.h"
 #include "strUtils.h"
 #include "chessSystem.h"
 #include "chessTournament.h"
@@ -12,6 +12,7 @@
 
 #define WIN_GAME_SCORE 2
 #define DRAW_GAME_SCORE 1
+#define BAD_INPUT (-999)
 
 struct chess_tournament_t{
     int tournament_id;
