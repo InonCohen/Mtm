@@ -5,7 +5,7 @@
 #include <stdio.h>
 
 /**
- * These macros are here to help you create test more easily and keep them
+ * These macros are here to help you create tests more easily and keep them
  * clear.
  *
  * The basic idea with unit-testing is create a test function for every real
@@ -21,13 +21,13 @@
  * If expr is false, ends the test by returning false, prints a detailed
  * message about the failure, and frees resources by evaluating destroy.
  */
-#define ASSERT_TEST_WITH_FREE(expr, destroy)                                        \
-    do {                                                                            \
-        if (!(expr)) {                                                              \
-            printf("\nAssertion failed at %s:%d %s ", __FILE__, __LINE__, #expr);   \
-            destroy(expr);                                                                \
-            return false;                                                           \
-        }                                                                           \
+#define ASSERT_TEST_WITH_FREE(expr, destroy)                                      \
+    do {                                                                          \
+        if (!(expr)) {                                                            \
+            printf("\nAssertion failed at %s:%d %s ", __FILE__, __LINE__, #expr); \
+            destroy;                                                              \
+            return false;                                                         \
+        }                                                                         \
     } while (0)
 
 /**
@@ -35,13 +35,15 @@
  * If expr is false, ends the test by returning false and prints a detailed
  * message about the failure.
  */
-#define ASSERT_TEST(expr)                                                           \
-    do {                                                                            \
-        if (!(expr)) {                                                              \
-             printf("\nAssertion failed at %s:%d %s ", __FILE__, __LINE__, #expr);  \
-             return false;                                                          \
-        }                                                                           \
-    } while (0)
+/* #define ASSERT_TEST(expr)                                                         \ */
+/*     do {                                                                          \ */
+/*         if (!(expr)) {                                                            \ */
+/*             printf("\nAssertion failed at %s:%d %s ", __FILE__, __LINE__, #expr); \ */
+/*             return false;                                                         \ */
+/*         }                                                                         \ */
+/*     } while (0) */
+#define ASSERT_TEST(expr) ASSERT_TEST_WITH_FREE(expr, NULL)
+
 /**
  * Macro used for running a test from the main function
  */

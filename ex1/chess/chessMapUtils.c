@@ -8,6 +8,7 @@
 #include "chessPlayer.h"
 #include "chessPlayerID.h"
 
+#define BAD_INPUT (-999)
 #define EPSILON (0.01)
 
 
@@ -41,7 +42,7 @@ MapDataElement playersMapCopyData(MapDataElement data){
     if(!copy){
         return NULL;
     }
-    return copy;
+    return (void*)copy;
 }
 
 void gamesMapFreeData(void* to_free){
@@ -128,7 +129,11 @@ MapKeyElement playersMapCopyKey(MapDataElement key){
     if(!key){
         return NULL;
     }
-    return playerIDCopy((PlayerID)key);
+    PlayerID to_return = playerIDCopy((PlayerID)key);
+    if(!to_return){
+        return NULL;
+    }
+    return (void*)to_return;
 }
 
 void playersMapFreeData(MapDataElement data){

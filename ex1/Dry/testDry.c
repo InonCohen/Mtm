@@ -18,33 +18,28 @@ typedef enum {
 int getListLength(Node list);
 bool isListSorted(Node list);
 Node mergeSortedLists(Node list1, Node list2, ErrorCode* error_code);
-Node createNode(int input); // creates new node with “input” in x field
-int finishCopy(Node list, Node* head); //copies remaining list (that is not NULL yet)
-int addToList(Node list, Node* head); // adds the x value of list to end of list
-void destroyNode(Node Node);// destroys given node
-void destroyList(Node list); // destroys list
+Node createNode(int input);
 
-int getListLength(Node list) {
-    int len=0;
-    Node i=list;
-    while(i){
-        len++;
-        i=i->next;
+
+bool isListSorted(Node list){
+    if(!list){
+        return false;
     }
-    return len;
-}
-
-bool isListSorted(Node list) {
-    Node i=list;
-    while(i && i->next){
-        if ((i->x)>(i->next->x))
-        {
+    Node iter = list;
+    int one_before_last;
+    while(iter && iter->next){
+        if(iter->x > iter->next->x){
             return false;
         }
-        i=i->next;
+        one_before_last=iter->x;
+        iter=iter->next;
     }
-    return true;
+    if(one_before_last <= iter->x){
+        return true;
+    }
+    return false;
 }
+
 Node createNode(int input) {
     Node init_node = malloc(sizeof(*init_node));
     if (init_node == NULL) {
@@ -55,34 +50,34 @@ Node createNode(int input) {
     return init_node;
 }
 
-
-
-int addToList(Node list, Node* src_head) {
-    Node new_node = createNode((list)->x);
-    if (new_node == NULL) {
-        destroyNode(new_node);
-        return 0;
+Node copyList(Node list){
+    if(!list){
+        return NULL;
     }
-    Node head = *src_head;
-    while (head->next != NULL) {
-        head = head->next;
-    } // head points to the last node of src_head
-    head->next = new_node;
-    return 1;
+    Node list_copy = malloc(sizeof (*list_copy));
+    if(!list_copy){
+        return NULL;
+    }
+    list_copy->x = list->x;
+    list_copy->next = copyList(list->next);
+
+    return list_copy;
 }
 
-int finishCopy(Node list, Node* head) { // while list is not null, copy remainder to list
-    for (; (list) != NULL; list = list->next) {
-        int add_remain = addToList(list, head);
-        if (!add_remain) {
-            return 0;
+void printList(Node list){
+    if(!list){
+        return;
+    }
+    Node iter = list;
+    printf("Printing List...\n");
+    while(iter) {
+        printf("%d", iter->x);
+        if (iter->next) {
+            printf(" -> ");
         }
+        iter = iter->next;
     }
-    return 1;
-}
-
-void destroyNode(Node Node) {
-    free(Node);
+    printf("\n");
 }
 
 void destroyList(Node list) {
@@ -92,115 +87,109 @@ void destroyList(Node list) {
         free(toDelete);
     }
 }
-Node mergeSortedLists(Node list1, Node list2, ErrorCode* error_code) {
-    if (list1 == NULL || list2 == NULL) {
+
+Node mergeSortedLists(Node list1, Node list2, ErrorCode *error_code){
+    if(!list1 || !list2){
         *error_code = NULL_ARGUMENT;
         return NULL;
     }
-    if (!isListSorted(list1) || !isListSorted(list2)) {
+    if(!isListSorted(list1) || !isListSorted(list2)){
         *error_code = UNSORTED_LIST;
         return NULL;
     }
-    Node merged_out = malloc(sizeof (*merged_out));
-    if(!merged_out){
+    Node merged_sorted_list = NULL;
+    Node iter1 = list1, iter2 = list2, *iter_merged = &merged_sorted_list;
+    while(iter1 && iter2) {
+        *iter_merged = malloc(sizeof(**iter_merged));
+        if (!(*iter_merged)) {
+            destroyList(merged_sorted_list);
+            *error_code = MEMORY_ERROR;
+            return NULL;
+        }
+        (*iter_merged)->next = NULL;
+        if (iter1->x <= iter2->x) {
+            (*iter_merged)->x = iter1->x;
+            iter1 = iter1->next;
+        } else {
+            (*iter_merged)->x = iter2->x;
+            iter2 = iter2->next;
+        }
+        iter_merged = &(*iter_merged)->next;
+    }
+    Node rest_to_copy = (iter1==NULL) ? iter2 : iter1;
+    (*iter_merged) = copyList(rest_to_copy);
+    if(!(*iter_merged)) {
+        destroyList(merged_sorted_list);
         *error_code = MEMORY_ERROR;
         return NULL;
     }
-    Node iter1 = list1, iter2 = list2, merged_iter = merged_out;
-    int add_element;
-    while (iter1 && iter2)
-    {
-        merged_iter = malloc()
-        if ((iter1->x) <= (iter2->x))
-        {
-            add_element = addToList(merged_out, &head);
-            list1 = list1->next;
-        }
-        else
-        {
-            add_element = addToList(list2, &head);
-            list2 = list2->next;
-        }
-        if (!add_element) {
-            destroyList(head);
-            return MEMORY_ERROR;
-        }
-    }
-    Node list = NULL;
-    if (!list1) {
-        list = list2;
-    }
-    else {
-        list = list1;
-    }
-    if (!finishCopy(list, &head)) {
-        destroyList(head);
-        return MEMORY_ERROR;
-    }
-    *merged_out = (*temp)->next; //skips the first node
-    return SUCCESS;
-}
+    *error_code = SUCCESS;
+    return merged_sorted_list;
 }
 
 
 
 
 
-// use ctrl+f on "insert_create_node_function" and replace all with your create_node function name
-// use ctrl+f on "insert_destroy_list_function" and replace all with your destroy_list function name
+// use ctrl+f on "createNode" and replace all with your create_node function name
+// use ctrl+f on "destroyList" and replace all with your destroy_list function name
 
 int main(){
     ErrorCode* error_code = malloc(sizeof(*error_code));
     *error_code = SUCCESS;
-    Node list1 = insert_create_node_function(2);
-    list1->next = insert_create_node_function(4);
-    list1->next->next=insert_create_node_function(9);
-    Node list2 = insert_create_node_function(2);
-    list2->next = insert_create_node_function(4);
-    list2->next->next=insert_create_node_function(8);
+    Node list1 = createNode(2);
+    list1->next = createNode(4);
+    list1->next->next=createNode(9);
+    Node list2 = createNode(2);
+    list2->next = createNode(4);
+    list2->next->next=createNode(8);
     Node merged_list = mergeSortedLists(list1,list2,error_code);
     printf("\n%d\n\n", *error_code);
     while(merged_list){
         printf("%d\n",merged_list->x);
         merged_list=merged_list->next;
     }
-    insert_destroy_list_function(list1);
-    insert_destroy_list_function(list2);
-    insert_destroy_list_function(merged_list);
-    list1 = insert_create_node_function(1);
-    list1->next = insert_create_node_function(4);
-    list1->next->next=insert_create_node_function(9);
-    list2 = insert_create_node_function(2);
-    list2->next = insert_create_node_function(5);
-    list2->next->next=insert_create_node_function(8);
+    destroyList(list1);
+    destroyList(list2);
+    destroyList(merged_list);
+    list1 = createNode(1);
+    list1->next = createNode(4);
+    list1->next->next=createNode(9);
+    list2 = createNode(2);
+    list2->next = createNode(5);
+    list2->next->next=createNode(8);
     merged_list = mergeSortedLists(list1,list2,error_code);
     printf("\n%d\n\n", *error_code);
     while(merged_list){
         printf("%d\n",merged_list->x);
         merged_list=merged_list->next;
     }
-    insert_destroy_list_function(list1);
-    insert_destroy_list_function(list2);
-    insert_destroy_list_function(merged_list);
-    list1 = insert_create_node_function(5);
-    list1->next = insert_create_node_function(4);
-    list1->next->next=insert_create_node_function(9);
-    list2 = insert_create_node_function(2);
-    list2->next = insert_create_node_function(5);
-    list2->next->next=insert_create_node_function(8);
+    destroyList(list1);
+    destroyList(list2);
+    destroyList(merged_list);
+    list1 = createNode(1);
+    list1->next = createNode(2);
+    list1->next->next=createNode(9);
+    list1->next->next->next=createNode(9);
+    list2 = createNode(2);
+    list2->next = createNode(5);
+    list2->next->next=createNode(8);
+    list2->next->next->next=createNode(8);
+    list2->next->next->next->next=createNode(12);
     merged_list = mergeSortedLists(list1,list2,error_code);
+    printList(merged_list);
     printf("\n%d\n", *error_code);
     while(merged_list){
         printf("%d\n",merged_list->x);
         merged_list=merged_list->next;
     }
-    insert_destroy_list_function(list1);
-    insert_destroy_list_function(list2);
-    insert_destroy_list_function(merged_list);
+    destroyList(list1);
+    destroyList(list2);
+    destroyList(merged_list);
     list1 = NULL;
-    list2 = insert_create_node_function(2);
-    list2->next = insert_create_node_function(5);
-    list2->next->next=insert_create_node_function(8);
+    list2 = createNode(2);
+    list2->next = createNode(5);
+    list2->next->next=createNode(8);
     merged_list = mergeSortedLists(list1,list2,error_code);
     printf("\n%d\n", *error_code);
     while(merged_list){

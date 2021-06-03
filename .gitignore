@@ -13,3 +13,8 @@
 /ex1/mtm_ex1_tests_UNIX_compatible/
 /ex1-public/
 /ex1/Maaruf/
+/ex1/cmake-build-debug/Testing/
+/ex1/cmake-build-debug/tests/
+/ex1/cmake-build-debug/
+*.log
+*.log

@@ -1,5 +1,3 @@
-# The first line states the minimum CMake version to use with this project
-# and is requires by CMake.
 cmake_minimum_required(VERSION 3.0.0)
 project(EX1 VERSION 0.1.0 LANGUAGES C)
 
@@ -19,11 +17,23 @@ include_directories(chess/test)
 
 # Add the names of your source files here
 set(CHESS_C_FILES
-        Dry/testDry.c
+        chess/chessSystem.c
+        chess/chessTournament.c
+        chess/chessPlayerID.c
+        chess/chessGame.c
+        chess/chessDefinitions.h
+        chess/chessPlayer.c
+        chess/chessMapUtils.c
+        chess/strUtils.c
+        chess/chessMapUtils.c
+        chess/strUtils.c)
+set(MAP_C_FILES
+        map/map.c
+        map/DLLNode.c
+        map/LinkedList.c
         )
-set(MAP_C_FILES)
-
-set(TEST_C_FILES)
+set(TEST_C_FILES
+        Maaruf/chessSystemTestsExample.c)
 
 
 ## If needed, add libaries and set target properties.

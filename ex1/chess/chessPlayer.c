@@ -12,6 +12,7 @@
 #define DRAW_WEIGHT 2
 #define ADD '+'
 #define REMOVE '-'
+#define BAD_INPUT (-999)
 
 struct chess_player_t{
     PlayerID id;
@@ -53,6 +54,9 @@ static void playerUpdateLose(ChessPlayer player, ChessGame game, char sign);
 static void playerUpdateDraw(ChessPlayer player, ChessGame game, char sign);
 
 ChessPlayer playerCreate(PlayerID id){
+    if(!id){
+        return NULL;
+    }
     ChessPlayer new_player = malloc(sizeof(*new_player));
     if(!new_player){
         return NULL;
@@ -113,10 +117,16 @@ ChessPlayer playerCopy(ChessPlayer player){
             return NULL;
         }
     }
+    else{
+        player_copy->games = mapCreate(gamesMapCopyData, stringCopyFunc, gamesMapFreeData, mapFreeStringKey, mapCompareStringKeys);
+        if(!player_copy->games){
+            free(player_copy);
+        }
+    }
     player_copy->id = playerIDCopy(player->id);
     if(!player_copy->id){
-        mapDestroy(player->games);
-        free(player_copy);
+        mapDestroy(player_copy->games);
+        playerDestroy(player_copy);
         return NULL;
     }
     player_copy->wins = player->wins;
@@ -202,15 +212,14 @@ PlayerResult playerAddGame(ChessPlayer player, ChessGame game){
     if(mapContains(games, gameGetID(game))){
         return PLAYER_GAME_ALREADY_EXISTS;
     }
-    PlayerID game_player1 = gameGetPlayer1ID(game);
-    PlayerID game_player2 = gameGetPlayer2ID(game);
-    char* id1 = playerIDGetFullID(game_player1);
-    char* id2 = playerIDGetFullID(game_player2);
-    char* player_id = playerIDGetFullID(playerGetID(player));
-    if(strcmp(id1, player_id) != 0 && strcmp(id2, player_id) != 0) {
+    PlayerID first_player_id = gameGetPlayer1ID(game);
+    PlayerID second_player_id = gameGetPlayer2ID(game);
+    PlayerID player_id = player->id;
+    if(playerIDCompare(first_player_id, player_id) != 0 && playerIDCompare(second_player_id, player_id) != 0) {
         return PLAYER_INVALID_ID;
     }
-    MapResult result = mapPut(games, gameGetID(game), game);
+    char* game_id = gameGetID(game);
+    MapResult result = mapPut(games, game_id, game);
     if(result == MAP_OUT_OF_MEMORY){
         return PLAYER_OUT_OF_MEMORY;
     }
@@ -218,7 +227,7 @@ PlayerResult playerAddGame(ChessPlayer player, ChessGame game){
         playerAddDraw(player, game);
     }
     else if(gameGetWinner(game)==FIRST_PLAYER){
-        if(strcmp(id1, player_id) == 0){
+        if(playerIDCompare(first_player_id, player_id) == 0){
             playerAddWin(player, game);
         }
         else{
@@ -226,7 +235,7 @@ PlayerResult playerAddGame(ChessPlayer player, ChessGame game){
         }
     }
     else{
-        if(strcmp(id1, player_id) == 0){
+        if(playerIDCompare(first_player_id, player_id) == 0){
             playerAddLose(player, game);
         }
         else{
@@ -238,6 +247,9 @@ PlayerResult playerAddGame(ChessPlayer player, ChessGame game){
 
 PlayerResult playerRemoveGame(ChessPlayer player, ChessGame game){
     if(!player || !game){
+        return PLAYER_NULL_ARGUMENT;
+    }
+    if(!player->games){
         return PLAYER_NULL_ARGUMENT;
     }
     Map games = player->games;
@@ -254,10 +266,8 @@ PlayerResult playerRemoveGame(ChessPlayer player, ChessGame game){
     }
     else{
         PlayerID game_player1 = gameGetPlayer1ID(game);
-        char* id1 = playerIDGetFullID(game_player1);
-        char* player_id = playerIDGetFullID(playerGetID(player));
         if(game_winner == FIRST_PLAYER){
-            if(strcmp(id1, player_id) == 0){
+            if(playerIDCompare(game_player1, player->id) == 0){
                 playerRemoveWin(player, game);
             }
             else{
@@ -265,7 +275,7 @@ PlayerResult playerRemoveGame(ChessPlayer player, ChessGame game){
             }
         }
         else{
-            if(strcmp(id1, player_id) == 0){
+            if(playerIDCompare(game_player1, player->id) == 0){
                 playerRemoveLose(player, game);
             }
             else{
