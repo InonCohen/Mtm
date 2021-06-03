@@ -235,24 +235,11 @@ char* tournamentGetTournamentLocation(ChessTournament tournament){
 
 bool tournamentIsOver(ChessTournament tournament){
     if(!tournament){
-        return NULL;
+        return true;
     }
     return tournament->tournament_winner_player_id != NULL;
 }
-/**
- * tournamentAddGame: Add a game into tournament.
- *  Do:
- *  1. Check arguments validity
- *      RAISES: CHESS_NULL_ARGUMENT, CHESS_TOURNAMENT_ENDED, CHESS_GAME_ALREADY_EXISTS
- *  2. Foreach player call tournamentAddPlayer(tournament, player).
- *
- *  3. Foreach player call tournamentAddGameForPlayer(tournament, player)
- *      RAISES: CHESS_EXCEEDED_GAMES, CHESS_OUT_OF_MEMORY
- *  4. Finally, Add the game into  tournament_games and return CHESS_SUCCESS
- * @param tournament: tournament to add game into
- * @param game: game to be added
- * @return TOURNAMENT_SUCCESS if game was added successfully, matching TournamentResult otherwise.
- */
+
 ChessResult tournamentAddGame(ChessTournament tournament, ChessGame game){
     if(!tournament || !game){
         return CHESS_NULL_ARGUMENT;
@@ -358,6 +345,7 @@ ChessResult tournamentAddGame(ChessTournament tournament, ChessGame game){
 
     return CHESS_SUCCESS;
 }
+
 /**
  * tournamentEndTournament: Check for the tournament winner and set it at:
  * tournament->tournament_winner_player_id.
@@ -540,6 +528,9 @@ double tournamentGetAverageGameTime(ChessTournament tournament){
         return (double)BAD_INPUT;
     }
     Map games = tournament->tournament_games;
+    if(mapGetSize(games) == 0){
+        return 0;
+    }
     int all_time = 0;
     MAP_FOREACH(char*, iter, games){
         ChessGame current_game = mapGet(games, iter);
