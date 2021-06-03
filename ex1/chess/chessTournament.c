@@ -241,10 +241,13 @@ bool tournamentIsOver(ChessTournament tournament){
 /**
  * tournamentAddGame: Add a game into tournament.
  *  Do:
- *  1. Check argument validity
- *  2. Add game into tournament_games
- *  3. Update games_counter_of_players
- *  4. Check if a player exceeded max_games_per_player, raise an error accordingly.
+ *  1. Check arguments validity
+ *      RAISES: CHESS_NULL_ARGUMENT, CHESS_TOURNAMENT_ENDED, CHESS_GAME_ALREADY_EXISTS
+ *  2. Foreach player call tournamentAddPlayer(tournament, player).
+ *
+ *  3. Foreach player call tournamentAddGameForPlayer(tournament, player)
+ *      RAISES: CHESS_EXCEEDED_GAMES, CHESS_OUT_OF_MEMORY
+ *  4. Finally, Add the game into  tournament_games and return CHESS_SUCCESS
  * @param tournament: tournament to add game into
  * @param game: game to be added
  * @return TOURNAMENT_SUCCESS if game was added successfully, matching TournamentResult otherwise.
@@ -268,7 +271,7 @@ ChessResult tournamentAddGame(ChessTournament tournament, ChessGame game){
         mapRemove(tournament->tournament_games, game_id);
         return CHESS_OUT_OF_MEMORY;
     }
-    //Game is inserted to tournament->games
+    // Game is inserted to tournament->games
     // Insert players from game into tournament->players
     bool player1_is_new = false;
     bool player2_is_new = false;
