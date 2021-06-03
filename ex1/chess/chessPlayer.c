@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include "../map/map.h"
+#include "map.h"
 #include "chessMapUtils.h"
 #include "chessGame.h"
 #include "chessPlayer.h"

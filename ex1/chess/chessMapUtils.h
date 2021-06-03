@@ -1,6 +1,6 @@
 #ifndef EX1_CHESSMAPUTILS_H
 #define EX1_CHESSMAPUTILS_H
-#include "../map/map.h"
+#include "map.h"
 
 /**
 * chessMapUtils is an Auxiliary Class that holds functions which are used by multiple ADTs

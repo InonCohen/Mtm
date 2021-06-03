@@ -1,7 +1,7 @@
 #ifndef EX1_CHESSTOURNAMENT_H
 #define EX1_CHESSTOURNAMENT_H
 #include <stdbool.h>
-#include "../map/map.h"
+#include "map.h"
 #include "chessSystem.h"
 #include "chessGame.h"
 #include "chessPlayerID.h"

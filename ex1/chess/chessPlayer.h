@@ -1,7 +1,7 @@
 #ifndef EX1_CHESSPLAYER_H
 #define EX1_CHESSPLAYER_H
-#include "../map/map.h"
-#include "chessDefs.h"
+#include "map.h"
+#include "chessDefinitions.h"
 #include "chessGame.h"
 #include "chessPlayerID.h"
 

@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
-#include "../map/map.h"
+#include "map.h"
 #include "strUtils.h"
 #include "chessSystem.h"
 #include "chessTournament.h"
