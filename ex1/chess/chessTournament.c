@@ -222,11 +222,7 @@ Map tournamentGetPlayers(ChessTournament tournament){
     if (!tournament){
         return NULL;
     }
-    Map result = mapCopy(tournament->tournament_players);
-    if (!result){
-        return NULL;
-    }
-    return result;
+    return tournament->tournament_players;
 }
 
 char* tournamentGetTournamentLocation(ChessTournament tournament){
@@ -314,14 +310,12 @@ ChessResult tournamentAddGame(ChessTournament tournament, ChessGame game){
     }
     player1 = mapGet(tournament->tournament_players, player1_id);
     player2 = mapGet(tournament->tournament_players, player2_id);
-    //TODO: Ohad, I Added these lines, please check their correctness
     int player1_num_of_games = playerGetNumOfGames(player1);
     int player2_num_of_games = playerGetNumOfGames(player2);
     if(player1_num_of_games == tournament->max_games_per_player || player2_num_of_games == tournament->max_games_per_player){
         mapRemove(tournament->tournament_games, game_id);
         return CHESS_EXCEEDED_GAMES;
     }
-            //End of comment
     PlayerResult res = playerAddGame(player1, game);
     if(res != PLAYER_SUCCESS)
     {
@@ -460,7 +454,8 @@ ChessResult tournamentFindWinner(ChessTournament tournament){
     // Find maximal winner
     int max_winning_games = 0;
     MAP_FOREACH(PlayerID, player_id, minimal_losers){
-        int player_win_games = *(int*)mapGet(minimal_losers, player_id);
+        ChessPlayer current_player = mapGet(tournament->tournament_players, player_id);
+        int player_win_games = playerGetNumOfWins(current_player);
         if(player_win_games > max_winning_games){
             max_winning_games = player_win_games;
         }
@@ -473,7 +468,8 @@ ChessResult tournamentFindWinner(ChessTournament tournament){
         return CHESS_OUT_OF_MEMORY;
     }
     MAP_FOREACH(PlayerID, player_id, minimal_losers){
-        int player_win_games = *(int*)mapGet(maximal_winners, player_id);
+        ChessPlayer current_player = mapGet(tournament->tournament_players, player_id);
+        int player_win_games = playerGetNumOfWins(current_player);
         if (player_win_games < max_winning_games){
             mapRemove(maximal_winners, player_id);
         }
@@ -502,10 +498,10 @@ ChessResult tournamentRemovePlayer(ChessTournament tournament, PlayerID player_i
     // For every game that player is taking part of set rival to be the winner.
     MAP_FOREACH(char*, game_id, tournament->tournament_games){
         ChessGame game = mapGet(tournament->tournament_games, game_id);
-        if (gameGetPlayer1ID(game) == player_id){
+        if (playerIDCompare(gameGetPlayer1ID(game), player_id)){
             gameSetWinner(game,SECOND_PLAYER);
         }
-        if (gameGetPlayer2ID(game) == player_id){
+        if (playerIDCompare(gameGetPlayer2ID(game), player_id)){
             gameSetWinner(game,FIRST_PLAYER);
         }
         free(game_id);
@@ -599,7 +595,7 @@ static Map buildPlayersRankMap(ChessTournament tournament){
     if(!tournament){
         return NULL;
     }
-    Map active_players = tournamentGetPlayers(tournament);
+    Map active_players = mapCopy(tournamentGetPlayers(tournament));
     if (!active_players) {
         return NULL;
     }
@@ -626,24 +622,28 @@ static Map buildPlayersRankMap(ChessTournament tournament){
         ChessGame current_game = mapGet(tournament->tournament_games, current_game_id);
         PlayerID player1_id = gameGetPlayer1ID(current_game);
         PlayerID player2_id = gameGetPlayer2ID(current_game);
-        int *player1_rank_ptr = NULL, *player2_rank_ptr=NULL;
-        if(mapContains(players_rank, player1_id)){
-            player1_rank_ptr = (int*)mapGet(players_rank, player1_id);
+        int *player1_rank_ptr = NULL, *player2_rank_ptr = NULL;
+        if (mapContains(players_rank, player1_id)) {
+            player1_rank_ptr = (int *) mapGet(players_rank, player1_id);
         }
-        if(mapContains(players_rank, player2_id)) {
-            player2_rank_ptr = (int *)mapGet(players_rank, player2_id);
+        if (mapContains(players_rank, player2_id)) {
+            player2_rank_ptr = (int *) mapGet(players_rank, player2_id);
         }
-        if (gameGetWinner(current_game) == FIRST_PLAYER && player1_rank_ptr){
-            (*player1_rank_ptr) += WIN_GAME_SCORE;
+        if (gameGetWinner(current_game) == FIRST_PLAYER) {
+            if (player1_rank_ptr) {
+                (*player1_rank_ptr) += WIN_GAME_SCORE;
+            }
         }
-        if (gameGetWinner(current_game) == SECOND_PLAYER && player2_rank_ptr){
-            (*player2_rank_ptr) += WIN_GAME_SCORE;
+        if (gameGetWinner(current_game) == SECOND_PLAYER) {
+            if (player2_rank_ptr) {
+                (*player2_rank_ptr) += WIN_GAME_SCORE;
+            }
         }
-        else{
-            if(player1_rank_ptr){
+        if (gameGetWinner(current_game) == DRAW) {
+            if (player1_rank_ptr) {
                 (*player1_rank_ptr) += DRAW_GAME_SCORE;
             }
-            if(player2_rank_ptr){
+            if (player2_rank_ptr) {
                 (*player2_rank_ptr) += DRAW_GAME_SCORE;
             }
         }
