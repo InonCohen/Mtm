@@ -1,7 +1,7 @@
 #ifndef EX1_CHESSPLAYER_H
 #define EX1_CHESSPLAYER_H
-#include "../map/map.h"
-#include "chessDefs.h"
+#include "map.h"
+#include "chessDefinitions.h"
 #include "chessGame.h"
 #include "chessPlayerID.h"
 
@@ -241,7 +241,4 @@ void playerAddDraw(ChessPlayer player, ChessGame game);
  */
 void playerRemoveDraw(ChessPlayer player, ChessGame game);
 
-//void playerUpdateAccordingToGame(ChessPlayer player, GamePlayerOutcome old_outcome, GamePlayerOutcome new_outcome);
-//
-//void playerRemoveDraw(ChessPlayer player);
 #endif //EX1_CHESSPLAYER_H

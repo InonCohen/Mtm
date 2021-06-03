@@ -19,3 +19,4 @@
 *.log
 *.log
 /ex1/cmake-build-debug/
+/ex1/cmake-build-debug/

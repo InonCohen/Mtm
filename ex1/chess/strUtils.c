@@ -3,6 +3,7 @@
 #include <assert.h>
 #include "strUtils.h"
 
+#define BAD_INPUT (-999)
 #define LENGTH_OF_ZERO_STRING 2
 
 inline void nullifyString(char* str, size_t size){

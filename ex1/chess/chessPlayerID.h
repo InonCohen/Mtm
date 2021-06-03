@@ -1,7 +1,7 @@
 #ifndef EX1_CHESSPLAYERID_H
 #define EX1_CHESSPLAYERID_H
 #include <stdbool.h>
-#include "chessDefs.h"
+#include "chessDefinitions.h"
 
 /**
 * PlayerID Type
