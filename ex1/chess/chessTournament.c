@@ -2,7 +2,6 @@
 #include <ctype.h>
 #include <string.h>
 #include "map.h"
-#include "strUtils.h"
 #include "chessSystem.h"
 #include "chessTournament.h"
 #include "chessMapUtils.h"
@@ -301,8 +300,8 @@ ChessResult tournamentAddGame(ChessTournament tournament, ChessGame game){
             mapRemove(tournament->tournament_games, game_id);
             return CHESS_EXCEEDED_GAMES;
     }
-    PlayerResult res = playerAddGame(player1, game);
-    if(res != PLAYER_SUCCESS)
+    ChessResult res = playerAddGame(player1, game);
+    if(res != CHESS_SUCCESS)
     {
         mapRemove(tournament->tournament_games, game_id);
         playerRemoveGame(player1, game);
@@ -315,7 +314,7 @@ ChessResult tournamentAddGame(ChessTournament tournament, ChessGame game){
         return (ChessResult)res;
     }
     res = playerAddGame(player2, game);
-    if (res != PLAYER_SUCCESS){
+    if (res != CHESS_SUCCESS){
         mapRemove(tournament->tournament_games, game_id);
         if(player1_is_new){
             mapRemove(tournament->tournament_players,player1_id);

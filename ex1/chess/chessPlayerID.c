@@ -2,7 +2,6 @@
 #include <string.h>
 #include "chessPlayerID.h"
 #include "strUtils.h"
-#include "chessSystem.h"
 
 #define BAD_INPUT (-999)
 

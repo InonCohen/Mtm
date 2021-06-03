@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <assert.h>
 #include <ctype.h>
 #include <string.h>
 #include "map.h"
@@ -238,8 +237,8 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
             return CHESS_OUT_OF_MEMORY;
         }
     }
-    PlayerResult player_res = playerAddGame(player1, game);
-    if (player_res != PLAYER_SUCCESS) {
+    ChessResult player_res = playerAddGame(player1, game);
+    if (player_res != CHESS_SUCCESS) {
         if (player1_is_new) {
             playerDestroy(player1);
         }
@@ -252,7 +251,7 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
         return (ChessResult)player_res;
     }
     player_res = playerAddGame(player2, game);
-    if (player_res != PLAYER_SUCCESS) {
+    if (player_res != CHESS_SUCCESS) {
         if (player1_is_new) {
             playerDestroy(player1);
         }
@@ -267,9 +266,7 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
     if (player1_is_new) {
         MapResult result = mapPut(chess->players, player1_id, player1);
         if (result == MAP_OUT_OF_MEMORY) {
-            if (player1_is_new) {
-                playerDestroy(player1);
-            }
+            playerDestroy(player1);
             if (player2_is_new) {
                 playerDestroy(player2);
             }
@@ -283,11 +280,9 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
         MapResult result = mapPut(chess->players, player2_id, player2);
         if (result == MAP_OUT_OF_MEMORY) {
             mapRemove(chess->players, player1);
+            playerDestroy(player2);
             if (player1_is_new) {
                 playerDestroy(player1);
-            }
-            if (player2_is_new) {
-                playerDestroy(player2);
             }
             gameDestroy(game);
             playerIDDestroy(player1_id);
