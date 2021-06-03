@@ -33,7 +33,7 @@ set(MAP_C_FILES
         map/LinkedList.c
         )
 set(TEST_C_FILES
-        chess/test/chessSystemTestsExample.c)
+        Maaruf/chessSystemTestsExample.c)
 
 ## If needed, add libaries and set target properties.
 ## Notice that this part will have duplicate problems with "include_directories" section!
