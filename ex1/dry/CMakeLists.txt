@@ -10,4 +10,4 @@ set(MTM_FLAGS_RELEASE "${MTM_FLAGS_DEBUG} -DNDEBUG")
 # Set the flags for gcc
 set(CMAKE_C_FLAGS ${MTM_FLAGS_RELEASE})
 
-add_executable(dry ./dry.c)
+add_executable(dry dry.c)

@@ -19,12 +19,10 @@ include_directories(chess/test)
 set(CHESS_C_FILES
         chess/chessSystem.c
         chess/chessTournament.c
-        chess/chessPlayerID.c
         chess/chessGame.c
-        chess/chessDefs.h
         chess/chessPlayer.c
-        chess/chessMapUtils.c
-        chess/strUtils.c
+        chess/chessPlayerID.c
+        chess/chessDefs.h
         chess/chessMapUtils.c
         chess/strUtils.c)
 set(MAP_C_FILES
@@ -33,15 +31,7 @@ set(MAP_C_FILES
         map/LinkedList.c
         )
 set(TEST_C_FILES
-        Maaruf/chessSystemTestsExample.c)
-
-## If needed, add libaries and set target properties.
-## Notice that this part will have duplicate problems with "include_directories" section!
-#add_library(map ./map)
-#set_target_properties(map PROPERTIES LINKER_LANGUAGE C)
+        chess/test/chessSystemTestsExample.c)
 
 add_executable(chessSystem ${CHESS_C_FILES} ${MAP_C_FILES} ${TEST_C_FILES})
-
-## If libaries were builded, link all libaries and BUILD
-#target_link_libraries(chess_exe PUBLIC map)
 

@@ -1,5 +1,5 @@
-#include "../test_utilities.h"
 #include <stdlib.h>
+#include "../test/test_utilities.h"
 #include "../mtm_map/map.h"
 
 static long NumTestsPassed = 0;

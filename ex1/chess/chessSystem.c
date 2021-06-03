@@ -362,7 +362,6 @@ ChessResult chessRemoveTournament (ChessSystem chess, int tournament_id){
 }
 
 
-
 ChessResult chessRemovePlayer(ChessSystem chess, int player_id){
     if(!chess){
         return CHESS_NULL_ARGUMENT;
@@ -389,7 +388,6 @@ ChessResult chessRemovePlayer(ChessSystem chess, int player_id){
                                     ? gameGetPlayer2ID(current_game_in_player) : gameGetPlayer1ID(current_game_in_player));
         ChessPlayer other_player_in_system = mapGet(players, other_player_id);
         ChessTournament current_tournament = mapGet(chess->tournaments, &current_game_tournament_id);
-        assert(current_tournament != NULL);
         if (!tournamentIsOver(current_tournament)) {
             gameUpdateLoser(current_game_in_player, player_in_system, other_player_in_system);
             gameSetWinner(current_game_in_player, (playerIDCompare(gameGetPlayer1ID(current_game_in_player), new_player_id) == 0) ? SECOND_PLAYER : FIRST_PLAYER);

@@ -1,4 +1,4 @@
-#include "../test_utilities.h"
+#include "test_utilities.h"
 #include <stdlib.h>
 #include "../mtm_map/map.h"
 
