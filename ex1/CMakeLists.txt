@@ -23,14 +23,12 @@ set(CHESS_C_FILES
         chess/chessDefinitions.h
         chess/chessPlayer.c
         chess/chessPlayerID.c
-        chess/chessDefs.h
         chess/chessMapUtils.c
         chess/strUtils.c)
 set(MAP_C_FILES
         map/map.c
         map/DLLNode.c
-        map/LinkedList.c
-        )
+        map/LinkedList.c)
 set(TEST_C_FILES
         chess/test/chessSystemTestsExample.c)
 

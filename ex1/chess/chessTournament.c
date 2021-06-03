@@ -2,7 +2,6 @@
 #include <ctype.h>
 #include <string.h>
 #include "map.h"
-#include "strUtils.h"
 #include "chessSystem.h"
 #include "chessTournament.h"
 #include "chessMapUtils.h"

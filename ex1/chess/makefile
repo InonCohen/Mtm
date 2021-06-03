@@ -21,7 +21,7 @@ chessTournament.o: chessTournament.c map.h strUtils.h chessSystem.h chessTournam
 	$(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) $*.c
 strUtils.o: strUtils.c strUtils.h
 	$(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) $*.c
-chessSystemTestsExample.o: tests/chessSystemTestsExample.c chessSystem.h test_utilities.h strUtils.h chessMapUtils.h map.h
+chessSystemTestsExample.o: tests/chessSystemTestsExample.c chessSystem.h test/test_utilities.h strUtils.h chessMapUtils.h map.h
 	$(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) tests/$*.c
 
 clean:

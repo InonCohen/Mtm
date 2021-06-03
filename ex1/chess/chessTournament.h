@@ -64,14 +64,6 @@ Map tournamentGetPlayers(ChessTournament tournament);
 char* tournamentGetTournamentLocation(ChessTournament tournament);
 
 /**
- *
- * @param tournament Tournament to get a winner_player_id
- * @return
- *  PlayerID of the winner if exist, NULL otherwise
- */
-PlayerID tournamentGetWinnerPlayerID(ChessTournament tournament);
-
-/**
  * @param tournament Tournament to check if is over, meaning that there is a winner to the tournament.
  * @return
  *  true if tournament is over, false otherwise.

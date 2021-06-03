@@ -27,11 +27,11 @@ set(CHESS_C_FILES
         chessTournament.c
         chessSystem.c)
 set(MAP_C_FILES
-        ../map/map.c
-        ../map/DLLNode.c
-        ../map/LinkedList.c)
+        map.c
+        DLLNode.c
+        LinkedList.c)
 set(TEST_C_FILES
-        test/chessSystemTest.c)
+        test/chessSystemTestsExample.c)
 
 add_executable(chessSystem ${CHESS_C_FILES} ${MAP_C_FILES} ${TEST_C_FILES})
 

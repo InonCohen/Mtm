@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 #include "strUtils.h"
 #include "chessGame.h"
 #include "chessSystem.h"
@@ -149,12 +148,6 @@ void gameSetWinner(ChessGame game, Winner winner){
     game->game_winner = winner;
 }
 
-void chessGameSetWinner(ChessGame game, Winner winner){
-    if(!game || (winner!= FIRST_PLAYER && winner!= SECOND_PLAYER)){
-        return;
-    }
-    game->game_winner = winner;
-}
 
 bool gamePlayerIsDeleted(ChessGame game){
     if(!game){

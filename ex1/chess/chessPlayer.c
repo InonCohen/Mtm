@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "map.h"
+#include "chessSystem.h"
 #include "chessMapUtils.h"
 #include "chessGame.h"
 #include "chessPlayer.h"
@@ -121,6 +122,7 @@ ChessPlayer playerCopy(ChessPlayer player){
         player_copy->games = mapCreate(gamesMapCopyData, stringCopyFunc, gamesMapFreeData, mapFreeStringKey, mapCompareStringKeys);
         if(!player_copy->games){
             free(player_copy);
+            return NULL;
         }
     }
     player_copy->id = playerIDCopy(player->id);
@@ -297,43 +299,6 @@ void playerUpdateLevel(ChessPlayer player){
     }
     int player_score = WIN_WEIGHT*player->wins+LOSE_WEIGHT*player->losses+DRAW_WEIGHT*player->draws;
     player->level = (double)player_score/(double)total_games;
-}
-
-void playerUpdateAccordingToGame(ChessPlayer player, GamePlayerOutcome old_outcome, GamePlayerOutcome new_outcome) {
-    if (!player) {
-        return;
-    }
-    if (old_outcome == new_outcome) {
-        return;
-    }
-    if (new_outcome == WINNER) {
-        if (old_outcome == LOSER) {
-            player->losses--;
-        }
-        else{
-            player->draws--;
-        }
-        player->wins++;
-    }
-    else if(new_outcome == LOSER){
-        if(old_outcome == WINNER){
-            player->wins--;
-        }
-        else{
-            player->draws--;
-        }
-        player->losses++;
-    }
-    else{
-        if(old_outcome == WINNER){
-            player->wins--;
-        }
-        else{
-            player->losses--;
-        }
-        player->draws++;
-    }
-    playerUpdateLevel(player);
 }
 
 void playerSetIsDeleted(ChessPlayer player){

@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include "strUtils.h"
 #include "chessGame.h"
 #include "chessTournament.h"
 #include "chessMapUtils.h"
