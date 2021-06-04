@@ -1,4 +1,4 @@
-# Install script for directory: /tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess
+# Install script for directory: /home/ohad.benacot/Mtm/ex1/chess
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/cmake-build-debug-csl3/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/ohad.benacot/Mtm/ex1/chess/cmake-build-debug-csl3/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

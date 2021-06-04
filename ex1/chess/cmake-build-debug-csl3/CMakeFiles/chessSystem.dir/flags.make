@@ -6,5 +6,5 @@ C_FLAGS = -std=c99 --pedantic-errors -Wall -Werror -DNDEBUG -g
 
 C_DEFINES = 
 
-C_INCLUDES = -I/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/map -I/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/chess -I/tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/chess/chess/test 
+C_INCLUDES = -I/home/ohad.benacot/Mtm/ex1/chess/map -I/home/ohad.benacot/Mtm/ex1/chess/chess -I/home/ohad.benacot/Mtm/ex1/chess/chess/test 
 
