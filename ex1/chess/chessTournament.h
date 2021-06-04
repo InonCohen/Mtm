@@ -154,11 +154,56 @@ int tournamentGetLongestGameTime(ChessTournament tournament);
 double tournamentGetAverageGameTime(ChessTournament tournament);
 
 /**
- * @param tournament Tournament to calculate number of games for.
- * @return
- *  number of games <int>, or a negative number if an error occurred.
- */
+* tournamentGetNumOfGames: Returns the number of games that were played in the tournament
+* @param tournament - The target tournament of which the number of games is required
+* @return
+* 	(-999) if a NULL pointer was sent.
+* 	Otherwise the number of target tournament's games.
+*/
 int tournamentGetNumOfGames(ChessTournament tournament);
+
+/**
+* tournamentGetNumOfAllPlayers: Returns the number of players who ever participated in the tournament
+* @param tournament - The target tournament of which the number of participants is required
+* @return
+* 	(-999) if a NULL pointer was sent.
+* 	Otherwise the number of target tournament's all time players.
+*/
+int tournamentGetNumOfAllPlayers(ChessTournament tournament);
+
+/**
+ * tournamentFindWinner: The function will find the winner of the target tournament.
+ *                     The winner of the tournament is the player with the highest score:
+ *                     player_score = ( num_of_wins * 2 + num_of_draws * 1 ) / ( num_of_games_of_player )
+ *                     If two players have the same score, the player with least losses will be chosen.
+ *                     If two players have the same number of losses, the player with the most wins will be chosen
+ *                     If two players have the same number of wins and losses,
+ *                     the player with smaller id will be chosen.
+ *                     Once the tournament is over, no games can be added for that tournament.
+ *
+ * @param tournament - target tournament of which winner is to be found. Must be non-NULL.
+ *
+ * @return
+ *     CHESS_NULL_ARGUMENT - if tournament is NULL.
+ *     CHESS_OUT_OF_MEMORY - if an allocation fails.
+ *     CHESS_SUCCESS - if tournament winner is found.
+ */
+ChessResult tournamentFindWinner(ChessTournament tournament);
+
+/**
+ * tournamentEndTournament: The function ends the tournament if it has at least one game and
+ *                     finds the id of the winner.
+ *                     Once the tournament is over, no games can be added for that tournament.
+ *
+ * @param tournament - target tournament to be ended. Must be non-NULL.
+ *
+ * @return
+ *     CHESS_NULL_ARGUMENT - if tournament is NULL.
+ *     CHESS_OUT_OF_MEMORY - if an allocation fails.
+ *     CHESS_N0_GAMES - if the tournament does not have any games.
+ *     CHESS_SUCCESS - if tournament is ended successfully.
+ */
+ChessResult tournamentEndTournament(ChessTournament tournament);
 
 /**
  *

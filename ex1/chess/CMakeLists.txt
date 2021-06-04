@@ -33,5 +33,6 @@ set(MAP_C_FILES
 set(TEST_C_FILES
         test/chessSystemTestsExample.c)
 
+
 add_executable(chessSystem ${CHESS_C_FILES} ${MAP_C_FILES} ${TEST_C_FILES})
 

@@ -155,10 +155,13 @@ ChessResult chessAddTournament (ChessSystem chess, int tournament_id,
     if(!(max_games_per_player > 0)){
         return CHESS_INVALID_MAX_GAMES;
     }
-
     ChessTournament new_tournament = tournamentCreate(tournament_id, max_games_per_player, tournament_location);
+    if(!new_tournament){
+        return CHESS_OUT_OF_MEMORY;
+    }
     MapResult result = mapPut(chess->tournaments, &tournament_id, new_tournament);
     if(result == MAP_OUT_OF_MEMORY){
+        tournamentDestroy(new_tournament);
         return CHESS_OUT_OF_MEMORY;
     }
     tournamentDestroy(new_tournament);
@@ -355,7 +358,6 @@ ChessResult chessRemoveTournament (ChessSystem chess, int tournament_id){
     mapRemove(chess->tournaments, &tournament_id);
     return CHESS_SUCCESS;
 }
-
 
 ChessResult chessRemovePlayer(ChessSystem chess, int player_id){
     if(!chess){

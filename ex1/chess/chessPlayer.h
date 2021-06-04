@@ -133,12 +133,12 @@ bool playerIsDeleted(ChessPlayer player);
  * @param game - game to be added to player's map of games.
  *
  * @return
- *     PLAYER_NULL_ARGUMENT - if player is NULL or game is NULL.
- *     PLAYER_INVALID_ID - if the player ID number, doesn't match either of game's players' ids.
- *     PLAYER_GAME_ALREADY_EXISTS - if there is already a game in the player's games map with the same two players
+ *     CHESS_NULL_ARGUMENT - if player is NULL or game is NULL.
+ *     CHESS_INVALID_ID - if the player ID number, doesn't match either of game's players' ids.
+ *     CHESS_GAME_ALREADY_EXISTS - if there is already a game in the player's games map with the same two players
  *                                  (and both were not removed).
- *     PLAYER_OUT_OF_MEMORY - if an allocation failed(the game couldn't be inserted to the player's games map).
- *     PLAYER_SUCCESS - if game was added successfully.
+ *     CHESS_OUT_OF_MEMORY - if an allocation failed(the game couldn't be inserted to the player's games map).
+ *     CHESS_SUCCESS - if game was added successfully.
  */
 ChessResult playerAddGame(ChessPlayer player, ChessGame game);
 
@@ -151,9 +151,9 @@ ChessResult playerAddGame(ChessPlayer player, ChessGame game);
  * @param game - game to be removed from player's map of games.
  *
  * @return
- *     PLAYER_NULL_ARGUMENT - if player is NULL or game is NULL.
- *     PLAYER_OUT_OF_MEMORY - if an allocation failed(the game couldn't be removed from the player's games map).
- *     PLAYER_SUCCESS - if game was removed successfully or didn't exist in the games map.
+ *     CHESS_NULL_ARGUMENT - if player is NULL or game is NULL.
+ *     CHESS_OUT_OF_MEMORY - if an allocation failed(the game couldn't be removed from the player's games map).
+ *     CHESS_SUCCESS - if game was removed successfully or didn't exist in the games map.
  */
 ChessResult playerRemoveGame(ChessPlayer player, ChessGame game);
 

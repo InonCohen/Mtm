@@ -18,6 +18,8 @@
 /ex1/cmake-build-debug/
 *.log
 *.log
+/mtm_ex1_tests_UNIX_compatible/
+/LastHour/
 /ex1/cmake-build-debug/
 /ex1/cmake-build-debug/
 /ex1/cmake-build-debug/Testing/
