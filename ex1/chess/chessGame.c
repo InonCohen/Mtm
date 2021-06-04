@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 #include "strUtils.h"
 #include "chessGame.h"
+#include "chessPlayer.h"
 #include "chessSystem.h"
 #include "chessPlayerID.h"
 #define BAD_INPUT (-999)
@@ -149,13 +149,6 @@ void gameSetWinner(ChessGame game, Winner winner){
     game->game_winner = winner;
 }
 
-void chessGameSetWinner(ChessGame game, Winner winner){
-    if(!game || (winner!= FIRST_PLAYER && winner!= SECOND_PLAYER)){
-        return;
-    }
-    game->game_winner = winner;
-}
-
 bool gamePlayerIsDeleted(ChessGame game){
     if(!game){
         return true;
@@ -164,7 +157,9 @@ bool gamePlayerIsDeleted(ChessGame game){
 }
 
 void gameUpdateLoser(ChessGame game, ChessPlayer loser, ChessPlayer winner){
-    assert(game && loser);
+    if(!game || !loser){
+        return;
+    }
     PlayerID loser_id = playerGetID(loser);
     PlayerID game_player1_id = gameGetPlayer1ID(game);
     Winner old_winner = game->game_winner;
@@ -204,7 +199,7 @@ static char* createGameID(char* player1_id_str, char* player2_id_str, int tourna
     len1=(int)strlen(player1_id_str);
     len2=(int)strlen(player2_id_str);
     len3=(int)strlen(tournament_id_str);
-    int size = len1 + strlen(ID_SEP) + len2  + strlen(ID_SEP) + len3 + strlen(ID_SEP);
+    int size = len1 + (int)strlen(ID_SEP) + len2  + (int)strlen(ID_SEP) + len3 + (int)strlen(ID_SEP);
     char* game_id = malloc(size);
     if(!game_id){
         return NULL;

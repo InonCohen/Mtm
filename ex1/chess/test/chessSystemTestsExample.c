@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "chessSystem.h"
+#include "../chessSystem.h"
 #include "test_utilities.h"
 #include <string.h>
 #include <math.h>

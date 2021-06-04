@@ -5,8 +5,6 @@
 #include "chessGame.h"
 #include "chessPlayerID.h"
 
-
-
 /**
  * playerCreate: create an empty player.
  *
@@ -165,16 +163,6 @@ ChessResult playerRemoveGame(ChessPlayer player, ChessGame game);
  * @param player - the player to mark as deleted. Must be non-NULL.
  */
 void playerSetIsDeleted(ChessPlayer player);
-
-/**
- * playerUpdateAccordingToGame: update the player's statistics in accordance to received
- *                              old victory status and the new one
- *
- * @param player - the player of which to change statistics. Must be non-NULL.
- * @param old_outcome - the player's old victory status.
- * @param new_outcome - the player's new  victory status.
- */
-void playerUpdateAccordingToGame(ChessPlayer player, GamePlayerOutcome old_outcome, GamePlayerOutcome new_outcome);
 
 /**
  * playerAddWin: updates the player's statistics according to given game that is already in player's games map

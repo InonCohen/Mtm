@@ -18,12 +18,13 @@
 /ex1/cmake-build-debug/
 *.log
 *.log
-<<<<<<< HEAD
 /mtm_ex1_tests_UNIX_compatible/
 /LastHour/
-=======
 /ex1/cmake-build-debug/
 /ex1/cmake-build-debug/
 /ex1/cmake-build-debug/Testing/
 /ex1/cmake-build-debug/
->>>>>>> 7088f5639c2c7b907de2ec5323d0fe7b1046b37d
+### Maaroof Testing Directories ###
+/ex1/chess/your_output/
+/ex1/chess/expected_output/
+/ex1/chess/actual_output/

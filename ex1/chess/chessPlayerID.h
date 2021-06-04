@@ -71,33 +71,6 @@ char* playerIDGetFullID(PlayerID player_id);
 int playerIDGetIntID(PlayerID player_id);
 
 /**
-* playerIDGetStringID: Returns actual string id (not a copy) of target PlayerID.
-* @param player_id - Target PlayerID of which id is required as a string.
-* @return
-* 	NULL if a NULL was sent.
-* 	A string containing player_id's id otherwise.
-*/
-char* playerIDGetStringID(PlayerID player_id);
-
-/**
-* playerIDGetIntVersion: Returns version of target PlayerID.
-* @param player_id - Target PlayerID of which version is required as an integer.
-* @return
-* 	(-999) if a NULL was sent.
-* 	player_id's version value otherwise.
-*/
-int playerIDGetIntVersion(PlayerID player_id);
-
-/**
-* playerIDGetStringVersion: Returns actual string version (not a copy) of target PlayerID.
-* @param player_id - Target PlayerID of which version is required as a string.
-* @return
-* 	NULL if a NULL was sent.
-* 	A string containing player_id's version otherwise.
-*/
-char* playerIDGetStringVersion(PlayerID player_id);
-
-/**
 *	playerIDCompare: Compares two PlayerIDs.
 *
 * @param id1 - The first PlayerID of two PlayerIDs required to be compared to one another.

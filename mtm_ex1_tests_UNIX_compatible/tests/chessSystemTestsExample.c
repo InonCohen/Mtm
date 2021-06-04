@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include "../chessSystem.h"
-#include "../test_utilities.h"
+#include "../test/test_utilities.h"
 #include <string.h>
 #include <math.h>
 #define ARE_FLOATS_EQUAL(d1,d2) (fabs(d1-d2) < 0.000001)

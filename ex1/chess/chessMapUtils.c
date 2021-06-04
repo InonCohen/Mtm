@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include "strUtils.h"
 #include "chessGame.h"
 #include "chessTournament.h"
 #include "chessMapUtils.h"
@@ -116,7 +115,7 @@ MapKeyElement stringCopyFunc (MapKeyElement to_copy){
     if(!to_copy){
         return NULL;
     }
-    int length = strlen((char*)to_copy);
+    int length = (int)strlen((char*)to_copy);
     char* to_return = malloc(length+1);
     if(!to_return){
         return NULL;

@@ -2,7 +2,6 @@
 #include <ctype.h>
 #include <string.h>
 #include "map.h"
-#include "strUtils.h"
 #include "chessSystem.h"
 #include "chessTournament.h"
 #include "chessMapUtils.h"
@@ -33,6 +32,7 @@ struct chess_tournament_t{
  */
 static Map buildPlayersRankMap(ChessTournament tournament);
 
+
 /**
  * findWinnerPlayerID: Finds the winner player_id and writes it to the attribute
  *                      `winner_player_id`.
@@ -53,10 +53,12 @@ static ChessResult findWinnerPlayerID(ChessTournament tournament);
  *  CHESS_SUCCESS if addition succeeded, or other ChessResult if an error occurred.
  *  Errors: CHESS_OUT_OF_MEMORY, CHESS_NULL_ARGUMENT.
  */
+
 static ChessResult addPlayer(ChessTournament tournament, ChessPlayer player);
 
 
 static Map buildPlayersRankMap(ChessTournament tournament);
+
 
 /**
  * addPlayer: add a new player to a chess tournament.
@@ -64,13 +66,34 @@ static Map buildPlayersRankMap(ChessTournament tournament);
  * @param tournament - chess tournament to which player is to be added. Must be non-NULL.
  * @param player - the player to be added.
 
+
+/**
+ * buildPlayersRankMap:
+ * Assumptions:
+ *  - tournament isn't empty (checked by related ChessSystem)
+ * @param tournament
+ * @return Map of player_id : total_rank
+ */
+static Map buildPlayersRankMap(ChessTournament tournament);
+
+/**
+ *
+ * Called by endTournament as a part of general actions to end game.
+ * Finds the winner player_id and writes it to the attribute `winner_player_id`.
+ * @param tournament Tournament to find winner player id for.
  * @return
- *     CHESS_NULL_ARGUMENT - if tournament or player are NULL.
- *     CHESS_OUT_OF_MEMORY - if an allocation failed
- *     CHESS_SUCCESS - if player was added successfully.
+ */
+static ChessResult findWinnerPlayerID(ChessTournament tournament);
+
+/**
+ * Add a player into Map of players of a tournament.
+ * @param tournament Tournament to add players into.
+ * @param player ChessPlayer to be added
+ * @return
+ *  CHESS_SUCCESS if addition succeeded, or other ChessResult if an error occurred.
+ *  Errors: CHESS_OUT_OF_MEMORY, CHESS_NULL_ARGUMENT.
  */
 static ChessResult addPlayer(ChessTournament tournament, ChessPlayer player);
-
 
 ChessTournament tournamentCreate(int tournament_id, int max_games_per_player, const char* tournament_location){
     if(tournament_id <= 0 || max_games_per_player <= 0) {

@@ -177,8 +177,6 @@ ErrorCode listGeneralTest() {
 
 
 int main(){
-    printf("$$$$$$$$$$$\n");
     listGeneralTest();
-    printf("$$$$$$$$$$$\n");
 
 }
