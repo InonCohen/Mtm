@@ -1,28 +1,11 @@
 #ifndef EX1_CHESSPLAYER_H
 #define EX1_CHESSPLAYER_H
-#include "../map/map.h"
-#include "chessDefs.h"
+#include "map.h"
+#include "chessDefinitions.h"
 #include "chessGame.h"
 #include "chessPlayerID.h"
 
 
-typedef enum {
-    PLAYER_OUT_OF_MEMORY,
-    PLAYER_NULL_ARGUMENT,
-    PLAYER_INVALID_ID,
-    PLAYER_INVALID_LOCATION,
-    PLAYER_INVALID_MAX_GAMES,
-    PLAYER_TOURNAMENT_ALREADY_EXISTS,
-    PLAYER_TOURNAMENT_NOT_EXIST,
-    PLAYER_GAME_ALREADY_EXISTS,
-    PLAYER_INVALID_PLAY_TIME,
-    PLAYER_EXCEEDED_GAMES,
-    PLAYER_PLAYER_NOT_EXIST,
-    PLAYER_TOURNAMENT_ENDED,
-    PLAYER_NO_TOURNAMENTS_ENDED,
-    PLAYER_SAVE_FAILURE,
-    PLAYER_SUCCESS
-} PlayerResult ;
 
 /**
  * playerCreate: create an empty player.
@@ -152,14 +135,14 @@ bool playerIsDeleted(ChessPlayer player);
  * @param game - game to be added to player's map of games.
  *
  * @return
- *     PLAYER_NULL_ARGUMENT - if player is NULL or game is NULL.
- *     PLAYER_INVALID_ID - if the player ID number, doesn't match either of game's players' ids.
- *     PLAYER_GAME_ALREADY_EXISTS - if there is already a game in the player's games map with the same two players
+ *     CHESS_NULL_ARGUMENT - if player is NULL or game is NULL.
+ *     CHESS_INVALID_ID - if the player ID number, doesn't match either of game's players' ids.
+ *     CHESS_GAME_ALREADY_EXISTS - if there is already a game in the player's games map with the same two players
  *                                  (and both were not removed).
- *     PLAYER_OUT_OF_MEMORY - if an allocation failed(the game couldn't be inserted to the player's games map).
- *     PLAYER_SUCCESS - if game was added successfully.
+ *     CHESS_OUT_OF_MEMORY - if an allocation failed(the game couldn't be inserted to the player's games map).
+ *     CHESS_SUCCESS - if game was added successfully.
  */
-PlayerResult playerAddGame(ChessPlayer player, ChessGame game);
+ChessResult playerAddGame(ChessPlayer player, ChessGame game);
 
 /**
  * playerRemoveGame: Remove a game from a player.
@@ -170,11 +153,11 @@ PlayerResult playerAddGame(ChessPlayer player, ChessGame game);
  * @param game - game to be removed from player's map of games.
  *
  * @return
- *     PLAYER_NULL_ARGUMENT - if player is NULL or game is NULL.
- *     PLAYER_OUT_OF_MEMORY - if an allocation failed(the game couldn't be removed from the player's games map).
- *     PLAYER_SUCCESS - if game was removed successfully or didn't exist in the games map.
+ *     CHESS_NULL_ARGUMENT - if player is NULL or game is NULL.
+ *     CHESS_OUT_OF_MEMORY - if an allocation failed(the game couldn't be removed from the player's games map).
+ *     CHESS_SUCCESS - if game was removed successfully or didn't exist in the games map.
  */
-PlayerResult playerRemoveGame(ChessPlayer player, ChessGame game);
+ChessResult playerRemoveGame(ChessPlayer player, ChessGame game);
 
 /**
  * playerMarkDeleted: update the player as deleted
@@ -241,7 +224,4 @@ void playerAddDraw(ChessPlayer player, ChessGame game);
  */
 void playerRemoveDraw(ChessPlayer player, ChessGame game);
 
-//void playerUpdateAccordingToGame(ChessPlayer player, GamePlayerOutcome old_outcome, GamePlayerOutcome new_outcome);
-//
-//void playerRemoveDraw(ChessPlayer player);
 #endif //EX1_CHESSPLAYER_H

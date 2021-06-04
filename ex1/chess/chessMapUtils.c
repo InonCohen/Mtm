@@ -8,6 +8,7 @@
 #include "chessPlayer.h"
 #include "chessPlayerID.h"
 
+#define BAD_INPUT (-999)
 #define EPSILON (0.01)
 
 

@@ -2,6 +2,7 @@
 #include <ctype.h>
 #include <string.h>
 #include "map.h"
+#include "strUtils.h"
 #include "chessSystem.h"
 #include "chessTournament.h"
 #include "chessMapUtils.h"
@@ -23,20 +24,24 @@ struct chess_tournament_t{
 };
 
 /**
- * buildPlayersRankMap:
- * Assumptions:
- *  - tournament isn't empty (checked by related ChessSystem)
+* buildPlayersRankMap: Calculates rank of all tournament's active players, and returns a map where
+*                      the keys are the players' IDs, and the data is the associated player's rank
+*                      as follows: player_rank = (num_of_wins*2 + num_of_draws*1) / (num_of_games_of_player)
+                                                 *
  * @param tournament
  * @return Map of player_id : total_rank
  */
 static Map buildPlayersRankMap(ChessTournament tournament);
 
 /**
+ * findWinnerPlayerID: Finds the winner player_id and writes it to the attribute
+ *                      `winner_player_id`.
+ *                      Called by endTournament as a part of general actions to end game.
  *
- * Called by endTournament as a part of general actions to end game.
- * Finds the winner player_id and writes it to the attribute `winner_player_id`.
- * @param tournament Tournament to find winner player id for.
+ * @param tournament - The tournament to of which players are to be ranked. Must be non-NULL.
  * @return
+ *      NULL if tournament is NULL
+ *      A Map of the tournament players' ranks.
  */
 static ChessResult findWinnerPlayerID(ChessTournament tournament);
 
@@ -49,6 +54,23 @@ static ChessResult findWinnerPlayerID(ChessTournament tournament);
  *  Errors: CHESS_OUT_OF_MEMORY, CHESS_NULL_ARGUMENT.
  */
 static ChessResult addPlayer(ChessTournament tournament, ChessPlayer player);
+
+
+static Map buildPlayersRankMap(ChessTournament tournament);
+
+/**
+ * addPlayer: add a new player to a chess tournament.
+ *
+ * @param tournament - chess tournament to which player is to be added. Must be non-NULL.
+ * @param player - the player to be added.
+
+ * @return
+ *     CHESS_NULL_ARGUMENT - if tournament or player are NULL.
+ *     CHESS_OUT_OF_MEMORY - if an allocation failed
+ *     CHESS_SUCCESS - if player was added successfully.
+ */
+static ChessResult addPlayer(ChessTournament tournament, ChessPlayer player);
+
 
 ChessTournament tournamentCreate(int tournament_id, int max_games_per_player, const char* tournament_location){
     if(tournament_id <= 0 || max_games_per_player <= 0) {
@@ -586,67 +608,3 @@ static ChessResult addPlayer(ChessTournament tournament, ChessPlayer player){
     return CHESS_SUCCESS;
 }
 
-//static PlayerID playersIDMapGetLastVersion(Map tournament_players, int player_int_id){
-//    if(!tournament_players){
-//        return NULL;
-//    }
-//    PlayerID player_id_first_version = playerIDCreate(player_int_id, 0);
-//    if(!mapContains(tournament_players, player_id_first_version)){
-//        playerIDDestroy(player_id_first_version);
-//        return NULL;
-//    }
-//    playerIDDestroy(player_id_first_version);
-//    PlayerID player_id_last_version = NULL;
-//    MAP_FOREACH(PlayerID, player_id, tournament_players){
-//        if (playerIDGetIntID(player_id) <= player_int_id){
-//            playerIDDestroy(player_id_last_version);
-//            player_id_last_version = playerIDCopy(player_id);
-//        }
-//        else{
-//            playerIDDestroy(player_id);
-//            break;
-//        }
-//        playerIDDestroy(player_id);
-//    }
-//    return player_id_last_version;
-//}
-
-//static int countWinGamesForPlayer(ChessTournament tournament, PlayerID player_id){
-//    int win_games_counter = 0;
-//    ChessPlayer player = mapGet(tournament->tournament_players, player_id);
-//    if(!player){
-//        return BAD_INPUT;
-//    }
-//    Map games_of_player = playerGetGames(player);
-//    MAP_FOREACH(char*, game_id, games_of_player){
-//        ChessGame game = mapGet(games_of_player, game_id);
-//        if((gameGetWinner(game) == FIRST_PLAYER && gameGetPlayer1ID(game) == playerGetID(player)) ||
-//            (gameGetWinner(game) == SECOND_PLAYER && gameGetPlayer2ID(game) == playerGetID(player))){
-//                win_games_counter++;
-//        }
-//        free(game_id);
-//    }
-//    return win_games_counter;
-//}
-
-//static int countLostGamesForPlayer(ChessTournament tournament, PlayerID player_id){
-//    if(!tournament || !player_id){
-//        return BAD_INPUT;
-//    }
-//    int lost_games_counter = 0;
-//    ChessPlayer player = mapGet(tournament->tournament_players, player_id);
-//    if(!player){
-//        return BAD_INPUT;
-//    }
-//    Map games = playerGetGames(player);
-//    MAP_FOREACH(char*, game_id, games){
-//        ChessGame game = mapGet(games,game_id);
-//        if((gameGetWinner(game) == SECOND_PLAYER && gameGetPlayer1ID(game) == playerGetID(player)) ||
-//           (gameGetWinner(game) == FIRST_PLAYER && gameGetPlayer2ID(game) == playerGetID(player))){
-//            lost_games_counter++;
-//        }
-//        free(game_id);
-//    }
-//    mapDestroy(games);
-//    return lost_games_counter;
-//}

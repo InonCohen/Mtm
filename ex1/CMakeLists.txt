@@ -21,7 +21,7 @@ set(CHESS_C_FILES
         chess/chessTournament.c
         chess/chessPlayerID.c
         chess/chessGame.c
-        chess/chessDefs.h
+        chess/chessDefinitions.h
         chess/chessPlayer.c
         chess/chessMapUtils.c
         chess/strUtils.c
@@ -34,6 +34,7 @@ set(MAP_C_FILES
         )
 set(TEST_C_FILES
         Maaruf/chessSystemTestsExample.c)
+
 
 ## If needed, add libaries and set target properties.
 ## Notice that this part will have duplicate problems with "include_directories" section!

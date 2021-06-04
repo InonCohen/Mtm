@@ -5,7 +5,7 @@
 #include "chessGame.h"
 #include "chessSystem.h"
 #include "chessPlayerID.h"
-
+#define BAD_INPUT (-999)
 struct chess_game_t{
     char* id;
     int tournament_id;
@@ -180,12 +180,10 @@ void gameUpdateLoser(ChessGame game, ChessPlayer loser, ChessPlayer winner){
         playerAddWin(winner, game);
     }
     else if((old_winner == FIRST_PLAYER && loser_is_first) || (old_winner == SECOND_PLAYER && !loser_is_first)) {
-        if (loser_is_first) {
-            playerRemoveWin(loser, game);
-            playerAddLose(loser, game);
-            playerRemoveLose(winner, game);
-            playerAddWin(winner, game);
-        }
+        playerRemoveWin(loser, game);
+        playerAddLose(loser, game);
+        playerRemoveLose(winner, game);
+        playerAddWin(winner, game);
     }
     game->game_winner = new_winner;
 }

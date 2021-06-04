@@ -359,7 +359,6 @@ ChessResult chessRemoveTournament (ChessSystem chess, int tournament_id){
     return CHESS_SUCCESS;
 }
 
-
 ChessResult chessRemovePlayer(ChessSystem chess, int player_id){
     if(!chess){
         return CHESS_NULL_ARGUMENT;

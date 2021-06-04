@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include "../map/map.h"
+#include "map.h"
 #include "chessMapUtils.h"
 #include "chessGame.h"
 #include "chessPlayer.h"
@@ -12,6 +12,7 @@
 #define DRAW_WEIGHT 2
 #define ADD '+'
 #define REMOVE '-'
+#define BAD_INPUT (-999)
 
 struct chess_player_t{
     PlayerID id;
@@ -203,29 +204,29 @@ bool playerIsDeleted(ChessPlayer player){
     return player->is_deleted;
 }
 
-PlayerResult playerAddGame(ChessPlayer player, ChessGame game){
+ChessResult playerAddGame(ChessPlayer player, ChessGame game){
     if(!player || !game){
-        return PLAYER_NULL_ARGUMENT;
+        return CHESS_NULL_ARGUMENT;
     }
     Map games = player->games;
     if(mapContains(games, gameGetID(game))){
-        return PLAYER_GAME_ALREADY_EXISTS;
+        return CHESS_GAME_ALREADY_EXISTS;
     }
     PlayerID first_player_id = gameGetPlayer1ID(game);
     PlayerID second_player_id = gameGetPlayer2ID(game);
     PlayerID player_id = player->id;
     if(playerIDCompare(first_player_id, player_id) != 0 && playerIDCompare(second_player_id, player_id) != 0) {
-        return PLAYER_INVALID_ID;
+        return CHESS_INVALID_ID;
     }
     char* game_id = gameGetID(game);
     MapResult result = mapPut(games, game_id, game);
     if(result == MAP_OUT_OF_MEMORY){
-        return PLAYER_OUT_OF_MEMORY;
+        return CHESS_OUT_OF_MEMORY;
     }
     if(gameGetWinner(game) == DRAW){
         playerAddDraw(player, game);
     }
-    else if(gameGetWinner(game)==FIRST_PLAYER){
+    else if(gameGetWinner(game)==FIRST_CHESS){
         if(playerIDCompare(first_player_id, player_id) == 0){
             playerAddWin(player, game);
         }
@@ -241,23 +242,23 @@ PlayerResult playerAddGame(ChessPlayer player, ChessGame game){
             playerAddWin(player, game);
         }
     }
-    return PLAYER_SUCCESS;
+    return CHESS_SUCCESS;
 }
 
-PlayerResult playerRemoveGame(ChessPlayer player, ChessGame game){
+ChessResult playerRemoveGame(ChessPlayer player, ChessGame game){
     if(!player || !game){
-        return PLAYER_NULL_ARGUMENT;
+        return CHESS_NULL_ARGUMENT;
     }
     if(!player->games){
-        return PLAYER_NULL_ARGUMENT;
+        return CHESS_NULL_ARGUMENT;
     }
     Map games = player->games;
     if(!mapContains(games, gameGetID(game))){
-        return PLAYER_SUCCESS;
+        return CHESS_SUCCESS;
     }
     MapResult res = mapRemove(games, gameGetID(game));
     if(res != MAP_SUCCESS){
-        return PLAYER_OUT_OF_MEMORY;
+        return CHESS_OUT_OF_MEMORY;
     }
     Winner game_winner = gameGetWinner(game);
     if(game_winner == DRAW){
@@ -265,7 +266,7 @@ PlayerResult playerRemoveGame(ChessPlayer player, ChessGame game){
     }
     else{
         PlayerID game_player1 = gameGetPlayer1ID(game);
-        if(game_winner == FIRST_PLAYER){
+        if(game_winner == FIRST_CHESS){
             if(playerIDCompare(game_player1, player->id) == 0){
                 playerRemoveWin(player, game);
             }
@@ -282,7 +283,7 @@ PlayerResult playerRemoveGame(ChessPlayer player, ChessGame game){
             }
         }
     }
-    return PLAYER_SUCCESS;
+    return CHESS_SUCCESS;
 }
 
 void playerUpdateLevel(ChessPlayer player){
