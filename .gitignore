@@ -2,6 +2,7 @@
 **/.idea
 ### Build ###
 **/cmake-build-debug/
+**/cmake-build-debug-csl3/
 ### Exercise Instructions ###
 *.pdf
 *.xml
