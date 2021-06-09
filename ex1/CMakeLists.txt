@@ -17,6 +17,9 @@ include_directories(chess/test)
 
 # Add the names of your source files here
 set(CHESS_C_FILES
+        chess/DLLNode.c
+        chess/LinkedList.c
+        chess/map.c
         chess/chessSystem.c
         chess/chessTournament.c
         chess/chessGame.c
@@ -26,7 +29,7 @@ set(CHESS_C_FILES
         chess/chessMapUtils.c
         chess/strUtils.c)
 set(TEST_C_FILES
-        chess/test/chessSystemTestsExample.c)
+        chess/mtm_ex1_tests_UNIX_compatible/tests/chessSystemTestsExample.c)
 
 add_executable(chessSystem ${CHESS_C_FILES} ${MAP_C_FILES} ${TEST_C_FILES})
 

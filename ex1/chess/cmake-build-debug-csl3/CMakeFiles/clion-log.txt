@@ -1,1 +1,0 @@
-CMakeLists.txt not found in /Users/ohadbenacot/CLionProjects/Mtm/ex1/chess Select CMakeLists.txt
