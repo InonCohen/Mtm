@@ -65,9 +65,6 @@ static Map buildPlayersRankMap(ChessTournament tournament);
  *
  * @param tournament - chess tournament to which player is to be added. Must be non-NULL.
  * @param player - the player to be added.
-
-
-/**
  * buildPlayersRankMap:
  * Assumptions:
  *  - tournament isn't empty (checked by related ChessSystem)
@@ -356,21 +353,26 @@ ChessResult tournamentRemovePlayer(ChessTournament tournament, PlayerID player_i
     if(!tournament || !player_id){
         return CHESS_NULL_ARGUMENT;
     }
-    ChessPlayer player = mapGet(tournament->tournament_players, player_id);
+    ChessPlayer player = (ChessPlayer)mapGet(tournament->tournament_players, player_id);
     if(!player){
         return CHESS_PLAYER_NOT_EXIST;
     }
-    // For every game that player is taking part of set rival to be the winner.
-    MAP_FOREACH(char*, game_id, tournament->tournament_games){
-        ChessGame game = mapGet(tournament->tournament_games, game_id);
-        if (playerIDCompare(gameGetPlayer1ID(game), player_id)){
-            gameSetWinner(game,SECOND_PLAYER);
-        }
-        if (playerIDCompare(gameGetPlayer2ID(game), player_id)){
-            gameSetWinner(game,FIRST_PLAYER);
-        }
+    Map player_games = playerGetGames(player);
+    if(mapGetSize(player_games) == 0){
+        mapDestroy(player_games);
+        return CHESS_NO_GAMES;
+    }
+    MAP_FOREACH(char*, game_id, player_games) {
+        ChessGame game = (ChessGame) mapGet(player_games, game_id);
+        PlayerID other_player_id = ((playerIDCompare(gameGetPlayer1ID(game), player_id) == 0)
+                                    ? gameGetPlayer2ID(game) : gameGetPlayer1ID(game));
+        ChessPlayer other_player = (ChessPlayer) mapGet(tournament->tournament_players, other_player_id);
+        gameUpdateLoser(game, player, other_player);
+        gameSetWinner(game, (playerIDCompare(gameGetPlayer1ID(game), player_id) == 0) ? SECOND_PLAYER : FIRST_PLAYER);
+        gameMarkDeletedPlayerTrue(game);
         free(game_id);
     }
+
     playerSetIsDeleted(player);
     return CHESS_SUCCESS;
 }

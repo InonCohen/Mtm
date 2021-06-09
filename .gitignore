@@ -1,14 +1,12 @@
 ### JetBrains ###
 **/.idea
-
 ### Build ###
 **/cmake-build-debug/
-/ex1/chess/CMakeLists.txt
+**/cmake-build-debug-csl3/
 ### Exercise Instructions ###
 *.pdf
-/ex1/.idea/
-*.png
 *.xml
+
 /ex1-public/
 /ex1/mtm_ex1_tests_UNIX_compatible/
 /ex1-public/
@@ -28,3 +26,6 @@
 /ex1/chess/your_output/
 /ex1/chess/expected_output/
 /ex1/chess/actual_output/
+
+*.log
+

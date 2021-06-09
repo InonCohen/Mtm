@@ -37,6 +37,7 @@ ChessTournament tournamentCopy(ChessTournament src_tournament);
  * @param tournament Tournament to destroy
  */
 void tournamentDestroy(ChessTournament tournament);
+
 /**
  * Get map of games of a tournament.
  * @param tournament Tournament to get Map of games from.
@@ -68,7 +69,6 @@ char* tournamentGetTournamentLocation(ChessTournament tournament);
  * @return
  *  true if tournament is over, false otherwise.
  */
-
 bool tournamentIsOver(ChessTournament tournament);
 
 /**
