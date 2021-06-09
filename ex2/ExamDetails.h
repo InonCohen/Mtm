@@ -5,11 +5,19 @@
 
 
 namespace mtm{
+    class ExamTime{
+        int month;
+        int day;
+        double time;
+    public:
+        ExamTime(int month, int day, double time);
+        ~ExamTime()=default;
+        ExamTime& operator=(const ExamTime& other);
+    };
+
         class ExamDetails{
             int course_number;
-            int month;
-            int day;
-            double time;
+            ExamTime exam_time;
             int duration;
             std::string zoom_link;
         public:
