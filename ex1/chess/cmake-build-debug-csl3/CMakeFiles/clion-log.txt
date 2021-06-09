@@ -1,4 +1,1 @@
-/home/mtm/cmake-3.17.0-Linux-x86_64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=/usr/bin/gcc -G "CodeBlocks - Unix Makefiles" /home/ohad.benacot/Mtm/ex1/chess
--- Configuring done
--- Generating done
--- Build files have been written to: /home/ohad.benacot/Mtm/ex1/chess/cmake-build-debug-csl3
+CMakeLists.txt not found in /Users/ohadbenacot/CLionProjects/Mtm/ex1/chess Select CMakeLists.txt

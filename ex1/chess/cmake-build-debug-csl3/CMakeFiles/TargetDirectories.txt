@@ -1,3 +1,0 @@
-/home/ohad.benacot/Mtm/ex1/chess/cmake-build-debug-csl3/CMakeFiles/rebuild_cache.dir
-/home/ohad.benacot/Mtm/ex1/chess/cmake-build-debug-csl3/CMakeFiles/edit_cache.dir
-/home/ohad.benacot/Mtm/ex1/chess/cmake-build-debug-csl3/CMakeFiles/chessSystem.dir

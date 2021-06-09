@@ -5,9 +5,6 @@
 #include "chessSystem.h"
 #include "chessTournament.h"
 #include "chessMapUtils.h"
-#include "chessGame.h"
-#include "chessPlayer.h"
-#include "chessPlayerID.h"
 
 #define WIN_GAME_SCORE 2
 #define DRAW_GAME_SCORE 1
@@ -32,7 +29,6 @@ struct chess_tournament_t{
  */
 static Map buildPlayersRankMap(ChessTournament tournament);
 
-
 /**
  * findWinnerPlayerID: Finds the winner player_id and writes it to the attribute
  *                      `winner_player_id`.
@@ -46,49 +42,12 @@ static Map buildPlayersRankMap(ChessTournament tournament);
 static ChessResult findWinnerPlayerID(ChessTournament tournament);
 
 /**
- * Add a player into Map of players of a tournament.
+ * addPlayer: Add a player into Map of players of a tournament.
  * @param tournament Tournament to add players into.
  * @param player ChessPlayer to be added
  * @return
- *  CHESS_SUCCESS if addition succeeded, or other ChessResult if an error occurred.
- *  Errors: CHESS_OUT_OF_MEMORY, CHESS_NULL_ARGUMENT.
- */
-
-static ChessResult addPlayer(ChessTournament tournament, ChessPlayer player);
-
-
-static Map buildPlayersRankMap(ChessTournament tournament);
-
-
-/**
- * addPlayer: add a new player to a chess tournament.
- *
- * @param tournament - chess tournament to which player is to be added. Must be non-NULL.
- * @param player - the player to be added.
- * buildPlayersRankMap:
- * Assumptions:
- *  - tournament isn't empty (checked by related ChessSystem)
- * @param tournament
- * @return Map of player_id : total_rank
- */
-static Map buildPlayersRankMap(ChessTournament tournament);
-
-/**
- *
- * Called by endTournament as a part of general actions to end game.
- * Finds the winner player_id and writes it to the attribute `winner_player_id`.
- * @param tournament Tournament to find winner player id for.
- * @return
- */
-static ChessResult findWinnerPlayerID(ChessTournament tournament);
-
-/**
- * Add a player into Map of players of a tournament.
- * @param tournament Tournament to add players into.
- * @param player ChessPlayer to be added
- * @return
- *  CHESS_SUCCESS if addition succeeded, or other ChessResult if an error occurred.
- *  Errors: CHESS_OUT_OF_MEMORY, CHESS_NULL_ARGUMENT.
+ *      CHESS_SUCCESS if addition succeeded, or other ChessResult if an error occurred.
+ *      Errors: CHESS_OUT_OF_MEMORY, CHESS_NULL_ARGUMENT.
  */
 static ChessResult addPlayer(ChessTournament tournament, ChessPlayer player);
 
@@ -349,33 +308,28 @@ ChessResult tournamentEndTournament(ChessTournament tournament) {
     return res;
 }
 
-ChessResult tournamentRemovePlayer(ChessTournament tournament, PlayerID player_id){
-    if(!tournament || !player_id){
-        return CHESS_NULL_ARGUMENT;
-    }
-    ChessPlayer player = (ChessPlayer)mapGet(tournament->tournament_players, player_id);
-    if(!player){
-        return CHESS_PLAYER_NOT_EXIST;
-    }
-    Map player_games = playerGetGames(player);
-    if(mapGetSize(player_games) == 0){
-        mapDestroy(player_games);
-        return CHESS_NO_GAMES;
-    }
-    MAP_FOREACH(char*, game_id, player_games) {
-        ChessGame game = (ChessGame) mapGet(player_games, game_id);
-        PlayerID other_player_id = ((playerIDCompare(gameGetPlayer1ID(game), player_id) == 0)
-                                    ? gameGetPlayer2ID(game) : gameGetPlayer1ID(game));
-        ChessPlayer other_player = (ChessPlayer) mapGet(tournament->tournament_players, other_player_id);
-        gameUpdateLoser(game, player, other_player);
-        gameSetWinner(game, (playerIDCompare(gameGetPlayer1ID(game), player_id) == 0) ? SECOND_PLAYER : FIRST_PLAYER);
-        gameMarkDeletedPlayerTrue(game);
-        free(game_id);
-    }
-
-    playerSetIsDeleted(player);
-    return CHESS_SUCCESS;
-}
+//ChessResult tournamentRemovePlayer(ChessTournament tournament, PlayerID player_id){
+//    if(!tournament || !player_id){
+//        return CHESS_NULL_ARGUMENT;
+//    }
+//    ChessPlayer player = mapGet(tournament->tournament_players, player_id);
+//    if(!player){
+//        return CHESS_PLAYER_NOT_EXIST;
+//    }
+//    // For every game that player is taking part of set rival to be the winner.
+//    MAP_FOREACH(char*, game_id, tournament->tournament_games){
+//        ChessGame game = mapGet(tournament->tournament_games, game_id);
+//        if (playerIDCompare(gameGetPlayer1ID(game), player_id)){
+//            gameSetWinner(game,SECOND_PLAYER);
+//        }
+//        if (playerIDCompare(gameGetPlayer2ID(game), player_id)){
+//            gameSetWinner(game,FIRST_PLAYER);
+//        }
+//        free(game_id);
+//    }
+//    playerSetIsDeleted(player);
+//    return CHESS_SUCCESS;
+//}
 
 PlayerID tournamentGetWinnerPlayerID(ChessTournament tournament){
     if(!tournament){

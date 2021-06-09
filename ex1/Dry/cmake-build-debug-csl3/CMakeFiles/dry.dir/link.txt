@@ -1,0 +1,1 @@
+/usr/bin/gcc -std=c99 --pedantic-errors -Wall -Werror -g -DNDEBUG -g  -rdynamic CMakeFiles/dry.dir/dry.c.o  -o dry 

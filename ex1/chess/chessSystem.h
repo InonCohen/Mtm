@@ -1,8 +1,9 @@
-#ifndef EX1_CHESSSYSTEM_H
-#define EX1_CHESSSYSTEM_H
+#ifndef _CHESSSYSTEM_H
+#define _CHESSSYSTEM_H
 
 #include <stdio.h>
-#define BAD_INPUT (-999)
+
+
 
 typedef enum {
     CHESS_OUT_OF_MEMORY,
@@ -196,4 +197,4 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file);
  */
 ChessResult chessSaveTournamentStatistics (ChessSystem chess, char* path_file);
 
-#endif //EX1_CHESSSYSTEM_H
+#endif //HW1_CHESSSYSTEM_H
