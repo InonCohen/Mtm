@@ -1,30 +1,8 @@
 ### JetBrains ###
 **/.idea
-
 ### Build ###
 **/cmake-build-debug/
-/ex1/chess/CMakeLists.txt
 ### Exercise Instructions ###
 *.pdf
-/ex1/.idea/
-*.png
 *.xml
-/ex1-public/
-/ex1/mtm_ex1_tests_UNIX_compatible/
-/ex1-public/
-/ex1/Maaruf/
-/ex1/cmake-build-debug/Testing/
-/ex1/cmake-build-debug/tests/
-/ex1/cmake-build-debug/
 *.log
-*.log
-/mtm_ex1_tests_UNIX_compatible/
-/LastHour/
-/ex1/cmake-build-debug/
-/ex1/cmake-build-debug/
-/ex1/cmake-build-debug/Testing/
-/ex1/cmake-build-debug/
-### Maaroof Testing Directories ###
-/ex1/chess/your_output/
-/ex1/chess/expected_output/
-/ex1/chess/actual_output/

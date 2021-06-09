@@ -13,6 +13,7 @@
  *     in case of an allocation error)
  */
 ChessPlayer playerCreate(PlayerID id);
+
 /**
  * playerDestroy: free a player from memory, while updating played
  * games and tournaments.
@@ -21,6 +22,7 @@ ChessPlayer playerCreate(PlayerID id);
  *     allowed, and in that case the function does nothing.
  */
 void playerDestroy(ChessPlayer player);
+
 /**
 * playerCopy: Creates a copy of the target player.
 *

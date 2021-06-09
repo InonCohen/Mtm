@@ -228,7 +228,7 @@ ChessResult playerAddGame(ChessPlayer player, ChessGame game){
     if(gameGetWinner(game) == DRAW){
         playerAddDraw(player, game);
     }
-    else if(gameGetWinner(game)==FIRST_CHESS){
+    else if(gameGetWinner(game)==FIRST_PLAYER){
         if(playerIDCompare(first_player_id, player_id) == 0){
             playerAddWin(player, game);
         }
@@ -268,7 +268,7 @@ ChessResult playerRemoveGame(ChessPlayer player, ChessGame game){
     }
     else{
         PlayerID game_player1 = gameGetPlayer1ID(game);
-        if(game_winner == FIRST_CHESS){
+        if(game_winner == FIRST_PLAYER){
             if(playerIDCompare(game_player1, player->id) == 0){
                 playerRemoveWin(player, game);
             }
