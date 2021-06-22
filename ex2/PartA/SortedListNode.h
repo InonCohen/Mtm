@@ -17,6 +17,7 @@ namespace mtm{
         SortedListNode() = default;
         explicit SortedListNode(T value, SortedListNode *prev = NULL, SortedListNode *next = NULL);
         explicit SortedListNode(const SortedListNode<T> &node);
+        SortedListNode& operator=(const SortedListNode<T>& other);
         ~SortedListNode() = default;
         SortedListNode* getPrev() const;
         SortedListNode* getNext() const;
@@ -33,6 +34,18 @@ namespace mtm{
 
     template <class T>
     SortedListNode<T>::SortedListNode(const SortedListNode<T> &node) : value(node.value), prev(node.prev), next(node.next){}
+
+    template <class T>
+    SortedListNode<T>& SortedListNode<T>::operator=(const SortedListNode<T>& other){
+        if(this == &other){
+            return *this;
+        }
+        value = other.value;
+        prev = nullptr;
+        next = nullptr;
+        return *this;
+    }
+
 
     template <class T>
     SortedListNode<T>* SortedListNode<T>::getPrev() const
