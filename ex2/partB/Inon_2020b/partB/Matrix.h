@@ -67,7 +67,7 @@ namespace mtm{
 			 * - assignment operator.
 			 * -~T() destructor
 			  */
-        Matrix<T>(Dimensions dim, T initial_val= T());
+        Matrix<T>(Dimensions& dim, T initial_val= T());
         /**
              * //Matrix<T>(const Matrix<T> &matrix)//:
              * - Matrix<T> copy constructor
@@ -212,12 +212,12 @@ namespace mtm{
 			 *  T operator of logical comparison (matching operator for every function):
 			 * (==,!=,<=,>=,<,>)
 		*/
-        Matrix<bool> operator==(T to_compare);
-        Matrix<bool> operator!=(T to_compare);
-        Matrix<bool> operator<=(T to_compare);
-        Matrix<bool> operator>=(T to_compare);
-        Matrix<bool> operator<(T to_compare);
-        Matrix<bool> operator>(T to_compare);
+        Matrix<bool> operator==(const T to_compare) const;
+        Matrix<bool> operator!=(const T to_compare) const;
+        Matrix<bool> operator<=(const T to_compare) const;
+        Matrix<bool> operator>=(const T to_compare) const;
+        Matrix<bool> operator<(const T to_compare) const;
+        Matrix<bool> operator>(const T to_compare) const;
 
         // iterator and const iterator classes declared as members of class Matrix://
         /**
@@ -582,32 +582,32 @@ namespace mtm{
     }
 
     template <class T>
-    Matrix<bool> Matrix<T>::operator==(T to_compare) {
+    Matrix<bool> Matrix<T>::operator==(const T to_compare) const {
             return compareMatrix(*this, to_compare, EQUAL);
         }
 
     template <class T>
-        Matrix<bool> Matrix<T>::operator!=(T to_compare) {
+        Matrix<bool> Matrix<T>::operator!=(const T to_compare) const {
             return compareMatrix(*this, to_compare, NOT_EQUAL);
         }
 
     template <class T>
-        Matrix<bool> Matrix<T>::operator<=(T to_compare) {
+        Matrix<bool> Matrix<T>::operator<=(const T to_compare) const {
             return compareMatrix(*this, to_compare, SMALL_EQUAL);
         }
 
     template <class T>
-        Matrix<bool> Matrix<T>::operator>=(T to_compare) {
+        Matrix<bool> Matrix<T>::operator>=(const T to_compare) const {
             return compareMatrix(*this, to_compare, BIG_EQUAL);
         }
 
     template <class T>
-        Matrix<bool> Matrix<T>::operator<(T to_compare) {
+        Matrix<bool> Matrix<T>::operator<(const T to_compare) const {
             return compareMatrix(*this, to_compare, SMALLER);
         }
 
     template <class T>
-        Matrix<bool> Matrix<T>::operator>(T to_compare) {
+        Matrix<bool> Matrix<T>::operator>(const T to_compare) const {
             return compareMatrix(*this, to_compare, BIGGER);
         }
 		/**
@@ -621,7 +621,7 @@ namespace mtm{
 		* operators of logical comparison for T (>,<,<=,>=,==,!=)
 		*/
     template <class T>
-        static bool compareT(const T val1, const T val2, char sign) {
+        static bool compareT(const T val1, const T val2, char sign) const {
             if (sign == BIGGER) {
                 return (val1 > val2);
             }
