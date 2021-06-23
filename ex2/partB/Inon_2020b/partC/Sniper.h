@@ -17,15 +17,15 @@ namespace mtm{
         /**
             * //Sniper(Team team,units_t health, units_t ammo, units_t range, units_t power)//:
             * Sniper constructor.
-            * receives Sniper's Team(CPP or PYTHON), positive integer health,
+            * receives Sniper's Team(Powerlifters or Crossfitters), positive integer health,
                     non-negative integers ammo, range, power.
-            * constructs Sniper, by creating Chracter with the params given.
+            * constructs Sniper, by creating Character with the params given.
      */
         Sniper(Team team,units_t health, units_t ammo, units_t range, units_t power);
          /**
             * //Sniper(const  Soldier& other)//:
             * Sniper copy constructor.
-            * receives a sniper'ss reference
+            * receives a sniper's reference
             * constructs a new Sniper holding the same stats of other.
      */    
         Sniper(const  Sniper& other);

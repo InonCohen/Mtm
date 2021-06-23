@@ -14,9 +14,9 @@ namespace mtm{
     /**
             * //Medic(Team team,units_t health, units_t ammo, units_t range, units_t power)//:
             * Medic constructor.
-            * receives Medic Team(CPP or PYTHON), positive integer health,
+            * receives Medic Team(Powerlifters or Crossfitters), positive integer health,
                     non-negative integers ammo, range, power.
-            * constructs medic, by creating Chracter with the params given.
+            * constructs medic, by creating Character with the params given.
      */
         Medic(Team team,units_t health, units_t ammo, units_t range, units_t power);
     /**

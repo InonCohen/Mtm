@@ -20,7 +20,7 @@ namespace mtm{
         /**
             * //explicit Character(Team team,units_t health, units_t ammo, units_t range, units_t power)//:
             * A Character constructor.
-            * receives Charcter Team(CPP or PYTHON), positive integer health,
+            * receives Character Team(Powerlifters or Crossfitters), positive integer health,
                     non-negative integers ammo, range, power.
             * constructs a character, by creating it with the given parameters.
         */ 
@@ -56,13 +56,13 @@ namespace mtm{
         
         /**
             * //virtual CharacterType getType()=0//:
-            * returns the derived Charactertype of this
+            * returns the derived Character type of this
         */
         virtual CharacterType getType()=0;
         
         /**
             * //Team getTeam() const//:
-            * returns the derived Characterteam of this
+            * returns the derived Character team of this
         */
         Team getTeam() const;
         
@@ -76,7 +76,7 @@ namespace mtm{
 
        /**
 			 * //bool isMoveLegal(units_t distance)//:
-			 * recieves units_t parameter of distance.
+			 * Receives units_t parameter of distance.
 			 * returns true if move is legal distance- wise
              * otherwise returns false
 		*/
@@ -84,7 +84,7 @@ namespace mtm{
 
         /**
 			 * //bool isAttackLegal(const GridPoint& src, const GridPoint& dest)//:
-			 * recieves Gridpoint reference parameter of source attack and of dest of attack.
+			 * receives GridPoint reference parameter of source attack and of dest of attack.
 			 * returns true if attack is legal range- wise
              * otherwise returns false
 		*/
@@ -92,7 +92,7 @@ namespace mtm{
 
         /**
 			 * //bool isTargetLegal (const std::shared_ptr<Character>& target)//:
-			 * recieves shared_ptr Character (reference) of target.
+			 * receives shared_ptr Character (reference) of target.
 			 * returns true if target is legal type- wise
              * otherwise returns false
 		*/
@@ -100,7 +100,7 @@ namespace mtm{
 
         /**
 			 * //bool isTargetPositionLegal(const GridPoint &src, const GridPoint &dest) override//:
-			 * recieves const Gridpoint reference of source and destination.
+			 * receives const GridPoint reference of source and destination.
 			 * returns true if target position is legal direction- wise
              * otherwise returns false
 		*/
@@ -108,7 +108,7 @@ namespace mtm{
         
          /**
 			 * //bool isAmmoSufficient(const std::shared_ptr<Character>& target)//:
-			 * recieves shared_ptr Character reference (target).
+			 * receives shared_ptr Character reference (target).
 			 * returns true if Character's ammo is sufficient.
              * otherwise returns false
 		*/
@@ -121,7 +121,7 @@ namespace mtm{
         virtual void attack(std::shared_ptr<Character>& target)=0;
         /**
              * //virtual void attackSecondary(std::shared_ptr<Character>& target) 
-             *  recieves shared_ptr Character reference (target)
+             *  receives shared_ptr Character reference (target)
              *  if soldier is attacking creates list of secondary targets and attacks them.
              * 
         */
@@ -129,12 +129,12 @@ namespace mtm{
         
         /**
              * //void attack(std::list<std::shared_ptr<Character>>& secondary_targets)//: 
-             *  recieves list of pointers and according to demands of excercise weakens the upcoming attack.
+             *  receives list of pointers and according to demands of exercise weakens the upcoming attack.
         */
         void attack(std::list<std::shared_ptr<Character>>& secondary_targets);
         /**
              * //void hurt(units_t damage)//
-             *  recieves units_t damage parameter.
+             *  receives units_t damage parameter.
              *  decreases attacked characters health points according to attack.
              * if health points are negative, sets them to zero.
              * 
@@ -142,7 +142,7 @@ namespace mtm{
         void hurt(units_t damage);
         /**
              * //void heal(units_t healing_points)//
-             *  recieves units_t healing points
+             *  receives units_t healing points
              *  increases target characters health points according to rules.
         */
         void heal(units_t healing_points);
@@ -160,11 +160,11 @@ namespace mtm{
         
         /**
              * //virtual bool isSecondaryTarget(const GridPoint initial_hit_point, const GridPoint possible_secondary_hit_point)//
-             *  recieves two coordinates (constant Gridpoint) ,initial hit point and possibble secondary hitpoint.
-             *  if the secondary hitpoint was hit, returns true.
+             *  receives two coordinates (constant GridPoint) ,initial hit point and possible secondary hitPoint.
+             *  if the secondary hitPoint was hit, returns true.
              * otherwise returns false.
         */
-        virtual bool isSecondaryTarget(const GridPoint initial_hit_point, const GridPoint possible_secondary_hit_point);
+        virtual bool isSecondaryTarget(GridPoint initial_hit_point, GridPoint possible_secondary_hit_point);
 
     };
 }

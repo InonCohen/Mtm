@@ -14,16 +14,16 @@ namespace mtm{
     /**
             * //Soldier(Team team,units_t health, units_t ammo, units_t range, units_t power)//:
             * Soldier constructor.
-            * receives Soldier's Team(CPP or PYTHON), positive integer health,
+            * receives Soldier's Team(Powerlifters or Crossfitters), positive integer health,
                     non-negative integers ammo, range, power.
-            * constructs Soldier, by creating Chracter with the params given.
+            * constructs Soldier, by creating Character with the params given.
      */
         Soldier(Team team,units_t health, units_t ammo, units_t range, units_t power);
     /**
             * //Soldier(const  Soldier& other)//:
             * Soldier copy constructor.
             * receives a soldier's reference
-            * constructs a new Soldierholding the same stats of other.
+            * constructs a new Soldier holding the same stats of other.
      */    
         Soldier(const  Soldier& other);
      /**

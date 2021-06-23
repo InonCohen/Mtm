@@ -22,7 +22,7 @@ namespace mtm{
         
         /**
              * //bool isCellLegal(const GridPoint& coordinates)//:
-             * recieves a GridPoint named coordinates
+             * receives a GridPoint named coordinates
              * returns true if coordinates form a legal cell in game's board (not outside the board, not negative)
              * returns false otherwise
         */
@@ -31,7 +31,7 @@ namespace mtm{
         /**
              * //void clearDead()//:
              * checks all board's characters health
-             * If a character's health is zero, the charcter is removed from the board
+             * If a character's health is zero, the character is removed from the board
         */
         void clearDead();
         
@@ -39,9 +39,9 @@ namespace mtm{
              * //void fillSecondaryTargetsList(const GridPoint src_coordinates, const GridPoint dst_coordinates,
                std::list<std::shared_ptr<Character>>& secondary_targets)//:
              * receives two GridPoints and a list of shared_pointers to Character
-             * the list is filled with shared pointers to charcters in range of damage from a Soldier's attack
+             * the list is filled with shared pointers to characters in range of damage from a Soldier's attack
         */
-        void fillSecondaryTargetsList(const GridPoint src_coordinates, const GridPoint dst_coordinates, 
+        void fillSecondaryTargetsList(GridPoint src_coordinates, GridPoint dst_coordinates,
         std::list<std::shared_ptr<Character>>& secondary_targets);
         
         /**
@@ -79,14 +79,14 @@ namespace mtm{
         /**
              * //std::shared_ptr<Character>& operator()(const GridPoint& gp)//:
              * receives a reference to GridPoint named gp
-             * returns the smart pointer in cell woth coordinates gp of the game's board
+             * returns the smart pointer in cell with coordinates gp of the game's board
         */
         std::shared_ptr<Character>& operator()(const GridPoint& gp);
         
         /**
              * //const std::shared_ptr<Character>& operator()(int row, int col) const//:
              * receives a reference to GridPoint named gp
-             * returns the constant smart pointer in cell woth coordinates gp of the game's board 
+             * returns the constant smart pointer in cell with coordinates gp of the game's board
         */
         const std::shared_ptr<Character>& operator()(int row, int col) const;
     
@@ -138,15 +138,15 @@ namespace mtm{
         
         /** 
             *  //void move(const GridPoint & src_coordinates, const GridPoint & dst_coordinates)//
-            *  receives two Gridpoints
-            *  moves the character currently in src_coordinares, to dst_coordinates
+            *  receives two GridPoints
+            *  moves the character currently in src_coordinates, to dst_coordinates
         */
         void move(const GridPoint & src_coordinates, const GridPoint & dst_coordinates);
         
         /** 
             * //void attack(const GridPoint & src_coordinates, const GridPoint & dst_coordinates)//:
-            * receives two Gridpoints
-            * attacks the character currently in dst_coordinares with the character in src_coordinates
+            * receives two GridPoints
+            * attacks the character currently in dst_coordinates with the character in src_coordinates
         */
         void attack(const GridPoint & src_coordinates, const GridPoint & dst_coordinates);
         
@@ -163,7 +163,7 @@ namespace mtm{
              * checks if the games is over according to the rules.
              * returns true if the game is over. false, otherwise. 
         */
-        bool isOver(Team* winningTeam=NULL) const;
+        bool isOver(Team* winningTeam=nullptr) const;
          
         /** 
              * //std::ostream& operator<<(std::ostream &os, const Game& game)//:

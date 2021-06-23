@@ -4,7 +4,6 @@
 #include "Sniper.h"
 #include "Matrix.h"
 #include "Exceptions.h"
-#include <iostream>
 #include "Auxiliaries.h"
 #include <memory>
 #include <list>
@@ -118,7 +117,7 @@ namespace mtm{
         if (!isCellLegal(coordinates)){
             throw IllegalCell();
         }
-        if(this->operator()(coordinates)!=NULL){
+        if(this->operator()(coordinates)!=nullptr){
             throw CellOccupied();
         }
         this->operator()(coordinates)=character;
@@ -128,7 +127,7 @@ namespace mtm{
         if(character==nullptr){
             return EMPTY_CELL;
         }
-        if((character.get())->getTeam()==CPP){
+        if((character.get())->getTeam() == Powerlifters){
             if((character.get())->getType()==SOLDIER){
                 return CPP_SOLDIER;
             }
@@ -197,7 +196,7 @@ namespace mtm{
             throw OutOfAmmo();
         }
         if(!((attacker_ptr.get())->isTargetLegal(target_ptr))||
-        !(attacker_ptr.get()->isTargetPositionLegal(src_coordinates,dst_coordinates))){
+        !(attacker_ptr->isTargetPositionLegal(src_coordinates,dst_coordinates))){
             throw IllegalTarget();
         }
         (attacker_ptr.get())->attack(target_ptr);
@@ -247,9 +246,9 @@ namespace mtm{
         int countCPP=0, countPython=0;
         for(int i=0;i< board.height();i++) {
             for (int j = 0; j < board.width(); j++) {
-                if (board(i, j) != nullptr && (board(i, j).get())->getTeam() == CPP) {
+                if (board(i, j) != nullptr && (board(i, j).get())->getTeam() == Powerlifters) {
                     countCPP++;
-                } else if (board(i, j) != nullptr && (board(i, j).get())->getTeam() == PYTHON) {
+                } else if (board(i, j) != nullptr && (board(i, j).get())->getTeam() == Crossfitters) {
                     countPython++;
                 }
             }
@@ -259,10 +258,10 @@ namespace mtm{
         }
         if (winningTeam!= nullptr){
             if(countCPP==0) {
-                *winningTeam = PYTHON;
+                *winningTeam = Crossfitters;
             }
             else{
-                *winningTeam = CPP;
+                *winningTeam = Powerlifters;
             }
         }
         return true;

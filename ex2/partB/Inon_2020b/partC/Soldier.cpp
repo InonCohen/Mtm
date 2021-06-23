@@ -1,8 +1,7 @@
+#include <cmath>
 #include "Soldier.h"
 #include "Auxiliaries.h"
 #include "Character.h"
-#include <cmath>
-#include "Game.h"
 #include "Exceptions.h"
 
 namespace mtm{

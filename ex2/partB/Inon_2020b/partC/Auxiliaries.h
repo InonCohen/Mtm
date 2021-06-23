@@ -8,7 +8,7 @@
 
 namespace mtm {
     enum Team {
-        CPP, PYTHON
+        Powerlifters, Crossfitters
     };
     enum CharacterType {
         SOLDIER, MEDIC, SNIPER

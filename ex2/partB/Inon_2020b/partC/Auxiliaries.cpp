@@ -10,7 +10,7 @@ int Dimensions::getRow() const{
 }
 
 std::string Dimensions::toString() const{
-    return "Height: ", std::to_string(this->height), "\n", "Width: ", std::to_string(this->width);
+    return "Height: " + std::to_string(this->height) + "\n" + "Width: " + std::to_string(this->width);
 }
 
 std::ostream &mtm::printGameBoard(std::ostream &os, const char *begin,
