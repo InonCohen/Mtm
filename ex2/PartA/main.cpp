@@ -12,10 +12,10 @@ int main(){
     SortedList<string> lst2 = lst1;
     //lst2 = lst2.apply(getLen);
 //    printList(lst2);
-//    SortedList<string>::const_iterator it = lst2.begin();
-//    cout << *it << endl << endl;
-//    ++it;
-//    lst2.remove(it);
+    SortedList<string>::const_iterator it = lst2.begin();
+    cout << *it << endl << endl;
+    ++it;
+    lst2.remove(it);
 //    printList(lst2
     return 0;
 }
