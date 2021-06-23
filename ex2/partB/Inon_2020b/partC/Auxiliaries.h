@@ -8,13 +8,12 @@
 
 namespace mtm {
     enum Team {
-        POWERLIFTERS, CROSSFITTERS
+        CPP, PYTHON
     };
     enum CharacterType {
         SOLDIER, MEDIC, SNIPER
     };
     typedef int units_t;
-
     struct GridPoint {
         int row, col;
 
@@ -36,6 +35,15 @@ namespace mtm {
         }
     };
 
+    class Dimensions{
+        int height;
+        int width;
+    public:
+        Dimensions(int height, int width);
+        int getRow() const;
+        int getCol() const;
+        std::string toString() const;
+    };
 
     std::ostream &printGameBoard(std::ostream &os, const char *begin,
                                  const char *end, unsigned int width);

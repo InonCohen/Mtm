@@ -13,12 +13,12 @@ namespace mtm{
     class Game{
         Matrix<std::shared_ptr<Character>> board;
 
-        /**
-             * //static char getLetter(const std::shared_ptr<Character>& character)//:
-             * receives a shared pointer to Character named character
-             * returns the letter symbolizes the character on the board
-        */ 
-        static char getLetter(const std::shared_ptr<Character>& character);
+//        /**
+//             * //static char getLetter(const std::shared_ptr<Character>& character)//:
+//             * receives a shared pointer to Character named character
+//             * returns the letter symbolizes the character on the board
+//        */
+//        static char getLetter(const std::shared_ptr<Character>& character);
         
         /**
              * //bool isCellLegal(const GridPoint& coordinates)//:

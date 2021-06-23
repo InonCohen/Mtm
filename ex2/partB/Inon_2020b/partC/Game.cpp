@@ -18,7 +18,16 @@ namespace mtm{
     static const char PYTHON_MEDIC='m';
     static const char CPP_SNIPER='N';
     static const char PYTHON_SNIPER='n';
+
+    /**
+     * //static char getLetter(const std::shared_ptr<Character>& character)//:
+     * receives a shared pointer to Character named character
+     * returns the letter symbolizes the character on the board
+*/
+    static char getLetter(const std::shared_ptr<Character>& character);
+
     Game::Game(int height, int width): board((height<=0 || width<= 0) ? throw IllegalArgument() : Matrix<std::shared_ptr<Character>>(Dimensions(height,width),nullptr)){}
+
     Game::~Game(){
         int height=this->getHeight();
         int width=this->getWidth();
@@ -114,7 +123,6 @@ namespace mtm{
         }
         this->operator()(coordinates)=character;
     }
-
 
     static char getLetter(const std::shared_ptr<Character>& character){
         if(character==nullptr){
