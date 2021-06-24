@@ -2,6 +2,7 @@
 using namespace mtm;
 
 Dimensions::Dimensions(int height, int width): height(height), width(width){}
+
 int Dimensions::getCol() const{
     return this->width;
 }
