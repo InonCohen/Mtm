@@ -1,3 +1,4 @@
+#include <cmath>
 #include "Sniper.h"
 #include "Auxiliaries.h"
 
