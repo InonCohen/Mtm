@@ -13,7 +13,7 @@ namespace mtm{
         SortedListNode<T> *next;
 
     public:
-        explicit SortedListNode(T value, SortedListNode *next = NULL);
+        explicit SortedListNode(T value, SortedListNode<T>* next = nullptr);
         explicit SortedListNode(const SortedListNode<T> &node);
         SortedListNode& operator=(const SortedListNode<T>& other);
         ~SortedListNode();
@@ -22,7 +22,7 @@ namespace mtm{
         void setNext(SortedListNode *node);
         const T& getValue() const;
         void setValue(T &val);
-        SortedListNode<T>& deepCopyAhead() const;
+        SortedListNode<T>* copyRecursively() const;
         bool operator==(SortedListNode<T> &to_compare);
     };
 
@@ -30,7 +30,7 @@ namespace mtm{
     SortedListNode<T>::SortedListNode(T value, SortedListNode *next) : value(value), next(next){}
 
     template <class T>
-    SortedListNode<T>::SortedListNode(const SortedListNode<T> &node) : value(node.value), next(node.next){}
+    SortedListNode<T>::SortedListNode(const SortedListNode<T> &node) : value(node.value), next(nullptr){}
 
     template <class T>
     SortedListNode<T>& SortedListNode<T>::operator=(const SortedListNode<T>& other){
@@ -44,7 +44,8 @@ namespace mtm{
 
     template <class T>
     SortedListNode<T>::~SortedListNode<T>() {
-        next = nullptr;
+        if (next)
+            next = nullptr;
     }
 
     template <class T>
@@ -83,9 +84,9 @@ namespace mtm{
     }
 
     template <class T>
-    SortedListNode<T>& SortedListNode<T>::deepCopyAhead() const
+    SortedListNode<T>* SortedListNode<T>::copyRecursively() const
     {
-        SortedListNode<T>* to_return= new SortedListNode<T>(*this);
+        SortedListNode<T>* to_return = new SortedListNode<T>(*this);
         T val = value;
         to_return->setValue(val);
         to_return->setNext(nullptr);
@@ -100,7 +101,7 @@ namespace mtm{
             ptr_of_copy = ptr_of_copy->next;
             ptr_of_original = ptr_of_original->next;
         }
-        return *to_return;
+        return to_return;
     }
 
     template <class T>

@@ -219,8 +219,7 @@ namespace mtm {
         if (this == &list) {
             return *this;
         }
-        auto new_head = new SortedListNode<T>(*head);
-        *new_head = list.head->deepCopyAhead();
+        SortedListNode<T>* new_head = list.head->copyRecursively();
         head->deleteRecursively(head);
         head = new_head;
         num_of_nodes = list.num_of_nodes;
@@ -248,12 +247,13 @@ namespace mtm {
         }
         else{
             SortedListNode<T> *antecedent = head;
-            while (antecedent && antecedent->getValue() <= to_add) {
+            while (antecedent && antecedent->getValue() < to_add) {
                 if(antecedent->getNext() == nullptr || antecedent->getNext()->getValue()>to_add) {
                     break;
                 }
                 antecedent = antecedent->getNext();
             }
+            new_node->setNext(antecedent->getNext());
             antecedent->setNext(new_node);
         }
         num_of_nodes++;
@@ -272,10 +272,10 @@ namespace mtm {
             head = head->getNext();
         } else {
             SortedListNode<T>* previous = head;
-            while(!(previous->getNext() == iter.current_node)){
+            while(!(previous->getNext() == iter.getNodePtr())){
                 previous = previous->getNext();
             }
-            previous->setNext(iter.current_node->getNext());
+            previous->setNext(iter.getNodePtr()->getNext());
         }
         delete (iter.getNodePtr());
         num_of_nodes--;

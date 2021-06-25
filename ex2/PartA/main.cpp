@@ -4,8 +4,9 @@ using namespace mtm;
 using namespace std;
 
 std::string getLen (std::string str){
-    int str_len= str.size();
-    return to_string(str_len);
+    int len = str.size();
+    std::string str_len = to_string(len);
+    return str_len;
 }
 
 int main(){
