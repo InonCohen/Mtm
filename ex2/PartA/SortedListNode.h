@@ -10,30 +10,27 @@ namespace mtm{
     class SortedListNode
     {
         T value;
-        SortedListNode<T> *prev;
         SortedListNode<T> *next;
 
     public:
-        SortedListNode() = default;
-        explicit SortedListNode(T value, SortedListNode *prev = NULL, SortedListNode *next = NULL);
+        explicit SortedListNode(T value, SortedListNode *next = NULL);
         explicit SortedListNode(const SortedListNode<T> &node);
         SortedListNode& operator=(const SortedListNode<T>& other);
-        ~SortedListNode() = default;
-        SortedListNode* getPrev() const;
+        ~SortedListNode();
+        static void deleteRecursively(SortedListNode<T>* node);
         SortedListNode* getNext() const;
-        void setPrev(SortedListNode *node);
         void setNext(SortedListNode *node);
         const T& getValue() const;
         void setValue(T &val);
-        SortedListNode<T>& clone() const;
+        SortedListNode<T>& deepCopyAhead() const;
         bool operator==(SortedListNode<T> &to_compare);
     };
 
     template <class T>
-    SortedListNode<T>::SortedListNode(T value, SortedListNode* prev, SortedListNode *next) : value(value), prev(prev), next(next){}
+    SortedListNode<T>::SortedListNode(T value, SortedListNode *next) : value(value), next(next){}
 
     template <class T>
-    SortedListNode<T>::SortedListNode(const SortedListNode<T> &node) : value(node.value), prev(node.prev), next(node.next){}
+    SortedListNode<T>::SortedListNode(const SortedListNode<T> &node) : value(node.value), next(node.next){}
 
     template <class T>
     SortedListNode<T>& SortedListNode<T>::operator=(const SortedListNode<T>& other){
@@ -41,68 +38,76 @@ namespace mtm{
             return *this;
         }
         value = other.value;
-        prev = nullptr;
-        next = nullptr;
+        next = other.next;
         return *this;
     }
 
+    template <class T>
+    SortedListNode<T>::~SortedListNode<T>() {
+        next = nullptr;
+    }
 
     template <class T>
-    SortedListNode<T>* SortedListNode<T>::getPrev() const
-    {
-        return this->prev;
+    void SortedListNode<T>::deleteRecursively(SortedListNode<T>* node){
+        while(node != nullptr){
+            SortedListNode<T>* temp = node->getNext();
+            delete node;
+            node = temp;
+        }
     }
 
     template <class T>
     SortedListNode<T>* SortedListNode<T>::getNext() const
     {
-        return this->next;
+        return next;
     }
-
-    template <class T>
-    void SortedListNode<T>::setPrev(SortedListNode* node)
-    {
-        this->prev = node;
-    }
+    
 
     template <class T>
     void SortedListNode<T>::setNext(SortedListNode* node)
     {
-        this->next = node;
+        next = node;
     }
 
     template <class T>
     const T& SortedListNode<T>::getValue() const
     {
-        return this->value;
+        return value;
     }
 
 
     template <class T>
-    void SortedListNode<T>::setValue(T &val)
+    void SortedListNode<T>::setValue(T& val)
     {
-        this->value = val;
+        value = val;
     }
 
     template <class T>
-    SortedListNode<T>& SortedListNode<T>::clone() const
+    SortedListNode<T>& SortedListNode<T>::deepCopyAhead() const
     {
-        SortedListNode<T> to_return;
-        to_return.setValue(this->value);
-        to_return.setPrev(nullptr);
-        to_return.setNext(nullptr);
-        return to_return;
-    }
-
-    template <class T>
-    bool SortedListNode<T>::operator==(SortedListNode<T> &to_compare)
-    {
-        if (to_compare == NULL)
-        {
-            return false;
+        SortedListNode<T>* to_return= new SortedListNode<T>(*this);
+        T val = value;
+        to_return->setValue(val);
+        to_return->setNext(nullptr);
+        SortedListNode<T>* ptr_of_copy = to_return;
+        SortedListNode<T>* ptr_of_original = this->next;
+        while (ptr_of_original){
+            ptr_of_copy->setNext(new SortedListNode<T>(ptr_of_original->getValue()));
+            SortedListNode<T>* next_copy = ptr_of_copy->getNext();
+            val = ptr_of_original->getValue();
+            next_copy->setValue(val);
+            next_copy->setNext(nullptr);
+            ptr_of_copy = ptr_of_copy->next;
+            ptr_of_original = ptr_of_original->next;
         }
-        return (value == to_compare.value && next = to_compare.next && prev == to_compare.prev);
+        return *to_return;
     }
+
+    template <class T>
+    bool SortedListNode<T>::operator==(SortedListNode<T> &to_compare) {
+        return (!(value < to_compare.value) && !(to_compare.value < value) && next == to_compare.next);
+    }
+
 
 
     template <class T>
