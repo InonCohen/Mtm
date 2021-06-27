@@ -1,169 +1,383 @@
 
-(1) Testing the ExamDetails Constructor (Version 1)...
-(Excellent) Passed the ExamDetails Constructor (Version 1)!
+(1) Testing the SortedList Constructor (Version 1)...
+(Excellent) Passed the SortedList Constructor (Version 1)!
 
-(2) Testing the ExamDetails Copy Constructor (Version 1)...
-(Excellent) Passed the ExamDetails Copy Constructor (Version 1)!
+(2) Testing the SortedList Copy Constructor (Version 1)...
+(Excellent) Passed the SortedList Copy Constructor (Version 1)!
 
-(3) Testing the ExamDetails makeMatamExam Method...
-(Excellent) Passed the ExamDetails makeMatamExam Method!
+(3) Testing the SortedList Copy Assignment Operator (Version 1) - Normal Assignment...
+(Excellent) Passed the SortedList Copy Assignment Operator (Version 1) - Normal Assignment!
 
-(4) Testing the ExamDetails Copy Constructor (Version 2)...
-(Excellent) Passed the ExamDetails Copy Constructor (Version 2)!
+(4) Testing the SortedList Copy Assignment Operator (Version 2.1) - Self Assignment...
+(Excellent) Passed the SortedList Copy Assignment Operator (Version 2.1) - Self Assignment!
 
-(5) Testing the ExamDetails Copy Assignment Operator (Version 1) - Normal Assignment...
-(Excellent) Passed the ExamDetails Copy Assignment Operator (Version 1) - Normal Assignment!
+(5) Testing the SortedList Insert Method...
+(Excellent) Passed the SortedList Insert Method!
 
-(6) Testing the ExamDetails Copy Assignment Operator (Version 2.1) - Self Assignment...
-(Excellent) Passed the ExamDetails Copy Assignment Operator (Version 2.1) - Self Assignment!
+(6) Testing the SortedList Begin Method...
+(Excellent) Passed the SortedList Begin Method!
 
-(7) Testing the ExamDetails Copy Assignment Operator (Version 2.2) - Self Assignment - Reference...
-(Excellent) Passed the ExamDetails Copy Assignment Operator (Version 2.2) - Self Assignment - Reference!
+(7) Testing the const_iterator Copy Constructor...
+(Excellent) Passed the const_iterator Copy Constructor!
 
-(8) Testing the ExamDetails getLink Method (Version 1)...
-(Excellent) Passed the ExamDetails getLink Method (Version 1)!
+(8) Testing the const_iterator Copy Assignment Operator (=) - Version 1.1 - Normal Assignment...
+(Excellent) Passed the const_iterator Copy Assignment Operator (=) - Version 1.1 - Normal Assignment!
 
-(9) Testing the ExamDetails getLink Method (Version 2.1) - Printing the link...
-Original Infy 1 website: infy1.com
-Original Infy 1m website: infy1m.com
-Original Infy 2 website: infy2.com
-Original Infy 2m website: infy2m.com
-Original String website: 
-Copied Infy 1 website: infy1.com
-Copied Infy 1m website: infy1m.com
-Copied Infy 2 website: infy2.com
-Copied Infy 2m website: infy2m.com
-Copied Empty String: 
-(Excellent) Passed the ExamDetails getLink Method (Version 2.1) - Printing the link!
+(9) Testing the const_iterator Copy Assignment Operator (=) - Version 1.2 - Self Assignment...
+(Excellent) Passed the const_iterator Copy Assignment Operator (=) - Version 1.2 - Self Assignment!
 
-(10) Testing the ExamDetails setLink Method...
-(Excellent) Passed the ExamDetails setLink Method!
+(10) Testing the const_iterator Statement Operator (==)...
+(Excellent) Passed the const_iterator Statement Operator (==)!
 
-(11) Testing the ExamDetails getLink Method (Version 2.2) - Printing the updated link...
-Updated Original Infy 1 website: infy1.co.il/original
-Updated Original Infy 1m website: infy1m.co.il/original
-Updated Original Infy 2 website: infy2.co.il/original
-Updated Original Infy 2m website: infy2m.co.il/original
-Updated Original String website: original
-Updated Copied Infy 1 website: infy1.co.il/copied
-Updated Copied Infy 1m website: infy1m.co.il/copied
-Updated Copied Infy 2 website: infy2.co.il/copied
-Updated Copied Infy 2m website: infy2m.co.il/copied
-Updated Copied Empty String: Not Empty Anymore
-(Excellent) Passed the ExamDetails getLink Method (Version 2.2) - Printing the updated link!
+(11) Testing the const_iterator Statement Operator (++) - PreFix (++it)...
+(Excellent) Passed the const_iterator Statement Operator (++) - PreFix (++it)!
 
-(12) Testing the ExamDetails Subtract Operator (-)...
-((Infy 1 date) - (Infy 1 date)) = 0 days
-((Infy 1 date) - (Infy 1m date)) = -359 days
-((Infy 1m date) - (Infy 1 date)) = 359 days
-((Infy 2 date) - (Infy 2m date)) = -31 days
-((Infy 2m date) - (Infy 2 date)) = 31 days
-((Empty String) - (Infy 1)) = 0 days
-((Copied Infy 1 date) - (Copied Infy 1m date)) = -359 days
-((Copied Infy 1m date) - (Copied Infy 1 date)) = 359 days
-((Copied Infy 2 date) - (Copied Infy 2m date)) = -31 days
-((Copied Infy 2m date) - (Copied Infy 2 date)) = 31 days
-((Copied Empty String) - (Copied Infy 1)) = 0 days
-(Excellent) Passed the ExamDetails Subtract Operator (-)!
+(12) Testing the const_iterator Statement Operator (++) - PostFix (it++)...
+(Excellent) Passed the const_iterator Statement Operator (++) - PostFix (it++)!
 
-(13) Testing the ExamDetails Statement Operator (<) (Version 1)...
-Is Infy 1 before Infy 1: FALSE!
-Is Infy 1 before Infy 1m: TRUE!
-Is Infy 1m before Infy 1: FALSE!
-Is Infy 2 before Infy 2m: TRUE!
-Is Infy 2m before Infy 2: FALSE!
-Is Empty String before Infy 1: FALSE!
-Is Copied Infy 1 before Copied Infy 1m: TRUE!
-Is Copied Infy 1m before Copied Infy 1: FALSE!
-Is Copied Infy 1 before Copied Infy 2m: TRUE!
-Is Copied Infy 1m before Copied Infy 2: FALSE!
-Is Copied Empty String before Copied Infy 1: FALSE!
-Is Reference to Infy1 before Infy 1: FALSE!
-(Excellent) Passed the ExamDetails Statement Operator (<) (Version 1)!
+(13) Testing the const_iterator Operator (*)...
+(Excellent) Passed the const_iterator Operator (*)!
 
-(14) Testing the ExamDetails Printing Method (Version 1)...
+(14) Testing the SortedList End Method...
+(Excellent) Passed the SortedList End Method!
+
+(15) Testing the const_iterator OutOfRange Exception...
+SUCCESS - Exception Caught
+SUCCESS - Exception Caught
+(Excellent) Passed the const_iterator OutOfRange Exception!
+
+Double List: -1 0 1 1.5 2 3 3 3 3.5 4 
+
+* * *     
+*** * *   
+* ***     
+ **  *    
+Shape Code: 00-100220-200-2121222-2-2-222-203-134033
+
+* * *     
+*   *     
+* * *     
+Shape Code: 0220-200-222-2-2-222-2
+
 Course Number: 104195
 Time: 1.1 at 0:00
 Duration: 1:00
-Zoom Link: infy1.co.il/original
+Zoom Link: infy1.com
 
-Course Number: 104031
-Time: 30.12 at 23:30
-Duration: 10000:00
-Zoom Link: infy1m.co.il/original
+Course Number: 2
+Time: 1.1 at 0:00
+Duration: 1:00
+Zoom Link: 
+
+Course Number: 2
+Time: 2.2 at 0:00
+Duration: 1:00
+Zoom Link: 
+
+Course Number: 1
+Time: 2.2 at 0:00
+Duration: 1:00
+Zoom Link: 
+
+Course Number: 3
+Time: 2.3 at 0:00
+Duration: 1:00
+Zoom Link: 
+
+Course Number: 2
+Time: 3.3 at 0:00
+Duration: 1:00
+Zoom Link: 
 
 Course Number: 104281
 Time: 9.9 at 9:00
 Duration: 3:00
-Zoom Link: infy2.co.il/original
+Zoom Link: infy2.com
 
 Course Number: 104032
 Time: 10.10 at 10:00
 Duration: 3:00
-Zoom Link: infy2m.co.il/original
+Zoom Link: infy2m.com
 
-Course Number: 100000
-Time: 1.1 at 0:00
+Course Number: 4
+Time: 30.12 at 0:00
 Duration: 1:00
-Zoom Link: original
-
-Course Number: 104195
-Time: 1.1 at 0:00
-Duration: 1:00
-Zoom Link: infy1.co.il/copied
+Zoom Link: 
 
 Course Number: 104031
 Time: 30.12 at 23:30
 Duration: 10000:00
-Zoom Link: infy1m.co.il/copied
+Zoom Link: infy1m.com
+
+
+(16) Testing the SortedList Remove Method...
+Double List: 0 1 2 3 
+
+    *     
+      *   
+ *   *    
+Shape Code: 2-2-134033
+
+Course Number: 104195
+Time: 1.1 at 0:00
+Duration: 1:00
+Zoom Link: infy1.com
+
+Course Number: 2
+Time: 1.1 at 0:00
+Duration: 1:00
+Zoom Link: 
+
+Course Number: 2
+Time: 2.2 at 0:00
+Duration: 1:00
+Zoom Link: 
+
+Course Number: 3
+Time: 2.3 at 0:00
+Duration: 1:00
+Zoom Link: 
+
+Course Number: 2
+Time: 3.3 at 0:00
+Duration: 1:00
+Zoom Link: 
 
 Course Number: 104281
 Time: 9.9 at 9:00
 Duration: 3:00
-Zoom Link: infy2.co.il/copied
+Zoom Link: infy2.com
 
 Course Number: 104032
 Time: 10.10 at 10:00
 Duration: 3:00
-Zoom Link: infy2m.co.il/copied
+Zoom Link: infy2m.com
 
-Course Number: 100000
-Time: 1.1 at 0:00
+Course Number: 4
+Time: 30.12 at 0:00
 Duration: 1:00
-Zoom Link: Not Empty Anymore
-
-Course Number: 104195
-Time: 1.1 at 0:00
-Duration: 1:00
-Zoom Link: infy1.co.il/original
+Zoom Link: 
 
 Course Number: 104031
 Time: 30.12 at 23:30
 Duration: 10000:00
-Zoom Link: infy1m.co.il/original
+Zoom Link: infy1m.com
+
+(Excellent) Passed the SortedList Remove Method!
+
+(17) Testing the SortedList Length Method...
+4
+0
+4
+0
+9
+0
+(Excellent) Passed the SortedList Length Method!
+
+(18) Testing the SortedList Filter Method...
+Double List: 0 0 2 2 4 
+
+   *      
+   **     
+     *    
+Shape Code: 111212223333
+
+Course Number: 104195
+Time: 1.1 at 0:00
+Duration: 1:00
+Zoom Link: infy1.com
+
+Course Number: 104195
+Time: 1.1 at 0:00
+Duration: 1:00
+Zoom Link: infy1.com
 
 Course Number: 104281
 Time: 9.9 at 9:00
 Duration: 3:00
-Zoom Link: infy2.co.il/original
-(Excellent) Passed the ExamDetails Printing Method (Version 1)!
+Zoom Link: infy2.com
 
-(15) Testing the ExamDetails Exception - InvalidDateException() (Version 1)...
-Invalid date - (month=0)
-Invalid date - (day=0)
-Invalid date - (month>12)
-Invalid date - (day>30)
-Invalid date - (month<0)
-Invalid date - (day<0)
-(Excellent) Passed the ExamDetails Exception - InvalidDateException() (Version 1)!
+Course Number: 104281
+Time: 9.9 at 9:00
+Duration: 3:00
+Zoom Link: infy2.com
 
-(16) Testing the ExamDetails Exception - InvalidTimeException()...
-Invalid hour - (hour<0)
-Invalid hour - (hour>23.5))
-(Excellent) Passed the ExamDetails Exception - InvalidTimeException()!
+Course Number: 104032
+Time: 10.10 at 10:00
+Duration: 3:00
+Zoom Link: infy2m.com
 
-(17) Testing the ExamDetails Exception - Exceptions Order...
-Priority to DateException - Month number is invalid
-Priority to DateException - Day number is invalid
-Priority to TimeException - Hour number is invalid
-(Excellent) Passed the ExamDetails Exception - Exceptions Order!
+Course Number: 104032
+Time: 10.10 at 10:00
+Duration: 3:00
+Zoom Link: infy2m.com
+
+Course Number: 104031
+Time: 30.12 at 23:30
+Duration: 10000:00
+Zoom Link: infy1m.com
+
+Course Number: 104031
+Time: 30.12 at 23:30
+Duration: 10000:00
+Zoom Link: infy1m.com
+
+(Excellent) Passed the SortedList Filter Method!
+
+(19) Testing the SortedList Apply Method...
+Double List: 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+
+  *       
+ ***      
+ ***      
+Shape Code: 00000000000000000000000000000000000000000000000000000000000000000000000000000-101100-1-100-111-11-11
+
+Course Number: 234124
+Time: 28.7 at 13:00
+Duration: 3:00
+Zoom Link: https://tinyurl.com/59hzps6m
+
+Course Number: 234124
+Time: 28.7 at 13:00
+Duration: 3:00
+Zoom Link: https://tinyurl.com/59hzps6m
+
+Course Number: 234124
+Time: 28.7 at 13:00
+Duration: 3:00
+Zoom Link: https://tinyurl.com/59hzps6m
+
+Course Number: 234124
+Time: 28.7 at 13:00
+Duration: 3:00
+Zoom Link: https://tinyurl.com/59hzps6m
+
+Course Number: 234124
+Time: 28.7 at 13:00
+Duration: 3:00
+Zoom Link: https://tinyurl.com/59hzps6m
+
+Course Number: 234124
+Time: 28.7 at 13:00
+Duration: 3:00
+Zoom Link: https://tinyurl.com/59hzps6m
+
+Course Number: 234124
+Time: 28.7 at 13:00
+Duration: 3:00
+Zoom Link: https://tinyurl.com/59hzps6m
+
+Course Number: 234124
+Time: 28.7 at 13:00
+Duration: 3:00
+Zoom Link: https://tinyurl.com/59hzps6m
+
+Course Number: 234124
+Time: 28.7 at 13:00
+Duration: 3:00
+Zoom Link: https://tinyurl.com/59hzps6m
+
+Course Number: 234124
+Time: 28.7 at 13:00
+Duration: 3:00
+Zoom Link: https://tinyurl.com/59hzps6m
+
+Course Number: 234124
+Time: 28.7 at 13:00
+Duration: 3:00
+Zoom Link: https://tinyurl.com/59hzps6m
+
+Course Number: 234124
+Time: 28.7 at 13:00
+Duration: 3:00
+Zoom Link: https://tinyurl.com/59hzps6m
+
+Course Number: 234124
+Time: 28.7 at 13:00
+Duration: 3:00
+Zoom Link: https://tinyurl.com/59hzps6m
+
+Course Number: 234124
+Time: 28.7 at 13:00
+Duration: 3:00
+Zoom Link: https://tinyurl.com/59hzps6m
+
+Course Number: 234124
+Time: 28.7 at 13:00
+Duration: 3:00
+Zoom Link: https://tinyurl.com/59hzps6m
+
+Course Number: 234124
+Time: 28.7 at 13:00
+Duration: 3:00
+Zoom Link: https://tinyurl.com/59hzps6m
+
+Course Number: 234124
+Time: 28.7 at 13:00
+Duration: 3:00
+Zoom Link: https://tinyurl.com/59hzps6m
+
+Course Number: 234124
+Time: 28.7 at 13:00
+Duration: 3:00
+Zoom Link: https://tinyurl.com/59hzps6m
+
+Course Number: 234124
+Time: 28.7 at 13:00
+Duration: 3:00
+Zoom Link: https://tinyurl.com/59hzps6m
+
+Course Number: 234124
+Time: 28.7 at 13:00
+Duration: 3:00
+Zoom Link: https://tinyurl.com/59hzps6m
+
+Course Number: 234124
+Time: 28.7 at 13:00
+Duration: 3:00
+Zoom Link: https://tinyurl.com/59hzps6m
+
+Course Number: 234124
+Time: 28.7 at 13:00
+Duration: 3:00
+Zoom Link: https://tinyurl.com/59hzps6m
+
+Course Number: 234124
+Time: 28.7 at 13:00
+Duration: 3:00
+Zoom Link: https://tinyurl.com/59hzps6m
+
+Course Number: 104032
+Time: 10.10 at 10:00
+Duration: 3:00
+Zoom Link: infy2m.com
+
+Course Number: 104032
+Time: 10.10 at 10:00
+Duration: 3:00
+Zoom Link: infy2m.com
+
+Course Number: 104032
+Time: 10.10 at 10:00
+Duration: 3:00
+Zoom Link: infy2m.com
+
+Course Number: 104031
+Time: 30.12 at 23:30
+Duration: 10000:00
+Zoom Link: infy1m.com
+
+Course Number: 104031
+Time: 30.12 at 23:30
+Duration: 10000:00
+Zoom Link: infy1m.com
+
+Course Number: 104031
+Time: 30.12 at 23:30
+Duration: 10000:00
+Zoom Link: infy1m.com
+
+(Excellent) Passed the SortedList Apply Method!
+
+Now compare the output in the file 'Your_output.txt' with 'My_output.txt' manually or with diffmerge.
+Then, Check Memory Leak.

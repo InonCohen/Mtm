@@ -66,7 +66,11 @@ namespace mtm{
         if(!this || !&other){
             throw InvalidArgsException();
         }
-        return (*this - other < 0) ? true : false;
+        int day_diff = *this - other;
+        if(day_diff != 0){
+            return (day_diff < 0) ;
+        }
+        return (time-other.time < 0);
     }
     ExamDetails ExamDetails::makeMatamExam(){
         ExamDetails to_return(MTM_COURSE_NUM, MTM_EXAM_MONTH, MTM_EXAM_DAY,

@@ -44,8 +44,9 @@ namespace mtm{
 
     template <class T>
     SortedListNode<T>::~SortedListNode<T>() {
-        if (next)
+        if (next){
             next = nullptr;
+        }
     }
 
     template <class T>
