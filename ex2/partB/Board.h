@@ -125,16 +125,16 @@ namespace mtm {
         if(!this->isCellLegal(src_gp) || !this->isCellLegal(dst_gp)){
             throw IllegalCell();
         }
-        std::shared_ptr<T> to_move=(*this)(src_gp);
-        if(to_move == nullptr){
+        std::shared_ptr<T> src_cell=(*this)(src_gp);
+        std::shared_ptr<T> dst_cell=(*this)(dst_gp);
+        if(src_cell == nullptr){
             throw CellEmpty();
         }
-        if(!((*this)(dst_gp) == nullptr)){
+        if(!(dst_cell == nullptr)){
             throw CellOccupied();
         }
-        auto temp = (*this)(src_gp);
         (*this)(src_gp)=nullptr;
-        (*this)(dst_gp)=temp;
+        (*this)(dst_gp)=src_cell;
     }
 
     template<class T>
