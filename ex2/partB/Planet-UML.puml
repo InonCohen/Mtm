@@ -1,16 +1,5 @@
 @startuml
 namespace mtm{
-class Game{
-    -vector<vector<std::shared_ptr>> board
-    +void addCharacter(const GridPoint&, std::shared_ptr<Character>)
-    +std::ostream& operator<<(std::ostream&, const mtm::Game&)
-    +void move(const GridPoint &, const GridPoint&)
-    +void attack(const GridPoint &, const GridPoint&)
-    +void reload(const GridPoint&)
-    +void clearDead()
-    +void fillSecondaryTargetsList(const GridPoint, const GridPoint)
-    +bool isOver(Team* winningTeam) const
-}
 abstract class Character{
     #Team team
     #units_t health
@@ -33,32 +22,48 @@ abstract class Character{
     +bool isAlive()
     +virtual bool isSecondaryTarget(GridPoint, GridPoint)
 }
-class Medic implements Character{
+class Medic extends Character{
 	-{static} const units_t MEDIC_MAX_MOVE=5
 	-{static} const units_t MEDIC_CHARGE=5
 }
-class Sniper implements Character{
+class Sniper extends Character{
     -{static} const units_t SNIPER_MAX_MOVE=4;
     -{static} const units_t SNIPER_CHARGE=2;
     -{static} const units_t SNIPER_MIN_RANGE=2;
     -{static} const units_t SNIPER_DOUBLE_POWER=2;
     -units_t attack_counter=0;
 }
-class Soldier implements Character{
+class Soldier extends Character{
     -{static} const units_t SOLDIER_MAX_MOVE=3;
     -{static} const units_t SOLDIER_CHARGE=3;
     -{static} const units_t SOLDIER_SECONDARY_RANGE=3;
     -{static} const units_t SOLDIER_SECONDARY_EFFECT=2;
 }
+class Game{
+    -Board<Character> gameBoard
+    +void addCharacter(const GridPoint&, std::shared_ptr<Character>)
+    +std::ostream& operator<<(std::ostream&, const mtm::Game&)
+    +void move(const GridPoint &, const GridPoint&)
+    +void attack(const GridPoint &, const GridPoint&)
+    +void reload(const GridPoint&)
+    +void clearDead()
+    +void fillSecondaryTargetsList(const GridPoint, const GridPoint)
+    +bool isOver(Team* winningTeam) const
+}
+class Board<T>{
+    -const int height
+    -const int width
+    -vector<vector<std::shared_ptr>> board
+    -bool isCellLegal(GridPoint)
+    +void addItem(T, GridPoint)
+    +void removeItem(GridPoint)
+    +void moveItem(GridPoint, GridPoint)
+    +std::ostream& operator<<(std::ostream &os, const mtm::Game& game)
+}
 class GridPoint{
     -int row
     -int col
     -{static} int distance(const GridPoint&, const GridPoint&)
-}
-class Dimensions{
-    -int height
-    -int width
-    +std::string toString() const
 }
 enum Team {
     Powerlifters
@@ -69,27 +74,27 @@ enum CharacterType {
 	MEDIC
 	SNIPER
 }
-class Exception implements std::exception {
+abstract class Exception implements std::exception {
     #const char* game_error_str="A game related error has occurred: "
-    +{abstract} virtual const char* what() const noexcept=0;
+    +{abstract} virtual const char* what() const noexcept=0
 }
-class GameException implements Exception{
-    -const char* error_name;
-    #const char full_error [ERROR_LENGTH]={0}
+class GameException extends Exception{
+    -const char* error_name
+    #const char* full_error
 }
-class IllegalArgument implements GameException{}
-class IllegalCell implements GameException{}
-class CellEmpty implements GameException{}
-class MoveTooFar implements GameException{}
-class CellOccupied implements GameException{}
-class OutOfRange implements GameException{}
-class OutOfAmmo implements GameException{}
-class IllegalTarget implements GameException{}
-Character o-- GridPoint
-Character o-- CharacterType
-Character o-- Team
-Game o-- GridPoint
-Game o-- Dimensions
+class IllegalArgument extends GameException{}
+class IllegalCell extends GameException{}
+class CellEmpty extends GameException{}
+class MoveTooFar extends GameException{}
+class CellOccupied extends GameException{}
+class OutOfRange extends GameException{}
+class OutOfAmmo extends GameException{}
+class IllegalTarget extends GameException{}
+Character *-- CharacterType
+Character *-- Team
+Game o-- Character
+Game *-- Board
+Game *-- GridPoint
+Board *-- GridPoint
 }
-
 @enduml

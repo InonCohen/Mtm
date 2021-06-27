@@ -6,20 +6,12 @@
 #include <list>
 #include "Auxiliaries.h"
 #include "Character.h"
+#include "Board.h"
 
 
 namespace mtm{
     class Game{
-        std::vector<std::shared_ptr<Character>> board;
-
-        /**
-             * //bool isCellLegal(const GridPoint& coordinates)//:
-             * receives a GridPoint named coordinates
-             * returns true if coordinates form a legal cell in game's Board (not outside the Board, not negative)
-             * returns false otherwise
-        */
-        bool isCellLegal(const GridPoint& coordinates);
-        
+        Board<Character> gameBoard;
         /**
              * //void clearDead()//:
              * checks all Board's characters health
@@ -35,52 +27,6 @@ namespace mtm{
         */
         void fillSecondaryTargetsList(GridPoint src_coordinates, GridPoint dst_coordinates,
         std::list<std::shared_ptr<Character>>& secondary_targets);
-        
-        /**
-            * //int getSize() const//:
-            * returns the size of the game's Board
-        */
-        int getSize() const;
-        
-        /**
-            * //int getHeight() const//:
-            * returns the height of the game's Board
-        */
-        int getHeight() const;
-        
-        /**
-            * //int getWidth() const//:
-            * returns the width of the game's Board
-        */
-        int getWidth() const;
-        
-        /**
-             * //static Matrix<std::shared_ptr<Character>> copyBoard(const Game& game)//:
-             * receives a reference to game
-             * returns a copy of the Board's game to this Board
-        */
-        static std::vector<std::shared_ptr<Character>> copyBoard(const Game& game);
-        
-        /**
-             * //std::shared_ptr<Character>& operator()(int row, int col)//:
-             * receives two ints' representing number of rows and number of columns
-             * 
-        */
-        std::shared_ptr<Character>& operator()(int row, int col);
-        
-        /**
-             * //std::shared_ptr<Character>& operator()(const GridPoint& gp)//:
-             * receives a reference to GridPoint named gp
-             * returns the smart pointer in cell with coordinates gp of the game's Board
-        */
-        std::shared_ptr<Character>& operator()(const GridPoint& gp);
-        
-        /**
-             * //const std::shared_ptr<Character>& operator()(int row, int col) const//:
-             * receives a reference to GridPoint named gp
-             * returns the constant smart pointer in cell with coordinates gp of the game's Board
-        */
-        const std::shared_ptr<Character>& operator()(int row, int col) const;
     
     public:
         /**
@@ -96,13 +42,13 @@ namespace mtm{
              * a game destructor
              *  destroys game 
         */ 
-        ~Game();
+        ~Game()=default;
         /**
              * //Game(const Game& other)//:
              * - Game copy constructor
              * receives a param Game named other
         */
-        Game(const Game& other);
+        Game(const Game& other)=default;
 
         /**
              * //Game& operator=(const Game& other)//:
@@ -110,7 +56,7 @@ namespace mtm{
              * receives a param Game named other
              * makes this' Board identical to the Board of other
         */
-        Game& operator=(const Game& other);
+        Game& operator=(const Game& other)=default;
 
         /**
              * //void addCharacter(const GridPoint& coordinates, std::shared_ptr<Character> character)//:
