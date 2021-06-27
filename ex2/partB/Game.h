@@ -1,37 +1,29 @@
 #ifndef GAME_H
 #define GAME_H
-
-#include "Auxiliaries.h"
-#include "Matrix.h"
-#include "Character.h"
+#include <vector>
 #include <iostream>
 #include <memory>
 #include <list>
+#include "Auxiliaries.h"
+#include "Character.h"
 
 
 namespace mtm{
     class Game{
-        Matrix<std::shared_ptr<Character>> board;
+        std::vector<std::shared_ptr<Character>> board;
 
-//        /**
-//             * //static char getLetter(const std::shared_ptr<Character>& character)//:
-//             * receives a shared pointer to Character named character
-//             * returns the letter symbolizes the character on the board
-//        */
-//        static char getLetter(const std::shared_ptr<Character>& character);
-        
         /**
              * //bool isCellLegal(const GridPoint& coordinates)//:
              * receives a GridPoint named coordinates
-             * returns true if coordinates form a legal cell in game's board (not outside the board, not negative)
+             * returns true if coordinates form a legal cell in game's Board (not outside the Board, not negative)
              * returns false otherwise
         */
         bool isCellLegal(const GridPoint& coordinates);
         
         /**
              * //void clearDead()//:
-             * checks all board's characters health
-             * If a character's health is zero, the character is removed from the board
+             * checks all Board's characters health
+             * If a character's health is zero, the character is removed from the Board
         */
         void clearDead();
         
@@ -46,28 +38,28 @@ namespace mtm{
         
         /**
             * //int getSize() const//:
-            * returns the size of the game's board
+            * returns the size of the game's Board
         */
         int getSize() const;
         
         /**
             * //int getHeight() const//:
-            * returns the height of the game's board
+            * returns the height of the game's Board
         */
         int getHeight() const;
         
         /**
             * //int getWidth() const//:
-            * returns the width of the game's board
+            * returns the width of the game's Board
         */
         int getWidth() const;
         
         /**
              * //static Matrix<std::shared_ptr<Character>> copyBoard(const Game& game)//:
              * receives a reference to game
-             * returns a copy of the board's game to this board
+             * returns a copy of the Board's game to this Board
         */
-        static Matrix<std::shared_ptr<Character>> copyBoard(const Game& game);
+        static std::vector<std::shared_ptr<Character>> copyBoard(const Game& game);
         
         /**
              * //std::shared_ptr<Character>& operator()(int row, int col)//:
@@ -79,14 +71,14 @@ namespace mtm{
         /**
              * //std::shared_ptr<Character>& operator()(const GridPoint& gp)//:
              * receives a reference to GridPoint named gp
-             * returns the smart pointer in cell with coordinates gp of the game's board
+             * returns the smart pointer in cell with coordinates gp of the game's Board
         */
         std::shared_ptr<Character>& operator()(const GridPoint& gp);
         
         /**
              * //const std::shared_ptr<Character>& operator()(int row, int col) const//:
              * receives a reference to GridPoint named gp
-             * returns the constant smart pointer in cell with coordinates gp of the game's board
+             * returns the constant smart pointer in cell with coordinates gp of the game's Board
         */
         const std::shared_ptr<Character>& operator()(int row, int col) const;
     
@@ -94,7 +86,7 @@ namespace mtm{
         /**
              * //Game(int height, int width)//:
              * Game constructor.
-             * receives dimensions of Game's board.
+             * receives dimensions of Game's Board.
              * constructs Matrix<T> , each element set to initial_value.
         */
         Game(int height, int width);
@@ -116,14 +108,14 @@ namespace mtm{
              * //Game& operator=(const Game& other)//:
              * - Game's assignment operator
              * receives a param Game named other
-             * makes this' board identical to the board of other
+             * makes this' Board identical to the Board of other
         */
         Game& operator=(const Game& other);
 
         /**
              * //void addCharacter(const GridPoint& coordinates, std::shared_ptr<Character> character)//:
              * receives params GridPoint named coordinates and shared pointer to Character named character
-             * adds character to the game's board in point coordinates
+             * adds character to the game's Board in point coordinates
         */
         void addCharacter(const GridPoint& coordinates, std::shared_ptr<Character> character);
         

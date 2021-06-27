@@ -1,12 +1,13 @@
+#include <memory>
+#include <list>
+#include <vector>
 #include "Game.h"
+#include "Board.h"
 #include "Soldier.h"
 #include "Medic.h"
 #include "Sniper.h"
-#include "Matrix.h"
 #include "Exceptions.h"
 #include "Auxiliaries.h"
-#include <memory>
-#include <list>
 
 
 namespace mtm{
@@ -21,11 +22,11 @@ namespace mtm{
     /**
      * //static char getLetter(const std::shared_ptr<Character>& character)//:
      * receives a shared pointer to Character named character
-     * returns the letter symbolizes the character on the board
-*/
+     * returns the letter symbolizes the character on the Board
+     */
     static char getLetter(const std::shared_ptr<Character>& character);
 
-    Game::Game(int height, int width): board((height<=0 || width<= 0) ? throw IllegalArgument() : Matrix<std::shared_ptr<Character>>(Dimensions(height,width),nullptr)){}
+    Game::Game(int height, int width): {}
 
     Game::~Game(){
         int height=this->getHeight();
@@ -56,22 +57,17 @@ namespace mtm{
         if (row<0||col<0||row>this->getHeight()||col>this->getWidth()){
             throw IllegalCell();
         }
-        return board(row,col);
+        int cell = this->width() * row + col;
+        return board.at(cell);
     }
 
     std::shared_ptr<Character>& Game::operator()(int row, int col){
         if (row<0||col<0||row>this->getHeight()||col>this->getWidth()){
             throw IllegalCell();
         }
-        return board(row,col);
+        int cell = this->width() * row + col;
+        return board.at(cell);
     }
-
-    std::shared_ptr<Character>& Game::operator()(const GridPoint& gp){
-        int row=gp.row;
-        int col=gp.col;
-        return this->operator()(row,col);
-    }
-
     Game& Game::operator=(const Game& other){
         this->board = copyBoard(other);
         return *this;
@@ -117,7 +113,7 @@ namespace mtm{
         if (!isCellLegal(coordinates)){
             throw IllegalCell();
         }
-        if(this->operator()(coordinates)!=nullptr){
+        if(this->operator()(coordinates.row, coordinates.col)!=nullptr){
             throw CellOccupied();
         }
         this->operator()(coordinates)=character;

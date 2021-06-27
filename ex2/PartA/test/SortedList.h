@@ -1,5 +1,5 @@
-#ifndef EX1_SORTEDLIST_H
-#define EX1_SORTEDLIST_H
+#ifndef EX2_SORTEDLIST_H
+#define EX2_SORTEDLIST_H
 
 
     template <class T>
@@ -85,4 +85,4 @@
 
 
 
-#endif //EX1_SORTEDLIST_H
+#endif //EX2_SORTEDLIST_H
