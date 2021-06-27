@@ -96,9 +96,7 @@ namespace mtm {
         for (int i=0;i<height;i++) {
             for (int j=0;j<width;j++) {
                 const GridPoint gp(i,j);
-                if ((*this)(gp)) {
-                    (*this)(gp) = other(gp)->clone();
-                }
+                (*this)(gp) = other(gp)->clone();
             }
         }
         return *this;
