@@ -44,7 +44,7 @@ namespace mtm {
         for (int i=0;i<height;i++) {
             for (int j=0;j<width;j++) {
                 const GridPoint gp(i,j);
-                if ((*this)(gp)) {
+                if (other(gp)) {
                     T* other_item_ptr=other(gp).get()->clone();
                     const std::shared_ptr<T> item_copy(other_item_ptr);
                     (*this)(gp) = std::shared_ptr<T>(item_copy);
