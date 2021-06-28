@@ -159,13 +159,13 @@ namespace mtm{
         virtual void reload()=0;
         
         /**
-             * //virtual bool isSecondaryTarget(const GridPoint initial_hit_point, const GridPoint possible_secondary_hit_point)//
+             * //virtual bool isSecondaryTarget(const GridPoint direct_target, const GridPoint gp)//
              *  receives two coordinates (constant GridPoint) ,initial hit point and possible secondary hitPoint.
              *  if the secondary hitPoint was hit, returns true.
              * otherwise returns false.
         */
-        virtual bool isSecondaryTarget(const GridPoint& initial_hit_point,
-                                       const GridPoint& possible_secondary_hit_point);
+        virtual bool isSecondaryTarget(const GridPoint& direct_target,
+                                       const GridPoint& gp);
 
     };
 }

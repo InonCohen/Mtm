@@ -10,13 +10,6 @@ namespace mtm {
         return team;
     }
 
-
-//    Team Character::getTeam(const std::shared_ptr<Character>& ptr_to_self) const {
-//        if(ptr_to_self!= nullptr) {
-//            return this->team;
-//        }
-//    }
-
     bool Character::operator==(const Character& other){
         if(team!=other.team||health!=other.health||ammo!=other.ammo||range!=other.range||power!=other.power){
             return false;
@@ -50,8 +43,8 @@ namespace mtm {
         }
     }
 
-    bool Character::isSecondaryTarget(const GridPoint& initial_hit_point,
-                                      const GridPoint& possible_secondary_hit_point){
+    bool Character::isSecondaryTarget(const GridPoint& direct_target,
+                                      const GridPoint& gp){
         return false;
     }
 
