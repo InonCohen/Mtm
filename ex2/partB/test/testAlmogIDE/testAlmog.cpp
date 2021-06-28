@@ -1,13 +1,9 @@
-//
-// Created by aribr on 17/06/2021.
-//
-
 #include <iostream>
 #include <fstream>
 #include <cassert>
 
-#include "Exceptions.h"
-#include "Game.h"
+#include "../../Exceptions.h"
+#include "../../Game.h"
 
 using namespace std;
 using namespace mtm;
