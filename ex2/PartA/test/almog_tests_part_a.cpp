@@ -60,183 +60,183 @@ void operator<<(ostream& os, SortedList<T>& list) {
     }
 }
 
-bool testConstructorParameters(){
+bool testConstructorParameters() {
 
     int counter = 0;
 
     try {
         ExamDetails exam_details2(104034.5, 7, 11, 9.5, 3);
     }
-    catch(ExamDetails::InvalidArgsException& e) {
+    catch (ExamDetails::InvalidArgsException &e) {
         counter++;
     }
-    ASSERT_TEST(counter!=0);
+    ASSERT_TEST(counter == 0);
 
 
     try {
         counter = 0;
         ExamDetails exam_details2(-104034, 7, 11, 9.5, 3);
     }
-    catch(ExamDetails::InvalidArgsException& e) {
+    catch (ExamDetails::InvalidArgsException &e) {
         counter++;
     }
-    ASSERT_TEST(counter!=0);
+    ASSERT_TEST(counter == 0);
 
     try {
         counter = 0;
         ExamDetails exam_details2(104034, 0, 11, 9.5, 3);
     }
-    catch(ExamDetails::InvalidDateException& e) {
+    catch (ExamDetails::InvalidDateException &e) {
         counter++;
     }
-    ASSERT_TEST(counter!=0);
+    ASSERT_TEST(counter != 0);
 
     try {
         counter = 0;
         ExamDetails exam_details2(104034, 13, 11, 9.5, 3);
     }
-    catch(ExamDetails::InvalidDateException& e) {
+    catch (ExamDetails::InvalidDateException &e) {
         counter++;
     }
-    ASSERT_TEST(counter!=0);
+    ASSERT_TEST(counter != 0);
 
     try {
         counter = 0;
         ExamDetails exam_details2(104034, 1, 11, 9.5, 3);
     }
-    catch(...) {//TODO
+    catch (...) {//TODO
         counter++;
     }
-    ASSERT_TEST(counter==0);
+    ASSERT_TEST(counter == 0);
 
     try {
         counter = 0;
         ExamDetails exam_details2(104034, 12, 11, 9.5, 3);
     }
-    catch(ExamDetails::InvalidDateException& e) {
+    catch (ExamDetails::InvalidDateException &e) {
         counter++;
     }
-    ASSERT_TEST(counter==0);
+    ASSERT_TEST(counter == 0);
 
     try {
         counter = 0;
         ExamDetails exam_details2(104034, -12, 11, 9.5, 3);
     }
-    catch(ExamDetails::InvalidDateException& e) {
+    catch (ExamDetails::InvalidDateException &e) {
         counter++;
     }
-    ASSERT_TEST(counter!=0);
+    ASSERT_TEST(counter != 0);
 
     try {
         counter = 0;
         ExamDetails exam_details(104034, 12.6, 11, 9.5, 3);
     }
-    catch(ExamDetails::InvalidDateException& e) {
+    catch (ExamDetails::InvalidDateException &e) {
         counter++;
     }
-    ASSERT_TEST(counter!=0);
+    ASSERT_TEST(counter == 0);
 
     try {
         counter = 0;
-        ExamDetails exam_details2(104034, 12, 11.9, 9.5, 3);
+        ExamDetails exam_details2(104034, 12, 11, 9.5, 3);
     }
-    catch(ExamDetails::InvalidDateException& e) {
+    catch (ExamDetails::InvalidDateException &e) {
         counter++;
     }
-    ASSERT_TEST(counter!=0);
+    ASSERT_TEST(counter == 0);
 
     try {
         counter = 0;
         ExamDetails exam_details2(104034, 12, -11, 9.5, 3);
     }
-    catch(ExamDetails::InvalidDateException& e) {
+    catch (ExamDetails::InvalidDateException &e) {
         counter++;
     }
-    ASSERT_TEST(counter!=0);
+    ASSERT_TEST(counter != 0);
 
     try {
         counter = 0;
         ExamDetails exam_details2(104034, 12, 31, 9.5, 3);
     }
-    catch(ExamDetails::InvalidDateException& e) {
+    catch (ExamDetails::InvalidDateException &e) {
         counter++;
     }
-    ASSERT_TEST(counter!=0);
+    ASSERT_TEST(counter != 0);
 
     try {
         counter = 0;
         ExamDetails exam_details2(104034, 12, 11, 9.2, 3);
     }
-    catch(ExamDetails::InvalidTimeException& e) {
+    catch (ExamDetails::InvalidTimeException &e) {
         counter++;
-    }
-    ASSERT_TEST(counter!=0);
+        ASSERT_TEST(counter != 0);
 
-    try {
-        counter = 0;
-        ExamDetails exam_details2(104034, 12, 11, 9.5000, 3);
-    }
-    catch(ExamDetails::InvalidTimeException& e) {
-        counter++;
-    }
-    ASSERT_TEST(counter==0);
+        try {
+            counter = 0;
+            ExamDetails exam_details2(104034, 12, 11, 9.5000, 3);
+        }
+        catch (ExamDetails::InvalidTimeException &e) {
+            counter++;
+        }
+        ASSERT_TEST(counter == 0);
 
-    try {
-        counter = 0;
-        ExamDetails exam_details2(104034, 12, 11, 9, 3);
-    }
-    catch(ExamDetails::InvalidTimeException& e) {
-        counter++;
-    }
-    ASSERT_TEST(counter==0);
+        try {
+            counter = 0;
+            ExamDetails exam_details2(104034, 12, 11, 9, 3);
+        }
+        catch (ExamDetails::InvalidTimeException &e) {
+            counter++;
+        }
+        ASSERT_TEST(counter == 0);
 
-    try {
-        counter = 0;
-        ExamDetails exam_details2(104034, 12, 11, -9, 3);
-    }
-    catch(ExamDetails::InvalidTimeException& e) {
-        counter++;
-    }
-    ASSERT_TEST(counter!=0);
+        try {
+            counter = 0;
+            ExamDetails exam_details2(104034, 12, 11, -9, 3);
+        }
+        catch (ExamDetails::InvalidTimeException &e) {
+            counter++;
+        }
+        ASSERT_TEST(counter != 0);
 
-    try {
-        counter = 0;
-        ExamDetails exam_details2(104034, 12, 11, 0, 3);
-    }
-    catch(ExamDetails::InvalidTimeException& e) {
-        counter++;
-    }
-    ASSERT_TEST(counter==0);
+        try {
+            counter = 0;
+            ExamDetails exam_details2(104034, 12, 11, 0, 3);
+        }
+        catch (ExamDetails::InvalidTimeException &e) {
+            counter++;
+        }
+        ASSERT_TEST(counter == 0);
 
-    try {
-        counter = 0;
-        ExamDetails exam_details2(104034, 12, 11, 25, 3);
-    }
-    catch(ExamDetails::InvalidTimeException& e) {
-        counter++;
-    }
-    ASSERT_TEST(counter!=0);
+        try {
+            counter = 0;
+            ExamDetails exam_details2(104034, 12, 11, 25, 3);
+        }
+        catch (ExamDetails::InvalidTimeException &e) {
+            counter++;
+        }
+        ASSERT_TEST(counter != 0);
 
-    try {
-        counter = 0;
-        ExamDetails exam_details2(104034, 12, 11, 22, 3.0);
-    }
-    catch(ExamDetails::InvalidTimeException& e) {
-        counter++;
-    }
-    ASSERT_TEST(counter==0);
+        try {
+            counter = 0;
+            ExamDetails exam_details2(104034, 12, 11, 22, 3.0);
+        }
+        catch (ExamDetails::InvalidTimeException &e) {
+            counter++;
+        }
+        ASSERT_TEST(counter == 0);
 
-    try {
-        counter = 0;
-        ExamDetails exam_details2(104034, 12, 11, 25, 3.6);
-    }
-    catch(ExamDetails::InvalidTimeException& e) {
-        counter++;
-    }
-    ASSERT_TEST(counter!=0);
+        try {
+            counter = 0;
+            ExamDetails exam_details2(104034, 12, 11, 25, 3.6);
+        }
+        catch (ExamDetails::InvalidTimeException &e) {
+            counter++;
+        }
+        ASSERT_TEST(counter != 0);
 
 
-    return true;
+        return true;
+    }
 }
 
 bool testGetSetLink(){
@@ -255,9 +255,6 @@ bool testGetSetLink(){
         counter++;
     }
     catch(ExamDetails::InvalidTimeException& e) {
-        counter++;
-    }
-    catch(...){
         counter++;
     }
     ASSERT_TEST(counter==0);
