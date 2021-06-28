@@ -6,18 +6,6 @@ namespace mtm {
     Character::Character(Team team, units_t health, units_t ammo, units_t range, units_t power):
     team(team), health(health), ammo(ammo), range(range), power(power){}
 
-    Character::Character(const Character& other):
-    team(other.team), health(other.health), ammo(other.ammo), range(other.range), power(other.power){}
-
-    Character& Character::operator=(const Character& other){
-        team=other.team;
-        health=other.health;
-        ammo=other.ammo;
-        range=other.range;
-        power=other.power;
-        return *this;
-    }
-
     Team Character::getTeam() const {
         return team;
     }
@@ -51,11 +39,8 @@ namespace mtm {
         health+=healing_points;
     }
 
-   bool Character::isAlive() {
-        if(health<=0){
-            return false;
-        }
-        return true;
+   bool Character::isAlive() const {
+       return health>0;
     }
 
     void Character::attack(std::list<std::shared_ptr<Character>>& secondary_targets){
@@ -65,14 +50,10 @@ namespace mtm {
         }
     }
 
-    bool Character::isSecondaryTarget(const GridPoint initial_hit_point, const GridPoint possible_secondary_hit_point){
+    bool Character::isSecondaryTarget(const GridPoint& initial_hit_point,
+                                      const GridPoint& possible_secondary_hit_point){
         return false;
     }
 
-
-
-    void Character::attackSecondary(std::shared_ptr<Character>& target){
-        return;
-    }
-
+    void Character::attackSecondary(std::shared_ptr<Character>& target){}
 }

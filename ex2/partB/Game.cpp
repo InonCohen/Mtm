@@ -91,7 +91,7 @@ namespace mtm{
 
     // TODO: CHECK FOR EXCEPTION THROWING ORDER
     void Game::move(const GridPoint & src_coordinates, const GridPoint & dst_coordinates){
-        if(!(this->gameBoard.isCellLegal(src_coordinates) || this->gameBoard.isCellLegal(dst_coordinates))){
+        if(!(this->gameBoard.isCellLegal(src_coordinates) && this->gameBoard.isCellLegal(dst_coordinates))){
             throw IllegalCell();
         }
         if(!this->gameBoard(src_coordinates)){
@@ -106,7 +106,7 @@ namespace mtm{
 
     // TODO: CHECK FOR EXCEPTION THROWING ORDER
     void Game::attack(const GridPoint & src_coordinates, const GridPoint & dst_coordinates){
-        if(!(this->gameBoard.isCellLegal(src_coordinates) || this->gameBoard.isCellLegal(dst_coordinates))){
+        if(!(this->gameBoard.isCellLegal(src_coordinates) && this->gameBoard.isCellLegal(dst_coordinates))){
             throw IllegalCell();
         }
         if(!this->gameBoard(src_coordinates)){
@@ -148,7 +148,8 @@ namespace mtm{
         for(int i=0; i < gameBoard.getHeight(); i++){
             for(int j=0; j < gameBoard.getWidth(); j++){
                 const GridPoint gp(i,j);
-                if(gameBoard(gp) != nullptr && !((*(gameBoard(gp))).isAlive())){
+                Character* current_character_ptr = gameBoard(gp).get();
+                if(gameBoard(gp) != nullptr && !(current_character_ptr->isAlive())){
                     gameBoard(gp)=nullptr;
                 }
             }

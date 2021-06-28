@@ -56,9 +56,10 @@ namespace mtm{
         }
     }
 
-    bool Soldier::isSecondaryTarget(const GridPoint initial_hit_point, const GridPoint possible_secondary_hit_point){
-        if(GridPoint::distance(possible_secondary_hit_point,initial_hit_point)<= ceil(double(range)/SOLDIER_SECONDARY_RANGE)){
-            return true;
+    bool Soldier::isSecondaryTarget(const GridPoint& initial_hit_point, const GridPoint& possible_secondary_hit_point){
+        if(GridPoint::distance(possible_secondary_hit_point,initial_hit_point)
+            <= ceil(double(range)/SOLDIER_SECONDARY_RANGE)){
+                return true;
         }
         return false;
     }

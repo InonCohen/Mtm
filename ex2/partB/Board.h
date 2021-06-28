@@ -96,7 +96,8 @@ namespace mtm {
         for (int i=0;i<height;i++) {
             for (int j=0;j<width;j++) {
                 const GridPoint gp(i,j);
-                (*this)(gp) = other(gp)->clone();
+                T* other_item = (other(gp).get()->clone());
+                (*this)(gp) = std::shared_ptr<T>(other_item);
             }
         }
         return *this;

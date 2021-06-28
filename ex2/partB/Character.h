@@ -32,13 +32,13 @@ namespace mtm{
             * receives a Character reference
             * constructs a new Character holding the same stats of other.
         */  
-        Character(const Character& other);
+        Character(const Character& other)=default;
 
         /** 
              * //operator=//:
              *  places the given character(other) in the this
          */         
-        Character& operator=(const Character& other);
+        Character& operator=(const Character& other)=default;
         
         /**
              * //operator==//:
@@ -151,7 +151,7 @@ namespace mtm{
              *  returns true if character health is greater than zero
              *  otherwise returns false
         */
-        bool isAlive();
+        bool isAlive() const;
         /**
              * //virtual void reload()=0//
              *  pure virtual reload function
@@ -164,7 +164,8 @@ namespace mtm{
              *  if the secondary hitPoint was hit, returns true.
              * otherwise returns false.
         */
-        virtual bool isSecondaryTarget(GridPoint initial_hit_point, GridPoint possible_secondary_hit_point);
+        virtual bool isSecondaryTarget(const GridPoint& initial_hit_point,
+                                       const GridPoint& possible_secondary_hit_point);
 
     };
 }

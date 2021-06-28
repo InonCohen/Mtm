@@ -33,7 +33,7 @@ namespace mtm{
       */
         ~Soldier()=default;
 
-        bool isSecondaryTarget(const GridPoint initial_hit_point, const GridPoint possible_secondary_hit_point) override;
+        bool isSecondaryTarget(const GridPoint& initial_hit_point, const GridPoint& possible_secondary_hit_point) override;
         CharacterType getType() override;
         Character* clone() const override ;
         bool isMoveLegal(units_t distance) override;
