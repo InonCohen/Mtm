@@ -5,7 +5,7 @@
 
 namespace mtm {
     enum Team {
-        Powerlifters, Crossfitters
+        POWERLIFTERS, CROSSFITTERS
     };
 
     enum CharacterType {

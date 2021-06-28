@@ -14,7 +14,7 @@ namespace mtm{
     /**
             * //Soldier(Team team,units_t health, units_t ammo, units_t range, units_t power)//:
             * Soldier constructor.
-            * receives Soldier's Team(Powerlifters or Crossfitters), positive integer health,
+            * receives Soldier's Team(POWERLIFTERS or CROSSFITTERS), positive integer health,
                     non-negative integers ammo, range, power.
             * constructs Soldier, by creating Character with the params given.
      */

@@ -26,6 +26,6 @@ set(CPP_FILES
         Soldier.cpp
         Auxiliaries.cpp
         Exceptions.cpp
-        test/game_test_Meron_Shira_v5/game_test_Meron_Shira.cpp)
+        test/matam_tests_game/autoGameTester.cpp)
 
 add_executable(game ${CPP_FILES})

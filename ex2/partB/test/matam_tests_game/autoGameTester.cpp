@@ -1,9 +1,6 @@
 #include <iostream>
-
-#include <cassert>
-
-#include "Exceptions.h"
-#include "Game.h"
+#include "../../Exceptions.h"
+#include "../../Game.h"
 
 using namespace std;
 using namespace mtm;

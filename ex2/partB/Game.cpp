@@ -50,7 +50,7 @@ namespace mtm{
         if (character == nullptr) {
             return EMPTY_CELL;
         }
-        if ((character.get())->getTeam() == Powerlifters) {
+        if ((character.get())->getTeam() == POWERLIFTERS) {
             if ((character.get())->getType() == SOLDIER) {
                 return CPP_SOLDIER;
             }
@@ -175,9 +175,9 @@ namespace mtm{
         for(int i=0; i < gameBoard.getHeight(); i++) {
             for (int j = 0; j < gameBoard.getWidth(); j++) {
                 const GridPoint gp(i,j);
-                if (gameBoard(gp) != nullptr && (gameBoard(gp).get())->getTeam() == Powerlifters) {
+                if (gameBoard(gp) != nullptr && (gameBoard(gp).get())->getTeam() == POWERLIFTERS) {
                     countCPP++;
-                } else if (gameBoard(gp) != nullptr && (gameBoard(gp).get())->getTeam() == Crossfitters) {
+                } else if (gameBoard(gp) != nullptr && (gameBoard(gp).get())->getTeam() == CROSSFITTERS) {
                     countPython++;
                 }
             }
@@ -187,10 +187,10 @@ namespace mtm{
         }
         if (winningTeam!= nullptr){
             if(countCPP==0) {
-                *winningTeam = Crossfitters;
+                *winningTeam = CROSSFITTERS;
             }
             else{
-                *winningTeam = Powerlifters;
+                *winningTeam = POWERLIFTERS;
             }
         }
         return true;

@@ -20,7 +20,7 @@ namespace mtm{
         /**
             * //explicit Character(Team team,units_t health, units_t ammo, units_t range, units_t power)//:
             * A Character constructor.
-            * receives Character Team(Powerlifters or Crossfitters), positive integer health,
+            * receives Character Team(POWERLIFTERS or CROSSFITTERS), positive integer health,
                     non-negative integers ammo, range, power.
             * constructs a character, by creating it with the given parameters.
         */ 

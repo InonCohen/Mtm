@@ -59,7 +59,8 @@ namespace mtm{
 
     bool Soldier::isSecondaryTarget(const GridPoint& initial_hit_point, const GridPoint& possible_secondary_hit_point){
         int distance_from_direct_target=GridPoint::distance(possible_secondary_hit_point,initial_hit_point);
-        return 0 < distance_from_direct_target <= ceil(double(range)/SOLDIER_SECONDARY_RANGE);
+        return  ((0 < distance_from_direct_target) &&
+                (distance_from_direct_target <= ceil(double(range)/SOLDIER_SECONDARY_RANGE)));
     }
 
     void Soldier::reload(){
