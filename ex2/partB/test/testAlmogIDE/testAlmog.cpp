@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-
+#include <string>
 #include "../../Exceptions.h"
 #include "../../Game.h"
 
@@ -48,8 +48,10 @@ void doReload(Game& game , std::fstream &from )
 
 int main()
 {
-    fstream from("/Users/ohadbenacot/CLionProjects/Mtm/ex2/partB/test/testAlmogIDE/game_input_0.txt");
-    fstream to("/Users/ohadbenacot/CLionProjects/Mtm/ex2/partB/test/testAlmogIDE/myOutput.txt");
+    std::string MTM_DIR = "/Users/ohadbenacot/CLionProjects/Mtm/";
+    std::string TEST_DIR = "ex2/partB/test/testAlmogIDE/";
+    fstream from(MTM_DIR + TEST_DIR + "game_input_0.txt",ios::in);
+    fstream to(MTM_DIR + TEST_DIR + "myOutput.txt");
     if (!from){
         cout<<"src filepath isn't exist."<<endl;
     }
