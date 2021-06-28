@@ -1,6 +1,5 @@
 #include <iostream>
 #include <fstream>
-#include <cassert>
 
 #include "../../Exceptions.h"
 #include "../../Game.h"
@@ -49,11 +48,15 @@ void doReload(Game& game , std::fstream &from )
 
 int main()
 {
-    fstream from("game_input_9.txt");
-    fstream to("my_output_9.txt");
-    if (!to){
-        cout<<"not_good"<<endl;
+    fstream from("/Users/ohadbenacot/CLionProjects/Mtm/ex2/partB/test/testAlmogIDE/game_input_0.txt");
+    fstream to("/Users/ohadbenacot/CLionProjects/Mtm/ex2/partB/test/testAlmogIDE/myOutput.txt");
+    if (!from){
+        cout<<"src filepath isn't exist."<<endl;
     }
+    if (!to){
+        cout<<"dst filepath isn't exist."<<endl;
+    }
+
     int width = 0;
     int height = 0;
     from >> width >> height;
@@ -86,7 +89,7 @@ int main()
                 }
                 to << game << endl;
             }
-            catch (mtm::Exceptions const &e) {
+            catch (mtm::Exception const &e) {
                 to << e.what() << endl;
             }
         }
