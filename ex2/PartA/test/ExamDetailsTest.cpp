@@ -14,7 +14,8 @@
  * in the same folder that the file (mainR.cpp) is found.
  */
 #include <iostream>
-#include "examDetails.h"
+#include "../ExamDetails.h"
+
 #include <fstream>
 
 using std::cout;
