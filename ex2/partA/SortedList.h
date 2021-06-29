@@ -3,7 +3,7 @@
 #include <cassert>
 #include <stdexcept>
 #include <string>
-#include "SortedListNode.h"
+#include "sortedListNode.h"
 
 namespace mtm {
 
@@ -29,7 +29,7 @@ namespace mtm {
         class const_iterator;
 
 
-                //Declaration of SortedList template class methods//
+        //Declaration of SortedList template class methods//
 
         /**
            * Constructor of class SortedList<T>.
@@ -194,19 +194,19 @@ namespace mtm {
 
     public:
 
-    /**
-       * Copy Constructor of class const_iterator<T>.
-       *
-       * @param other - a const_iterator<T> object to be copied to caller object.
-       */
+        /**
+           * Copy Constructor of class const_iterator<T>.
+           *
+           * @param other - a const_iterator<T> object to be copied to caller object.
+           */
         const_iterator(const const_iterator &const_it) = default;
 
-    /**
-       * Destructor of class const_iterator<T>.
-       *
-       * Template Requirements (derived from SortedListNode<T> template requirements):
-       *    Destructor
-       */
+        /**
+           * Destructor of class const_iterator<T>.
+           *
+           * Template Requirements (derived from SortedListNode<T> template requirements):
+           *    Destructor
+           */
         ~const_iterator() = default;
 
         /**
@@ -259,7 +259,7 @@ namespace mtm {
     };
 
 
-        //Implementation of SortedList class functions//
+    //Implementation of SortedList class functions//
 
 
     template<class T>
@@ -392,10 +392,10 @@ namespace mtm {
         return result;
     }
 
-             //End of SortedList class functions implementation//
+    //End of SortedList class functions implementation//
 
 
-             //Implementation of const_iterator class functions//
+    //Implementation of const_iterator class functions//
 
     template<class T>
     SortedList<T>::const_iterator::const_iterator(const SortedList *sorted_list, int index): sorted_list(sorted_list),
@@ -445,7 +445,7 @@ namespace mtm {
         return result;
     }
 
-            //End of const_iterator class functions implementation//
+    //End of const_iterator class functions implementation//
 
 }
 

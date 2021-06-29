@@ -14,34 +14,44 @@ namespace mtm{
         static const units_t SNIPER_DOUBLE_POWER=2;
         units_t attack_counter=0;
     public:
+
         /**
-            * //Sniper(Team team,units_t health, units_t ammo, units_t range, units_t power)//:
-            * Sniper constructor.
-            * receives Sniper's Team(POWERLIFTERS or CROSSFITTERS), positive integer health,
-                    non-negative integers ammo, range, power.
-            * constructs Sniper, by creating Character with the params given.
-     */
+           * Constructor of class Sniper.
+           *
+           * @param team - POWERLIFTERS or CROSSFITTERS.
+           * @param health - life points. Must be positive.
+           * @param ammo - ammunition. Must be non-negative.
+           * @param range - how far can the new sniper attack. Must be positive.
+           * @param power - the damage the new sniper will cause on its strikes. Must be non-negative.
+           */
         Sniper(Team team,units_t health, units_t ammo, units_t range, units_t power);
-         /**
-            * //Sniper(const  Soldier& other)//:
-            * Sniper copy constructor.
-            * receives a sniper's reference
-            * constructs a new Sniper holding the same stats of other.
-     */    
-        Sniper(const  Sniper& other);
+
         /**
-            * //~Sniper()=default//:
-            * Sniper default destructor
-            * destroys Sniper
-      */
+         * Copy Constructor of class Sniper.
+         *
+         * @param other - a Sniper object to be copied.
+         */
+        Sniper(const  Sniper& other);
+
+        /**
+           * Destructor of class Sniper.
+           */
         ~Sniper()=default;
+
         Character* clone() const override;
+
         CharacterType getType() override;
+
         bool isMoveLegal(units_t distance) override;
+
         bool isAttackLegal(const GridPoint& src, const GridPoint& dest) override;
+
         bool isTargetLegal(const std::shared_ptr<Character>& target) override;
+
         bool isTargetPositionLegal(const GridPoint &src, const GridPoint &dest) override;
+
         void attack(std::shared_ptr<Character>& target) override;
+
         void reload() override;
     };
 }

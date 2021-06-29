@@ -18,68 +18,77 @@ namespace mtm{
     public:
 
         /**
-            * //explicit Character(Team team,units_t health, units_t ammo, units_t range, units_t power)//:
-            * A Character constructor.
-            * receives Character Team(POWERLIFTERS or CROSSFITTERS), positive integer health,
-                    non-negative integers ammo, range, power.
-            * constructs a character, by creating it with the given parameters.
-        */ 
+           * Constructor of class Character.
+           *
+           * @param team - POWERLIFTERS or CROSSFITTERS.
+           * @param health - life points. Must be positive.
+           * @param ammo - ammunition. Must be non-negative.
+           * @param range - how far can the new character attack. Must be positive.
+           * @param power - the damage the new character will cause on its strikes. Must be non-negative.
+           */
         explicit Character(Team team, units_t health=0, units_t ammo=0, units_t range=0, units_t power=0);
 
         /**
-            * //Character(const Character& other)//:
-            * Character copy constructor.
-            * receives a Character reference
-            * constructs a new Character holding the same stats of other.
-        */  
-        Character(const Character& other)=default;
+           * Copy Constructor of class Character.
+           *
+           * @param other - a Character object to be copied.
+           */
+        Character(const Character& other) = default;
 
-        /** 
-             * //operator=//:
-             *  places the given character(other) in the this
-         */         
-        Character& operator=(const Character& other)=default;
-        
         /**
-             * //operator==//:
-             * compares between two characters - this and other. 
-             * returns true in case both characters are equal. false, otherwise.
-         */ 
+           * operator= : Assignment operator of class Character.
+           *
+           * @param other - a Character object to be copied.
+           */
+        Character& operator=(const Character& other) = default;
+
+        /**
+             * operator== : Comparison operator.
+             *              Returns whether the caller Character object starts and the Character object
+             *             received by the function are equal.
+             *
+             * @param other - a Character to compare with the caller Character object.
+             *
+             * @return
+             *      true - if both Characters are equal.
+             *      false - otherwise.
+             *
+             * @throw
+             *      IllegalArgument - if other is NULL
+         */
         bool operator==(const Character& other);
 
         /**
-             * //~Character()//:
-             * Character's default destructor
-             * destroys a character
-         */ 
-        virtual ~Character()=default;
-        
+           * Destructor of class Character.
+           */
+        virtual ~Character() = default;
+
         /**
-            * //virtual CharacterType getType()=0//:
+            * getType: Returns the type of the
             * returns the derived Character type of this
         */
         virtual CharacterType getType()=0;
-        
+
         /**
             * //Team getTeam() const//:
             * returns the derived Character team of this
         */
         Team getTeam() const;
-        
+
         /**
             * //Character* clone() const =0//:
             * clones this (the Soldier who called the function).
             * constructs a new Soldier holding the same stats as this.
             * returns a pointer 
-        */           
+        */
         virtual Character* clone() const = 0;
 
-       /**
-			 * //bool isMoveLegal(units_t distance)//:
-			 * Receives units_t parameter of distance.
-			 * returns true if move is legal distance- wise
-             * otherwise returns false
-		*/
+        /**
+              * //bool isMoveLegal(units_t distance)//:
+              * Receives units_t parameter of distance.
+              * returns true if move is legal distance- wise
+              * otherwise returns false
+         */
         virtual bool isMoveLegal(units_t distance)=0;
 
         /**
@@ -105,13 +114,13 @@ namespace mtm{
              * otherwise returns false
 		*/
         virtual bool isTargetPositionLegal(const GridPoint& src, const GridPoint& dest)=0;
-        
-         /**
-			 * //bool isAmmoSufficient(const std::shared_ptr<Character>& target)//:
-			 * receives shared_ptr Character reference (target).
-			 * returns true if Character's ammo is sufficient.
-             * otherwise returns false
-		*/
+
+        /**
+            * //bool isAmmoSufficient(const std::shared_ptr<Character>& target)//:
+            * receives shared_ptr Character reference (target).
+            * returns true if Character's ammo is sufficient.
+            * otherwise returns false
+       */
         virtual bool isAmmoSufficient(const std::shared_ptr<Character>& target);
 
         /**
@@ -126,7 +135,7 @@ namespace mtm{
              * 
         */
         virtual void attackSecondary(std::shared_ptr<Character>& target);
-        
+
         /**
              * //void attack(std::list<std::shared_ptr<Character>>& secondary_targets)//: 
              *  receives list of pointers and according to demands of exercise weakens the upcoming attack.
@@ -157,7 +166,7 @@ namespace mtm{
              *  pure virtual reload function
         */
         virtual void reload()=0;
-        
+
         /**
              * //virtual bool isSecondaryTarget(const GridPoint direct_target, const GridPoint gp)//
              *  receives two coordinates (constant GridPoint) ,initial hit point and possible secondary hitPoint.

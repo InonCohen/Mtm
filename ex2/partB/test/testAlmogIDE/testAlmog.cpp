@@ -21,7 +21,7 @@ void doCreate(Game &game, fstream &from)
     else
         type = SNIPER;
     Team team = isupper(char_type) ? POWERLIFTERS : CROSSFITTERS;
-    shared_ptr<Character> temp = game.makeCharacter(type, team, health, ammo, range, power);
+    shared_ptr<Character> temp = mtm::Game::makeCharacter(type, team, health, ammo, range, power);
     game.addCharacter(GridPoint(y_pos, x_pos), temp);
 }
 
@@ -50,7 +50,7 @@ int main()
 {
     std::string MTM_DIR = "/Users/ohadbenacot/CLionProjects/Mtm/";
     std::string TEST_DIR = "ex2/partB/test/testAlmogIDE/";
-    fstream from(MTM_DIR + TEST_DIR + "game_input_9.txt");
+    fstream from(MTM_DIR + TEST_DIR + "game_input_<NUM_OF_TEST>.txt");
     fstream to(MTM_DIR + TEST_DIR + "myOutput.txt");
     if (!from){
         cout<<"src filepath isn't exist."<<endl;

@@ -11,37 +11,49 @@ namespace mtm{
         static const units_t SOLDIER_SECONDARY_RANGE=3;
         static const units_t SOLDIER_SECONDARY_EFFECT=2;
     public:
-    /**
-            * //Soldier(Team team,units_t health, units_t ammo, units_t range, units_t power)//:
-            * Soldier constructor.
-            * receives Soldier's Team(POWERLIFTERS or CROSSFITTERS), positive integer health,
-                    non-negative integers ammo, range, power.
-            * constructs Soldier, by creating Character with the params given.
-     */
+
+        /**
+           * Constructor of class Soldier.
+           *
+           * @param team - POWERLIFTERS or CROSSFITTERS.
+           * @param health - life points. Must be positive.
+           * @param ammo - ammunition. Must be non-negative.
+           * @param range - how far can the new soldier attack. Must be positive.
+           * @param power - the damage the new soldier will cause on its strikes. Must be non-negative.
+           */
         Soldier(Team team,units_t health, units_t ammo, units_t range, units_t power);
-    /**
-            * //Soldier(const  Soldier& other)//:
-            * Soldier copy constructor.
-            * receives a soldier's reference
-            * constructs a new Soldier holding the same stats of other.
-     */    
+
+        /**
+           * Copy Constructor of class Soldier.
+           *
+           * @param other - a Soldier object to be copied.
+           */
         Soldier(const  Soldier& other);
-     /**
-            * //~Soldier()//:
-            * - Soldier's default destructor
-            * destroys Soldier
-      */
+
+        /**
+           * Destructor of class Soldier.
+           */
         ~Soldier()=default;
 
+
         bool isSecondaryTarget(const GridPoint& direct_target, const GridPoint& gp) override;
+
         CharacterType getType() override;
+
         Character* clone() const override ;
+
         bool isMoveLegal(units_t distance) override;
+
         bool isAttackLegal(const GridPoint& src, const GridPoint& dest) override;
+
         bool isTargetLegal (const std::shared_ptr<Character>& target) override;
+
         bool isTargetPositionLegal(const GridPoint &src, const GridPoint &dest) override;
+
         void attack(std::shared_ptr<Character>& target) override;
+
         void attackSecondary(std::shared_ptr<Character>& target) override;
+
         void reload() override;
     };
 }
