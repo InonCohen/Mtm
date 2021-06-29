@@ -17,7 +17,7 @@ namespace mtm{
         /**
             * //Sniper(Team team,units_t health, units_t ammo, units_t range, units_t power)//:
             * Sniper constructor.
-            * receives Sniper's Team(Powerlifters or Crossfitters), positive integer health,
+            * receives Sniper's Team(POWERLIFTERS or CROSSFITTERS), positive integer health,
                     non-negative integers ammo, range, power.
             * constructs Sniper, by creating Character with the params given.
      */

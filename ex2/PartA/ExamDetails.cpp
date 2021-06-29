@@ -17,7 +17,7 @@
 
 namespace mtm{
 
-                /**ExamDetails Methods Implementation*/
+    /**ExamDetails Methods Implementation*/
 
     ExamDetails::ExamDetails(int course_number, int month, int day, double time, int duration, std::string zoom_link):
             course_number(course_number),

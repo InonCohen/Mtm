@@ -1,12 +1,13 @@
+#include <memory>
+#include <list>
 #include "Game.h"
+#include "Board.h"
+#include "Character.h"
 #include "Soldier.h"
 #include "Medic.h"
 #include "Sniper.h"
-#include "Matrix.h"
 #include "Exceptions.h"
 #include "Auxiliaries.h"
-#include <memory>
-#include <list>
 
 
 namespace mtm{
@@ -19,77 +20,13 @@ namespace mtm{
     static const char PYTHON_SNIPER='n';
 
     /**
-     * //static char getLetter(const std::shared_ptr<Character>& character)//:
+     * //static char characterRepresentation(const std::shared_ptr<Character>& character)//:
      * receives a shared pointer to Character named character
-     * returns the letter symbolizes the character on the board
-*/
-    static char getLetter(const std::shared_ptr<Character>& character);
+     * returns the letter symbolizes the character on the Board
+     */
+    static char characterRepresentation(const std::shared_ptr<Character>& character);
 
-    Game::Game(int height, int width): board((height<=0 || width<= 0) ? throw IllegalArgument() : Matrix<std::shared_ptr<Character>>(Dimensions(height,width),nullptr)){}
-
-    Game::~Game(){
-        int height=this->getHeight();
-        int width=this->getWidth();
-        for(int i=0;i<height;i++){
-            for (int j=0;j<width;j++){
-                board(i,j) = nullptr;
-            }
-        }
-    }
-
-    Game::Game(const mtm::Game& other): board(copyBoard(other)){
-    }
-
-    int Game::getSize() const{
-        return this->board.size();
-    }
-
-    int Game::getHeight() const{
-        return this->board.height();
-    }
-
-    int Game::getWidth() const{
-        return this->board.width();
-    }
-
-    const std::shared_ptr<Character>& Game::operator()(int row, int col) const{
-        if (row<0||col<0||row>this->getHeight()||col>this->getWidth()){
-            throw IllegalCell();
-        }
-        return board(row,col);
-    }
-
-    std::shared_ptr<Character>& Game::operator()(int row, int col){
-        if (row<0||col<0||row>this->getHeight()||col>this->getWidth()){
-            throw IllegalCell();
-        }
-        return board(row,col);
-    }
-
-    std::shared_ptr<Character>& Game::operator()(const GridPoint& gp){
-        int row=gp.row;
-        int col=gp.col;
-        return this->operator()(row,col);
-    }
-
-    Game& Game::operator=(const Game& other){
-        this->board = copyBoard(other);
-        return *this;
-    }
-
-    Matrix<std::shared_ptr<Character>> Game::copyBoard(const Game& game) {
-        auto board = Matrix<std::shared_ptr<Character>>(Dimensions(game.board.height(), game.board.width()), nullptr);
-        int height = game.board.height();
-        int width = game.board.width();
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                if (game.board(i, j)) {
-                    board(i, j) = std::shared_ptr<Character>(game.board(i, j)->clone());
-                }
-            }
-        }
-        return board;
-    }
+    Game::Game(int height, int width): gameBoard(Board<Character>(height, width)) {}
 
     std::shared_ptr<Character> Game::makeCharacter(CharacterType type, Team team, units_t health,
                                                    units_t ammo, units_t range, units_t power){
@@ -105,93 +42,81 @@ namespace mtm{
         return std::make_shared<Sniper>(Sniper(team, health, ammo, range, power));
     }
 
-    bool Game::isCellLegal(const GridPoint& coordinates){
-        int row=coordinates.row;
-        int col=coordinates.col;
-        if(row<0||row>=this->getHeight()||col<0||col>=this->getWidth())
-            return false;
-        return true;
+    void Game::addCharacter(const GridPoint& gp, std::shared_ptr<Character> character_ptr){
+        this->gameBoard.addItem(gp, character_ptr);
     }
 
-    void Game::addCharacter(const GridPoint& coordinates, std::shared_ptr<Character> character){
-        if (!isCellLegal(coordinates)){
-            throw IllegalCell();
-        }
-        if(this->operator()(coordinates)!=nullptr){
-            throw CellOccupied();
-        }
-        this->operator()(coordinates)=character;
-    }
-
-    static char getLetter(const std::shared_ptr<Character>& character){
-        if(character==nullptr){
+    static char characterRepresentation(const std::shared_ptr<Character>& character) {
+        if (character == nullptr) {
             return EMPTY_CELL;
         }
-        if((character.get())->getTeam() == Powerlifters){
-            if((character.get())->getType()==SOLDIER){
+        if ((character.get())->getTeam() == POWERLIFTERS) {
+            if ((character.get())->getType() == SOLDIER) {
                 return CPP_SOLDIER;
             }
-            if((character.get())->getType()==MEDIC){
+            if ((character.get())->getType() == MEDIC) {
                 return CPP_MEDIC;
             }
             return CPP_SNIPER;
         }
-        if((character.get())->getType()==SOLDIER){
-            return PYTHON_SOLDIER;
+        else
+        {
+            if ((character.get())->getType() == SOLDIER) {
+                return PYTHON_SOLDIER;
+            }
+            if ((character.get())->getType() == MEDIC) {
+                return PYTHON_MEDIC;
+            }
+            return PYTHON_SNIPER;
         }
-        if((character.get())->getType()==MEDIC){
-            return PYTHON_MEDIC;
-        }
-        return PYTHON_SNIPER;
     }
 
     std::ostream& operator<<(std::ostream &os, const mtm::Game& game) {
-        int size = game.getSize();
-        int height = game.getHeight();
-        int width = game.getWidth();
-        char* char_board = new char[size];
+        int gameBoardHeight = game.gameBoard.getHeight();
+        int gameBoardWidth = game.gameBoard.getWidth();
+        int gameBoardSize = gameBoardHeight * gameBoardWidth;
+        char* char_board = new char[gameBoardSize];
         int count=0;
-        for (int i=0;i<height;i++){
-            for (int j=0;j<width;j++){
-                char_board[count++]=getLetter(game(i,j));
+        for (int i=0;i<gameBoardHeight;i++){
+            for (int j=0;j<gameBoardWidth;j++){
+                const GridPoint gp(i,j);
+                char_board[count++]= characterRepresentation(game.gameBoard(gp));
             }
         }
-        std::ostream& print=printGameBoard(os, &char_board[0], &char_board[size], game.getWidth());
+
+        std::ostream& print=printGameBoard(os, &char_board[0], &char_board[gameBoardSize], game.gameBoard.getWidth());
         delete[] char_board;
         return print;
     }
 
+    // TODO: CHECK FOR EXCEPTION THROWING ORDER
     void Game::move(const GridPoint & src_coordinates, const GridPoint & dst_coordinates){
-        if(!isCellLegal(src_coordinates)||!isCellLegal(dst_coordinates)){
+        if(!(this->gameBoard.isCellLegal(src_coordinates) && this->gameBoard.isCellLegal(dst_coordinates))){
             throw IllegalCell();
         }
-        std::shared_ptr<Character> to_move_ptr=this->operator()(src_coordinates);
-        if(to_move_ptr== nullptr){
+        if(!this->gameBoard(src_coordinates)){
             throw CellEmpty();
         }
+        std::shared_ptr<Character> to_move_ptr=this->gameBoard(src_coordinates);
         if (!((*to_move_ptr).isMoveLegal(GridPoint::distance(src_coordinates,dst_coordinates)))){
             throw MoveTooFar();
         }
-        if(!(this->operator()(dst_coordinates)==nullptr)){
-            throw CellOccupied();
-        }
-        auto temp = this->operator()(src_coordinates);
-        this->operator()(src_coordinates) = nullptr;
-        this->operator()(dst_coordinates)=temp;
+        this->gameBoard.moveItem(src_coordinates, dst_coordinates);
     }
 
+    // TODO: CHECK FOR EXCEPTION THROWING ORDER
     void Game::attack(const GridPoint & src_coordinates, const GridPoint & dst_coordinates){
-        if(!isCellLegal(src_coordinates)||!isCellLegal(dst_coordinates)){
+        if(!(this->gameBoard.isCellLegal(src_coordinates) && this->gameBoard.isCellLegal(dst_coordinates))){
             throw IllegalCell();
         }
-        std::shared_ptr<Character> attacker_ptr=this->operator()(src_coordinates);
-        if(attacker_ptr == nullptr){
+        if(!this->gameBoard(src_coordinates)){
             throw CellEmpty();
         }
+        std::shared_ptr<Character> attacker_ptr=this->gameBoard(src_coordinates);
         if(!((attacker_ptr.get())->isAttackLegal(src_coordinates, dst_coordinates))){
             throw OutOfRange();
         }
-        std::shared_ptr<Character> target_ptr=this->operator()(dst_coordinates);
+        std::shared_ptr<Character> target_ptr=this->gameBoard(dst_coordinates);
         if (!((attacker_ptr.get())->isAmmoSufficient(target_ptr))){
             throw OutOfAmmo();
         }
@@ -209,10 +134,10 @@ namespace mtm{
     }
 
     void Game::reload(const GridPoint& coordinates){
-        if(!isCellLegal(coordinates)){
+        if(!this->gameBoard.isCellLegal(coordinates)){
             throw IllegalCell();
         }
-        std::shared_ptr<Character> character= this->operator()(coordinates);
+        std::shared_ptr<Character> character= this->gameBoard(coordinates);
         if(character == nullptr){
             throw CellEmpty();
         }
@@ -220,23 +145,26 @@ namespace mtm{
     }
 
     void Game::clearDead() {
-        for(int i=0;i<board.height();i++){
-            for(int j=0;j<board.width();j++){
-                if(board(i,j)!= nullptr && !((*(board(i,j))).isAlive())){
-                    board(i,j)=nullptr;
+        for(int i=0; i < gameBoard.getHeight(); i++){
+            for(int j=0; j < gameBoard.getWidth(); j++){
+                const GridPoint gp(i,j);
+                Character* current_character_ptr = gameBoard(gp).get();
+                if(gameBoard(gp) != nullptr && !(current_character_ptr->isAlive())){
+                    gameBoard(gp)=nullptr;
                 }
             }
         }
     }
 
-    void Game::fillSecondaryTargetsList(const GridPoint src_coordinates, const GridPoint dst_coordinates,
+     void Game::fillSecondaryTargetsList(const GridPoint src_coordinates, const GridPoint dst_coordinates,
             std::list<std::shared_ptr<Character>>& secondary_targets){
-        Character& attacker= *(this->operator()(src_coordinates));
-        for(int i=0;i<board.height();i++) {
-            for (int j = 0; j < board.width(); j++) {
-                if(board(i,j)!=nullptr&& attacker.isSecondaryTarget(dst_coordinates, GridPoint(i,j)) &&
-                (*(this->operator()(GridPoint(i,j)))).getTeam()!=attacker.getTeam()){
-                    secondary_targets.push_back(board(i,j));
+        Character& attacker= *(this->gameBoard(src_coordinates));
+        for(int i=0; i < this->gameBoard.getHeight(); i++) {
+            for (int j = 0; j < this->gameBoard.getWidth(); j++) {
+                const GridPoint gp(i,j);
+                if(this->gameBoard(gp) != nullptr && attacker.isSecondaryTarget(dst_coordinates, gp) &&
+                (*(this->gameBoard(gp))).getTeam()!=attacker.getTeam()){
+                    secondary_targets.push_back(this->gameBoard(gp));
                 }
             }
         }
@@ -244,11 +172,12 @@ namespace mtm{
 
     bool Game::isOver(Team* winningTeam) const{
         int countCPP=0, countPython=0;
-        for(int i=0;i< board.height();i++) {
-            for (int j = 0; j < board.width(); j++) {
-                if (board(i, j) != nullptr && (board(i, j).get())->getTeam() == Powerlifters) {
+        for(int i=0; i < gameBoard.getHeight(); i++) {
+            for (int j = 0; j < gameBoard.getWidth(); j++) {
+                const GridPoint gp(i,j);
+                if (gameBoard(gp) != nullptr && (gameBoard(gp).get())->getTeam() == POWERLIFTERS) {
                     countCPP++;
-                } else if (board(i, j) != nullptr && (board(i, j).get())->getTeam() == Crossfitters) {
+                } else if (gameBoard(gp) != nullptr && (gameBoard(gp).get())->getTeam() == CROSSFITTERS) {
                     countPython++;
                 }
             }
@@ -258,10 +187,10 @@ namespace mtm{
         }
         if (winningTeam!= nullptr){
             if(countCPP==0) {
-                *winningTeam = Crossfitters;
+                *winningTeam = CROSSFITTERS;
             }
             else{
-                *winningTeam = Powerlifters;
+                *winningTeam = POWERLIFTERS;
             }
         }
         return true;

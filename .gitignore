@@ -5,6 +5,7 @@
 ### Build ###
 **/cmake-build-debug/
 **/cmake-build-debug-csl3/
+**/venv/
 ### Exercise Instructions ###
 *.pdf
 *.xml

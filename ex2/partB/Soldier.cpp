@@ -50,17 +50,17 @@ namespace mtm{
         }
         ammo--;
     }
+
     void Soldier::attackSecondary(std::shared_ptr<Character>& target){
         if((*(target)).getTeam()!=team) {
             (*target).hurt(ceil(double(power) / SOLDIER_SECONDARY_EFFECT));
         }
     }
 
-    bool Soldier::isSecondaryTarget(const GridPoint initial_hit_point, const GridPoint possible_secondary_hit_point){
-        if(GridPoint::distance(possible_secondary_hit_point,initial_hit_point)<= ceil(double(range)/SOLDIER_SECONDARY_RANGE)){
-            return true;
-        }
-        return false;
+    bool Soldier::isSecondaryTarget(const GridPoint& initial_hit_point, const GridPoint& possible_secondary_hit_point){
+        int distance_from_direct_target=GridPoint::distance(possible_secondary_hit_point,initial_hit_point);
+        return  ((0 < distance_from_direct_target) &&
+                (distance_from_direct_target <= ceil(double(range)/SOLDIER_SECONDARY_RANGE)));
     }
 
     void Soldier::reload(){

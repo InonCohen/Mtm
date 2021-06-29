@@ -5,7 +5,7 @@
 
 namespace mtm {
     enum Team {
-        Powerlifters, Crossfitters
+        POWERLIFTERS, CROSSFITTERS
     };
 
     enum CharacterType {
@@ -33,16 +33,6 @@ namespace mtm {
             return std::abs(point1.row - point2.row)
                    + std::abs(point1.col - point2.col);
         }
-    };
-
-    class Dimensions{
-        int height;
-        int width;
-    public:
-        Dimensions(int height, int width);
-        int getRow() const;
-        int getCol() const;
-        std::string toString() const;
     };
 
     std::ostream &printGameBoard(std::ostream &os, const char *begin,
