@@ -15,10 +15,10 @@ int main() {
 void example1() {
 	std::cout << "------example 1------" << std::endl;
 	Game g1(8,8);
-	g1.addCharacter(GridPoint(1,1), Game::makeCharacter(CharacterType::MEDIC, Team::Powerlifters, 10, 2, 4, 5));
-	g1.addCharacter(GridPoint(1,4), Game::makeCharacter(CharacterType::SNIPER, Team::Powerlifters, 10, 2, 4, 5));
-	g1.addCharacter(GridPoint(6,1), Game::makeCharacter(CharacterType::SOLDIER, Team::Crossfitters, 10, 2, 4, 5));
-	g1.addCharacter(GridPoint(6,4), Game::makeCharacter(CharacterType::MEDIC, Team::Crossfitters, 10, 2, 4, 5));
+	g1.addCharacter(GridPoint(1,1), Game::makeCharacter(CharacterType::MEDIC, Team::POWERLIFTERS, 10, 2, 4, 5));
+	g1.addCharacter(GridPoint(1,4), Game::makeCharacter(CharacterType::SNIPER, Team::POWERLIFTERS, 10, 2, 4, 5));
+	g1.addCharacter(GridPoint(6,1), Game::makeCharacter(CharacterType::SOLDIER, Team::CROSSFITTERS, 10, 2, 4, 5));
+	g1.addCharacter(GridPoint(6,4), Game::makeCharacter(CharacterType::MEDIC, Team::CROSSFITTERS, 10, 2, 4, 5));
 	std::cout << g1 << std::endl;
 	g1.move(GridPoint(1,1), GridPoint(1,2));
 	std::cout << g1 << std::endl;
@@ -82,10 +82,10 @@ void example1() {
 		std::cout << e.what() << std::endl;
 	}
 
-	Team winning_team = Team::Crossfitters;
+	Team winning_team = Team::CROSSFITTERS;
 	
 	std::cout << "isOver: " << g1.isOver(&winning_team) << std::endl;
-	std::cout << "is cpp the winning team? " << (winning_team == Team::Powerlifters) << std::endl;
+	std::cout << "is cpp the winning team? " << (winning_team == Team::POWERLIFTERS) << std::endl;
 
 	g1.reload(GridPoint(3,4));
 	g1.attack(GridPoint(3,4), GridPoint(6,4)); // now can shoot
@@ -100,17 +100,17 @@ void example1() {
 	}
 	
 	std::cout << "isOver: " << g1.isOver(&winning_team) << std::endl;
-	std::cout << "is cpp the winning team? " << (winning_team == Team::Powerlifters) << std::endl;
+	std::cout << "is cpp the winning team? " << (winning_team == Team::POWERLIFTERS) << std::endl;
 }
 
 void example2() {
 	std::cout << "------example 2------" << std::endl;
 	Game g1(5,10);
-	g1.addCharacter(GridPoint(3,0), Game::makeCharacter(CharacterType::SOLDIER, Team::Powerlifters, 20, 0, 3, 5));
-	g1.addCharacter(GridPoint(2,6), Game::makeCharacter(CharacterType::SNIPER, Team::Crossfitters, 10, 2, 4, 5));
-	g1.addCharacter(GridPoint(3,8), Game::makeCharacter(CharacterType::SNIPER, Team::Crossfitters, 10, 2, 4, 5));
-	g1.addCharacter(GridPoint(3,6), Game::makeCharacter(CharacterType::MEDIC, Team::Crossfitters, 10, 2, 4, 5));
-	g1.addCharacter(GridPoint(4,6), Game::makeCharacter(CharacterType::MEDIC, Team::Crossfitters, 10, 2, 4, 5));
+	g1.addCharacter(GridPoint(3,0), Game::makeCharacter(CharacterType::SOLDIER, Team::POWERLIFTERS, 20, 0, 3, 5));
+	g1.addCharacter(GridPoint(2,6), Game::makeCharacter(CharacterType::SNIPER, Team::CROSSFITTERS, 10, 2, 4, 5));
+	g1.addCharacter(GridPoint(3,8), Game::makeCharacter(CharacterType::SNIPER, Team::CROSSFITTERS, 10, 2, 4, 5));
+	g1.addCharacter(GridPoint(3,6), Game::makeCharacter(CharacterType::MEDIC, Team::CROSSFITTERS, 10, 2, 4, 5));
+	g1.addCharacter(GridPoint(4,6), Game::makeCharacter(CharacterType::MEDIC, Team::CROSSFITTERS, 10, 2, 4, 5));
 	std::cout << g1 << std::endl;
 	
 	try {

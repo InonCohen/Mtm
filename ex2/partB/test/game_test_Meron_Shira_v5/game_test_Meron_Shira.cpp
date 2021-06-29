@@ -83,7 +83,7 @@ void test_basic_errors()
     //zero health
     try
     {
-        g1.addCharacter(GridPoint(0, 0), Game::makeCharacter(CharacterType::MEDIC, Team::Powerlifters, 0, 2, 4, 5));
+        g1.addCharacter(GridPoint(0, 0), Game::makeCharacter(CharacterType::MEDIC, Team::POWERLIFTERS, 0, 2, 4, 5));
     }
     catch (mtm::IllegalArgument &e)
     {
@@ -92,7 +92,7 @@ void test_basic_errors()
     //negative health
     try
     {
-        g1.addCharacter(GridPoint(0, 0), Game::makeCharacter(CharacterType::MEDIC, Team::Powerlifters, -5, 2, 4, 5));
+        g1.addCharacter(GridPoint(0, 0), Game::makeCharacter(CharacterType::MEDIC, Team::POWERLIFTERS, -5, 2, 4, 5));
     }
     catch (mtm::IllegalArgument &e)
     {
@@ -105,7 +105,7 @@ void test_basic_errors()
     //zero ammo, range and power (legal)
     try
     {
-        g1.addCharacter(GridPoint(0, 0), Game::makeCharacter(CharacterType::MEDIC, Team::Powerlifters, 5, 0, 0, 0));
+        g1.addCharacter(GridPoint(0, 0), Game::makeCharacter(CharacterType::MEDIC, Team::POWERLIFTERS, 5, 0, 0, 0));
     }
     catch (mtm::IllegalArgument &e)
     {
@@ -162,7 +162,7 @@ void test_basic_errors()
     //negative ammo
     try
     {
-        g1.addCharacter(GridPoint(0, 0), Game::makeCharacter(CharacterType::MEDIC, Team::Powerlifters, 5, -1, 0, 0));
+        g1.addCharacter(GridPoint(0, 0), Game::makeCharacter(CharacterType::MEDIC, Team::POWERLIFTERS, 5, -1, 0, 0));
     }
     catch (mtm::IllegalArgument &e)
     {
@@ -172,7 +172,7 @@ void test_basic_errors()
     //negative range
     try
     {
-        g1.addCharacter(GridPoint(0, 0), Game::makeCharacter(CharacterType::MEDIC, Team::Powerlifters, 5, 0, -1, 0));
+        g1.addCharacter(GridPoint(0, 0), Game::makeCharacter(CharacterType::MEDIC, Team::POWERLIFTERS, 5, 0, -1, 0));
     }
     catch (mtm::IllegalArgument &e)
     {
@@ -182,7 +182,7 @@ void test_basic_errors()
     //negative power
     try
     {
-        g1.addCharacter(GridPoint(0, 0), Game::makeCharacter(CharacterType::MEDIC, Team::Powerlifters, 5, 0, 0, -1));
+        g1.addCharacter(GridPoint(0, 0), Game::makeCharacter(CharacterType::MEDIC, Team::POWERLIFTERS, 5, 0, 0, -1));
     }
     catch (mtm::IllegalArgument &e)
     {
@@ -192,7 +192,7 @@ void test_basic_errors()
     //cell occupied check
     try
     {
-        g1.addCharacter(GridPoint(0, 0), Game::makeCharacter(CharacterType::MEDIC, Team::Powerlifters, 5, 0, 0, 1));
+        g1.addCharacter(GridPoint(0, 0), Game::makeCharacter(CharacterType::MEDIC, Team::POWERLIFTERS, 5, 0, 0, 1));
     }
     catch (mtm::CellOccupied &e)
     {
@@ -201,7 +201,7 @@ void test_basic_errors()
     //Adding Sniper
     try
     {
-        g2.addCharacter(GridPoint(0, 0), Game::makeCharacter(CharacterType::SNIPER, Team::Crossfitters, 5, 0, 0, 1));
+        g2.addCharacter(GridPoint(0, 0), Game::makeCharacter(CharacterType::SNIPER, Team::CROSSFITTERS, 5, 0, 0, 1));
     }
     catch (mtm::CellOccupied &e)
     {
@@ -221,7 +221,7 @@ void test_basic_errors()
 
     try
     {
-        g3.addCharacter(GridPoint(0, 0), Game::makeCharacter(CharacterType::SOLDIER, Team::Crossfitters, 5, 0, 0, 1));
+        g3.addCharacter(GridPoint(0, 0), Game::makeCharacter(CharacterType::SOLDIER, Team::CROSSFITTERS, 5, 0, 0, 1));
     }
     catch (mtm::CellOccupied &e)
     {
@@ -273,7 +273,7 @@ void test_basic_errors()
     // g4 Board becomes 1x1
     try
     {
-        g4.addCharacter(GridPoint(1, 1), Game::makeCharacter(CharacterType::MEDIC, Team::Powerlifters, 5, 2, 4, 5));
+        g4.addCharacter(GridPoint(1, 1), Game::makeCharacter(CharacterType::MEDIC, Team::POWERLIFTERS, 5, 2, 4, 5));
     }
     catch (mtm::IllegalCell &e)
     {
@@ -314,15 +314,15 @@ void test_basic_errors()
         std::cout << e.what() << std::endl;
     }
 
-    mtm::Team winning_team = mtm::Team::Crossfitters;
+    mtm::Team winning_team = mtm::Team::CROSSFITTERS;
     assert(g1.isOver(&winning_team) == true);
-    assert(winning_team == Powerlifters);
+    assert(winning_team == POWERLIFTERS);
     assert(g2.isOver(&winning_team) == true);
-    assert(winning_team == Crossfitters);
+    assert(winning_team == CROSSFITTERS);
     assert(g3.isOver(&winning_team) == true);
-    assert(winning_team == Crossfitters);
+    assert(winning_team == CROSSFITTERS);
     assert(g4.isOver(&winning_team) == true);
-    assert(winning_team == Crossfitters);
+    assert(winning_team == CROSSFITTERS);
     Game g5(1, 1);
     assert(g5.isOver(&winning_team) == false);
     std::cout << "\ntest_basic_errors[Ok]\n\n";
@@ -338,7 +338,7 @@ void test_rules()
               << g1;
     try
     {
-        g1.addCharacter(GridPoint(1, 1), Game::makeCharacter(CharacterType::MEDIC, Team::Powerlifters, 5, 2, 4, 5));
+        g1.addCharacter(GridPoint(1, 1), Game::makeCharacter(CharacterType::MEDIC, Team::POWERLIFTERS, 5, 2, 4, 5));
     }
     catch (mtm::IllegalCell &e)
     {
@@ -349,7 +349,7 @@ void test_rules()
 
     try
     {
-        g1.addCharacter(GridPoint(0, 0), Game::makeCharacter(CharacterType::SOLDIER, Team::Powerlifters, 5, 2, 1, 5));
+        g1.addCharacter(GridPoint(0, 0), Game::makeCharacter(CharacterType::SOLDIER, Team::POWERLIFTERS, 5, 2, 1, 5));
     }
     catch (mtm::IllegalCell &e)
     {
@@ -358,7 +358,7 @@ void test_rules()
     std::cout << "\n" << g1 << "\n";
     try
     {
-        g1.addCharacter(GridPoint(0, 1), Game::makeCharacter(CharacterType::MEDIC, Team::Crossfitters, 10, 2, 0, 3));
+        g1.addCharacter(GridPoint(0, 1), Game::makeCharacter(CharacterType::MEDIC, Team::CROSSFITTERS, 10, 2, 0, 3));
     }
     catch (mtm::IllegalCell &e)
     {
@@ -425,7 +425,7 @@ void test_rules()
     //checking sniper
     try
     {
-        g1.addCharacter(GridPoint(1, 0), Game::makeCharacter(CharacterType::SOLDIER, Team::Powerlifters, 6, 2, 1, 5));
+        g1.addCharacter(GridPoint(1, 0), Game::makeCharacter(CharacterType::SOLDIER, Team::POWERLIFTERS, 6, 2, 1, 5));
     }
     catch (mtm::IllegalCell &e)
     {
@@ -434,7 +434,7 @@ void test_rules()
     std::cout << "\n" << g1 << "\n";
     try
     {
-        g1.addCharacter(GridPoint(0, 1), Game::makeCharacter(CharacterType::SNIPER, Team::Crossfitters, 6, 2, 2, 5));
+        g1.addCharacter(GridPoint(0, 1), Game::makeCharacter(CharacterType::SNIPER, Team::CROSSFITTERS, 6, 2, 2, 5));
     }
     catch (mtm::IllegalCell &e)
     {
@@ -496,9 +496,9 @@ void test_rules()
     }
 
     std::cout << "\n" << g1 << "\n";
-    mtm::Team winning_team = mtm::Team::Crossfitters;
+    mtm::Team winning_team = mtm::Team::CROSSFITTERS;
     assert(g1.isOver(&winning_team) == false);
-    assert((winning_team == Powerlifters) == false);
+    assert((winning_team == POWERLIFTERS) == false);
     try
     {
         g1.attack(GridPoint(0, 1), GridPoint(0, 1));
@@ -554,7 +554,7 @@ void test_rules()
     //check if soldier can attack if not in the same line (he shouldn't)
     try
     {
-        g1.addCharacter(GridPoint(1, 0), Game::makeCharacter(CharacterType::SOLDIER, Team::Powerlifters, 6, 8, 3, 5));
+        g1.addCharacter(GridPoint(1, 0), Game::makeCharacter(CharacterType::SOLDIER, Team::POWERLIFTERS, 6, 8, 3, 5));
     }
     catch (mtm::IllegalCell &e)
     {
@@ -583,9 +583,9 @@ void test_rules()
     std::cout << "\n" << g1 << "\n";
 
     assert(g1.isOver(&winning_team) == true);
-    assert((winning_team == Powerlifters) == true);
+    assert((winning_team == POWERLIFTERS) == true);
 
-    g1.addCharacter(GridPoint(0, 1), Game::makeCharacter(CharacterType::SOLDIER, Team::Crossfitters, 6, 0, 0, 5));
+    g1.addCharacter(GridPoint(0, 1), Game::makeCharacter(CharacterType::SOLDIER, Team::CROSSFITTERS, 6, 0, 0, 5));
     std::cout << "\n" << g1 << "\n";
 
     try
@@ -615,9 +615,9 @@ void test_rules()
     }
 
     Game g2(2, 2);
-    g2.addCharacter(GridPoint(0, 0), Game::makeCharacter(CharacterType::SNIPER, Team::Crossfitters, 6, 3, 2, 1));
-    g2.addCharacter(GridPoint(1, 0), Game::makeCharacter(CharacterType::SOLDIER, Team::Powerlifters, 3, 0, 2, 5));
-    g2.addCharacter(GridPoint(0, 1), Game::makeCharacter(CharacterType::MEDIC, Team::Powerlifters, 6, 0, 2, 1));
+    g2.addCharacter(GridPoint(0, 0), Game::makeCharacter(CharacterType::SNIPER, Team::CROSSFITTERS, 6, 3, 2, 1));
+    g2.addCharacter(GridPoint(1, 0), Game::makeCharacter(CharacterType::SOLDIER, Team::POWERLIFTERS, 3, 0, 2, 5));
+    g2.addCharacter(GridPoint(0, 1), Game::makeCharacter(CharacterType::MEDIC, Team::POWERLIFTERS, 6, 0, 2, 1));
     g2.attack(GridPoint(0, 0), GridPoint(1, 0));
     std::cout << "\n"
               << g2 << "\n";
@@ -640,8 +640,8 @@ void test_range()
     //check attacks
     std::cout << "\n" << g1 << "\n";
 
-    g1.addCharacter(GridPoint(0, 0), Game::makeCharacter(CharacterType::SOLDIER, Team::Powerlifters, 1, 8, 3, 5));
-    g1.addCharacter(GridPoint(1, 0), Game::makeCharacter(CharacterType::MEDIC, Team::Powerlifters, 1, 0, 3, 5));
+    g1.addCharacter(GridPoint(0, 0), Game::makeCharacter(CharacterType::SOLDIER, Team::POWERLIFTERS, 1, 8, 3, 5));
+    g1.addCharacter(GridPoint(1, 0), Game::makeCharacter(CharacterType::MEDIC, Team::POWERLIFTERS, 1, 0, 3, 5));
 
     // Medic heal check if out of ammo (shouldn't be) taking any ammo
     try
@@ -654,16 +654,16 @@ void test_range()
     {
         std::cout << e.what() << std::endl;
     }
-    mtm::Team winning_team = mtm::Team::Crossfitters;
+    mtm::Team winning_team = mtm::Team::CROSSFITTERS;
     assert(g1.isOver(&winning_team) == true);
-    assert((winning_team == Powerlifters) == true);
+    assert((winning_team == POWERLIFTERS) == true);
 
     Game g2(5, 8);
     std::cout << "\n"
               << g2 << "\n";
 
     //check Soldier Attack is correct (Same as instructions)
-    g2.addCharacter(GridPoint(2, 0), Game::makeCharacter(CharacterType::SOLDIER, Team::Powerlifters, 1, 8, 4, 10));
+    g2.addCharacter(GridPoint(2, 0), Game::makeCharacter(CharacterType::SOLDIER, Team::POWERLIFTERS, 1, 8, 4, 10));
     std::cout << "\n"
               << g2 << "\n";
     for (int i = 0; i < 5; i++)
@@ -672,7 +672,7 @@ void test_range()
         {
             if (i != 2 || j != 0)
             {
-                g2.addCharacter(GridPoint(i, j), Game::makeCharacter(CharacterType::SNIPER, Team::Crossfitters, 10, 1, 1, 1));
+                g2.addCharacter(GridPoint(i, j), Game::makeCharacter(CharacterType::SNIPER, Team::CROSSFITTERS, 10, 1, 1, 1));
             }
         }
     }
@@ -697,7 +697,7 @@ void test_range()
 
     //check sniper attack range and 3rd time shot
     Game g3(7, 7);
-    g3.addCharacter(GridPoint(3, 3), Game::makeCharacter(CharacterType::SNIPER, Team::Powerlifters, 1, 72, 3, 1));
+    g3.addCharacter(GridPoint(3, 3), Game::makeCharacter(CharacterType::SNIPER, Team::POWERLIFTERS, 1, 72, 3, 1));
     std::cout << "\n"
               << g3 << "\n";
 
@@ -707,7 +707,7 @@ void test_range()
         {
             if (i != 3 || j != 3)
             {
-                g3.addCharacter(GridPoint(i, j), Game::makeCharacter(CharacterType::MEDIC, Team::Crossfitters, 4, 1, 1, 1));
+                g3.addCharacter(GridPoint(i, j), Game::makeCharacter(CharacterType::MEDIC, Team::CROSSFITTERS, 4, 1, 1, 1));
             }
         }
     }
@@ -774,7 +774,7 @@ void test_range()
               << g5 << "\n";
 
     //check Medic Attack is correct (Same as instructions)
-    g5.addCharacter(GridPoint(5, 5), Game::makeCharacter(CharacterType::MEDIC, Team::Powerlifters, 1, 49, 3, 10));
+    g5.addCharacter(GridPoint(5, 5), Game::makeCharacter(CharacterType::MEDIC, Team::POWERLIFTERS, 1, 49, 3, 10));
     std::cout << "\n"
               << g5 << "\n";
     for (int i = 0; i < 11; i++)
@@ -783,7 +783,7 @@ void test_range()
         {
             if (i != 5 || j != 5)
             {
-                g5.addCharacter(GridPoint(i, j), Game::makeCharacter(CharacterType::SNIPER, Team::Crossfitters, 10, 1, 1, 1));
+                g5.addCharacter(GridPoint(i, j), Game::makeCharacter(CharacterType::SNIPER, Team::CROSSFITTERS, 10, 1, 1, 1));
             }
         }
     }
@@ -817,7 +817,7 @@ void test_move()
     //Soldier Movement
     Game g1(11, 11);
     std::cout << "\n" << g1 << "\n";
-    g1.addCharacter(GridPoint(5, 5), Game::makeCharacter(CharacterType::SOLDIER, Team::Crossfitters, 4, 1, 1, 1));
+    g1.addCharacter(GridPoint(5, 5), Game::makeCharacter(CharacterType::SOLDIER, Team::CROSSFITTERS, 4, 1, 1, 1));
     for (int i = 0; i < 11; i++)
     {
         for (int j = 0; j < 11; j++)
@@ -901,7 +901,7 @@ void test_move()
 
     //Medic Movement
     Game g2(11, 11);
-    g2.addCharacter(GridPoint(5, 5), Game::makeCharacter(CharacterType::MEDIC, Team::Crossfitters, 4, 1, 1, 1));
+    g2.addCharacter(GridPoint(5, 5), Game::makeCharacter(CharacterType::MEDIC, Team::CROSSFITTERS, 4, 1, 1, 1));
     for (int i = 0; i < 11; i++)
     {
         for (int j = 0; j < 11; j++)
@@ -965,7 +965,7 @@ void test_move()
     //Sniper Movement
 
     Game g3(11, 11);
-    g3.addCharacter(GridPoint(5, 5), Game::makeCharacter(CharacterType::MEDIC, Team::Crossfitters, 4, 1, 1, 1));
+    g3.addCharacter(GridPoint(5, 5), Game::makeCharacter(CharacterType::MEDIC, Team::CROSSFITTERS, 4, 1, 1, 1));
     for (int i = 0; i < 11; i++)
     {
         for (int j = 0; j < 11; j++)

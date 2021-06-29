@@ -50,7 +50,7 @@ int main()
 {
     std::string MTM_DIR = "/Users/ohadbenacot/CLionProjects/Mtm/";
     std::string TEST_DIR = "ex2/partB/test/testAlmogIDE/";
-    fstream from(MTM_DIR + TEST_DIR + "game_input_0.txt",ios::in);
+    fstream from(MTM_DIR + TEST_DIR + "game_input_9.txt");
     fstream to(MTM_DIR + TEST_DIR + "myOutput.txt");
     if (!from){
         cout<<"src filepath isn't exist."<<endl;
