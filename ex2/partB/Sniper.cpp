@@ -4,7 +4,7 @@
 
 namespace mtm{
     Sniper::Sniper(Team team,units_t health, units_t ammo, units_t range, units_t power):
-    Character(team, health, ammo, range, power){}
+            Character(team, health, ammo, range, power){}
 
     Sniper::Sniper(const Sniper& other): Character(other.team, other.health, other.ammo, other.range, other.power){}
 
@@ -16,14 +16,14 @@ namespace mtm{
         return SNIPER;
     }
 
-    bool Sniper::isMoveLegal(const units_t distance){//distance-wise
+    bool Sniper::isMoveLegal(const units_t distance){
         if (distance>SNIPER_MAX_MOVE||distance<0){
             return false;
         }
         return true;
     }
 
-    bool Sniper::isAttackLegal(const GridPoint& src, const GridPoint& dest){//range-wise
+    bool Sniper::isAttackLegal(const GridPoint& src, const GridPoint& dest){
         units_t min_range=ceil(double(range)/SNIPER_MIN_RANGE);
         units_t distance=GridPoint::distance(src,dest);
         if(distance<min_range||distance>range){
@@ -32,7 +32,7 @@ namespace mtm{
         return true;
     }
 
-    bool Sniper::isTargetLegal(const std::shared_ptr<Character>& target){//type-wise
+    bool Sniper::isTargetLegal(const std::shared_ptr<Character>& target){
         if(target == nullptr || ((target).get())->getTeam()== team){
             return false;
         }

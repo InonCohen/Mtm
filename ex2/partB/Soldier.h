@@ -44,10 +44,30 @@ namespace mtm{
 
         bool isMoveLegal(units_t distance) override;
 
+        /**
+           * isAttackLegal: Checks if a received cells are not too far from one another.
+           *
+           * @param src  - GridPoint reference of the potential attacker.
+           * @param dest - GridPoint reference of the potential attack target.
+           *
+           * @return
+           *        true  - if the distance between the two received cells is not too long.
+           *        false - otherwise.
+           */
         bool isAttackLegal(const GridPoint& src, const GridPoint& dest) override;
 
         bool isTargetLegal (const std::shared_ptr<Character>& target) override;
 
+        /**
+           * isTargetPositionLegal: Checks if the received cells are on the same row or column
+           *
+           * @param src  - GridPoint reference of the potential attacker.
+           * @param dest - GridPoint reference of the potential attack target.
+           *
+           * @return
+           *        true  - if src and dest are on the same row or column .
+           *        false - otherwise.
+           */
         bool isTargetPositionLegal(const GridPoint &src, const GridPoint &dest) override;
 
         void attack(std::shared_ptr<Character>& target) override;

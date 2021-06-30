@@ -26,7 +26,7 @@ namespace mtm{
         static bool timeIsValid(const double time);
     public:
 
-                /**ExamDetails Exceptions*/
+        /**ExamDetails Exceptions*/
 
         class InvalidDateException: public std::exception{
         public:
@@ -47,9 +47,9 @@ namespace mtm{
             }
         };
 
-                //End of ExamDetails Exceptions//
+        //End of ExamDetails Exceptions//
 
-                /**ExamDetails Methods*/
+        /**ExamDetails Methods*/
 
         /**
            * Constructor of class ExamDetails.
@@ -60,6 +60,10 @@ namespace mtm{
            * @param time - the exam starting hour. Must be 00:00 to 23:30 in lapses of 30 minutes.
            * @param duration - the exam duration, in hours.
            * @param zoom_link - the link to the zoom room in which the exam will take place.
+           *
+           * @throw InvalidDateException - if month is not between 1 and 12, or if day is not between 1 to 30
+           * @throw InvalidTimeException - if the starting time of the exam is neither on the hour nor is it
+           *                                on the half hour, or if the duration of the exam is negative
            */
         ExamDetails(int course_number, int month, int day, double time, int duration, std::string zoom_link="");
 
@@ -87,6 +91,8 @@ namespace mtm{
            *
            * @return
            *    A copy of the link to the zoom meeting of the exam.
+           *
+           * @throw InvalidArgsException - if the caller object is invalid
            */
         std::string getLink() const;
 
@@ -94,6 +100,8 @@ namespace mtm{
            * setLink : Changes the zoom link to connect to the exam.
            *
            * @param new_link - a new link to which the zoom link is to be changed.
+           *
+           * @throw InvalidArgsException - if the caller object is invalid
            */
         void setLink(const std::string new_link);
 
@@ -105,6 +113,8 @@ namespace mtm{
            *
            * @return
            *        the difference in days between the current ExamDetails object and the other ExamDetails object
+           *
+           * @throw InvalidArgsException - if the caller object or the received object are invalid
            */
         int operator-(const ExamDetails& other) const;
 
@@ -117,6 +127,8 @@ namespace mtm{
            * @return
            *        true - if the caller ExamDetails exam starts before the other's.
            *        false - otherwise.
+           *
+           * @throw InvalidArgsException - if the caller object or the received object are invalid
            */
         bool operator<(const ExamDetails& other) const;
 
@@ -138,10 +150,12 @@ namespace mtm{
              *
              * @return
              *      Updated received outstream, with all required information of exam in the required formatting.
+             *
+             * @throw InvalidArgsException - if the ostream object or the ExamDetails object are invalid
         */
         friend std::ostream& operator<<(std::ostream& os, const ExamDetails& exam);
 
-                //End of ExamDetails Methods//
+        //End of ExamDetails Methods//
     };
 
     //a friend operator which was declared in ExamDetails class

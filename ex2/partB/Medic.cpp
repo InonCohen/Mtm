@@ -23,14 +23,14 @@ namespace mtm{
         return true;
     }
 
-    bool Medic::isAttackLegal(const GridPoint& src, const GridPoint& dest){//distance-wise
+    bool Medic::isAttackLegal(const GridPoint& src, const GridPoint& dest){
         if(GridPoint::distance(src,dest)>range){
             return false;
         }
         return true;
     }
 
-    bool Medic::isTargetLegal(const std::shared_ptr<Character>& target){//type-wise
+    bool Medic::isTargetLegal(const std::shared_ptr<Character>& target){
         if(target== nullptr || target.get() == this ){
             return false;
         }

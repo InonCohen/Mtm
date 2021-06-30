@@ -11,13 +11,21 @@
 
 namespace mtm{
     GameException::GameException(const char* error_name):error_name(error_name){}
+
     IllegalArgument::IllegalArgument():GameException(ILLEGAL_ARGUMENT){}
+
     IllegalCell::IllegalCell():GameException(ILLEGAL_CELL){}
+
     CellEmpty::CellEmpty():GameException(CELL_EMPTY){}
+
     MoveTooFar::MoveTooFar():GameException(MOVE_TOO_FAR){}
+
     CellOccupied::CellOccupied():GameException(CELL_OCCUPIED){}
+
     OutOfRange::OutOfRange():GameException(OUT_OF_RANGE){}
+
     OutOfAmmo::OutOfAmmo():GameException(OUT_OF_AMMO){}
+
     IllegalTarget::IllegalTarget(): GameException(ILLEGAL_TARGET){}
 
     const char* GameException::what() const noexcept{

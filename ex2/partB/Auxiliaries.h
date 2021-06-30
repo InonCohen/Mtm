@@ -1,5 +1,5 @@
-#ifndef HW3_AUXILIARIES_H
-#define HW3_AUXILIARIES_H
+#ifndef EX2_AUXILIARIES_H
+#define EX2_AUXILIARIES_H
 #include <iostream>
 #include <string>
 
@@ -39,4 +39,4 @@ namespace mtm {
                                  const char *end, unsigned int width);
 }
 
-#endif
+#endif //EX2_AUXILIARIES_H
