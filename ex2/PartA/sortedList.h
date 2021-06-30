@@ -95,7 +95,11 @@ namespace mtm {
             *
             * @tparam to_add - a T element to be inserted to the list.
             *
+<<<<<<< HEAD:ex2/PartA/sortedList.h
             * @throw bad_alloc - if an allocation failed.
+=======
+            * @throw bad_alloc - if an allocation failed
+>>>>>>> c33859cd5993b893d1b3174de463e47a7a98904d:ex2/partA/SortedList.h
             *
             * Template Requirements (derived from SortedListNode<T> template requirements):
             *    Assignment operator
@@ -427,8 +431,12 @@ namespace mtm {
 
     template<class T>
     SortedList<T>::const_iterator::const_iterator(const SortedList *sorted_list, int index): sorted_list(sorted_list),
+<<<<<<< HEAD:ex2/PartA/sortedList.h
             index(index < 0 || index > sorted_list->length() ? throw std::out_of_range("Iterator is Illegal") : index)
     {
+=======
+                                                                                             index(index < 0 || index > sorted_list->length() ? throw std::out_of_range("Iterator is Illegal") : index){
+>>>>>>> c33859cd5993b893d1b3174de463e47a7a98904d:ex2/partA/SortedList.h
         if(index == sorted_list->length()){
             current_node = nullptr;
         }

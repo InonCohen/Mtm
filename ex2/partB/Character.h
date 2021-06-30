@@ -78,7 +78,7 @@ namespace mtm{
            * @return POWERLIFTERS - if the calling Character is on the Powerlifters team.
            */
         Team getTeam() const;
-        
+
         /**
             * clone:  Constructs a new Character holding the same stats as the calling Character,
             *           and returns a pointer to it.

@@ -69,7 +69,7 @@ namespace mtm{
     {
         int distance_from_direct_target=GridPoint::distance(possible_secondary_hit_point,initial_hit_point);
         return  ((0 < distance_from_direct_target) &&
-                (distance_from_direct_target <= ceil(double(range)/SOLDIER_SECONDARY_RANGE)));
+                 (distance_from_direct_target <= ceil(double(range)/SOLDIER_SECONDARY_RANGE)));
     }
 
     void Soldier::reload()

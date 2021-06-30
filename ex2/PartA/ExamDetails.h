@@ -25,7 +25,7 @@ namespace mtm{
         static bool timeIsValid(const double time);
     public:
 
-                /**ExamDetails Exceptions*/
+        /**ExamDetails Exceptions*/
 
         class InvalidDateException: public std::exception{
         public:
@@ -51,9 +51,9 @@ namespace mtm{
             }
         };
 
-                //End of ExamDetails Exceptions//
+        //End of ExamDetails Exceptions//
 
-                /**ExamDetails Methods*/
+        /**ExamDetails Methods*/
 
         /**
            * Constructor of class ExamDetails.
@@ -65,9 +65,15 @@ namespace mtm{
            * @param duration - the exam duration, in hours.
            * @param zoom_link - the link to the zoom room in which the exam will take place.
            *
+<<<<<<< HEAD
            * @throw InvalidDateException - if month is not between 1 and 12, or if day is not between 1 to 30.
            * @throw InvalidTimeException - if the starting time of the exam is neither on the hour nor is it
            *                                on the half hour, or if the duration of the exam is negative.
+=======
+           * @throw InvalidDateException - if month is not between 1 and 12, or if day is not between 1 to 30
+           * @throw InvalidTimeException - if the starting time of the exam is neither on the hour nor is it
+           *                                on the half hour, or if the duration of the exam is negative
+>>>>>>> c33859cd5993b893d1b3174de463e47a7a98904d
            */
         ExamDetails(int course_number, int month, int day, double time, int duration, std::string zoom_link="");
 
@@ -116,7 +122,11 @@ namespace mtm{
            * @param other - an ExamDetails object, of which time difference from the current Exam is to be calculated.
            *
            * @return
+<<<<<<< HEAD
            *        The difference in days between the current ExamDetails object and the other ExamDetails object
+=======
+           *        the difference in days between the current ExamDetails object and the other ExamDetails object
+>>>>>>> c33859cd5993b893d1b3174de463e47a7a98904d
            *
            * @throw InvalidArgsException - if the caller object or the received object are invalid
            */
@@ -128,8 +138,14 @@ namespace mtm{
            *
            * @param other - an ExamDetails object, to which the caller ExamDetails object is to be compared .
            *
+<<<<<<< HEAD
            * @return true - if the caller ExamDetails exam starts before the other's.
            * @return false - otherwise.
+=======
+           * @return
+           *        true - if the caller ExamDetails exam starts before the other's.
+           *        false - otherwise.
+>>>>>>> c33859cd5993b893d1b3174de463e47a7a98904d
            *
            * @throw InvalidArgsException - if the caller object or the received object are invalid
            */
@@ -159,7 +175,7 @@ namespace mtm{
         */
         friend std::ostream& operator<<(std::ostream& os, const ExamDetails& exam);
 
-                //End of ExamDetails Methods//
+        //End of ExamDetails Methods//
     };
 
     //a friend operator which was declared in ExamDetails class

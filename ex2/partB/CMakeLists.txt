@@ -25,6 +25,6 @@ set(CPP_FILES
         Sniper.cpp
         Soldier.cpp
         Exceptions.cpp
-        test/testAlmogIDE/testAlmog.cpp)
+        test/test_partC.cpp)
 
 add_executable(game ${CPP_FILES})

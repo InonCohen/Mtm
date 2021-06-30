@@ -64,7 +64,6 @@ namespace mtm {
         /**
          * Board Parentheses Operator. Functions as index operator - given a GridPoint, applies translation to
          * board coordinates.
-         *
          * @param gp: GridPoint on board to access.
          * @return Ptr to the requested GridPoint on board.
          */
