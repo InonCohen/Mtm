@@ -20,9 +20,9 @@ namespace mtm{
     static const char PYTHON_SNIPER='n';
 
     /**
-     * //static char characterRepresentation(const std::shared_ptr<Character>& character)//:
-     * receives a shared pointer to Character named character
-     * returns the letter symbolizes the character on the Board
+     * characterRepresentation: Match a unique char to character type from a given team.
+     * @param Ptr to character
+     * @return appropriate char, considering Team and CharacterType.
      */
     static char characterRepresentation(const std::shared_ptr<Character>& character);
 
@@ -46,31 +46,6 @@ namespace mtm{
         this->gameBoard.addItem(gp, character_ptr);
     }
 
-    static char characterRepresentation(const std::shared_ptr<Character>& character) {
-        if (character == nullptr) {
-            return EMPTY_CELL;
-        }
-        if ((character.get())->getTeam() == POWERLIFTERS) {
-            if ((character.get())->getType() == SOLDIER) {
-                return CPP_SOLDIER;
-            }
-            if ((character.get())->getType() == MEDIC) {
-                return CPP_MEDIC;
-            }
-            return CPP_SNIPER;
-        }
-        else
-        {
-            if ((character.get())->getType() == SOLDIER) {
-                return PYTHON_SOLDIER;
-            }
-            if ((character.get())->getType() == MEDIC) {
-                return PYTHON_MEDIC;
-            }
-            return PYTHON_SNIPER;
-        }
-    }
-
     std::ostream& operator<<(std::ostream &os, const mtm::Game& game) {
         int gameBoardHeight = game.gameBoard.getHeight();
         int gameBoardWidth = game.gameBoard.getWidth();
@@ -89,7 +64,7 @@ namespace mtm{
         return print;
     }
 
-    // TODO: CHECK FOR EXCEPTION THROWING ORDER
+
     void Game::move(const GridPoint & src_coordinates, const GridPoint & dst_coordinates){
         if(!(this->gameBoard.isCellLegal(src_coordinates) && this->gameBoard.isCellLegal(dst_coordinates))){
             throw IllegalCell();
@@ -104,7 +79,7 @@ namespace mtm{
         this->gameBoard.moveItem(src_coordinates, dst_coordinates);
     }
 
-    // TODO: CHECK FOR EXCEPTION THROWING ORDER
+
     void Game::attack(const GridPoint & src_coordinates, const GridPoint & dst_coordinates){
         if(!(this->gameBoard.isCellLegal(src_coordinates) && this->gameBoard.isCellLegal(dst_coordinates))){
             throw IllegalCell();
@@ -150,7 +125,7 @@ namespace mtm{
                 const GridPoint gp(i,j);
                 Character* current_character_ptr = gameBoard(gp).get();
                 if(gameBoard(gp) != nullptr && !(current_character_ptr->isAlive())){
-                    gameBoard(gp)=nullptr;
+                    gameBoard.removeItem(gp);
                 }
             }
         }
@@ -194,5 +169,30 @@ namespace mtm{
             }
         }
         return true;
+    }
+
+    static char characterRepresentation(const std::shared_ptr<Character>& character) {
+        if (character == nullptr) {
+            return EMPTY_CELL;
+        }
+        if ((character.get())->getTeam() == POWERLIFTERS) {
+            if ((character.get())->getType() == SOLDIER) {
+                return CPP_SOLDIER;
+            }
+            if ((character.get())->getType() == MEDIC) {
+                return CPP_MEDIC;
+            }
+            return CPP_SNIPER;
+        }
+        else
+        {
+            if ((character.get())->getType() == SOLDIER) {
+                return PYTHON_SOLDIER;
+            }
+            if ((character.get())->getType() == MEDIC) {
+                return PYTHON_MEDIC;
+            }
+            return PYTHON_SNIPER;
+        }
     }
 }

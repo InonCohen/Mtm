@@ -1,8 +1,7 @@
-#ifndef BOARD_H
-#define BOARD_H
+#ifndef EX2_BOARD_H
+#define EX2_BOARD_H
 #include <vector>
 #include <memory>
-#include "Character.h"
 #include "Exceptions.h"
 
 
@@ -13,19 +12,123 @@ namespace mtm {
         int width;
         std::vector<std::shared_ptr<T>> board;
     public:
+        /**
+         * Board Constructor.
+         *
+         * @param height: Height of board
+         * @param width: Width of board
+         *
+         * @throw IllegalArgument: given height or width aren't positive integers
+         */
         Board(int height, int width);
-        Board(const Board&);
+
+        /**
+         * Board Copy Constructor.
+         *
+         * Template Requirements:
+         * - clone()
+         * - copy constructor (derived from clone)
+         *
+         * @param other: const Board reference
+         */
+        Board(const Board& other);
+
+        /**
+         * Board Destructor.
+         *
+         */
         ~Board();
-        Board& operator=(const Board&);
-        std::shared_ptr<T>& operator()(const GridPoint&);
-        const std::shared_ptr<T>& operator()(const GridPoint&) const;
+
+        /**
+         * Board Assignment Operator.
+         *
+         * Template Requirements:
+         * - clone()
+         * - copy constructor (derived from clone)
+         *
+         * @param other: Board to assign to
+         * @return
+         */
+        Board& operator=(const Board& other);
+
+        /**
+         * Board Parentheses Operator. Functions as index operator - given a GridPoint, applies translation to
+         * board coordinates.
+         *
+         * @param gp: GridPoint on board to access
+         * @return Ptr to the requested GridPoint on board.
+         */
+        std::shared_ptr<T>& operator()(const GridPoint& gp);
+
+        /**
+         * Board const Parentheses Operator. Functions as index operator - given a GridPoint, applies translation to
+         * board coordinates.
+         *
+         * @param gp: GridPoint on board to access
+         * @return Ptr to the requested GridPoint on board.
+         */
+        const std::shared_ptr<T>& operator()(const GridPoint& gp) const;
+
+        /**
+         * getHeight: Get height of board.
+         *
+         * @return Height of board.
+         */
         int getHeight() const;
+
+        /**
+         * getWidth: Get width of board.
+         *
+         * @return Width of board.
+         */
         int getWidth() const;
+
+        /**
+         * getBoardSize: Get size of board.
+         *
+         * @return Size of the board (num GridPoints in board)
+         */
         int getBoardSize() const;
-        void addItem(const GridPoint&, std::shared_ptr<T>);
-        void removeItem(const GridPoint&);
-        void moveItem(const GridPoint&, const GridPoint&);
-        bool isCellLegal(const GridPoint&);
+
+        /**
+         * addItem: Add an item to board.
+         *
+         * @param gp: GridPoint to add item in
+         * @param item: item to add to the board
+         *
+         * @throw IllegalCell: gp isn't in board
+         * @throw CellOccupied: cell isn't empty
+         */
+        void addItem(const GridPoint& gp, std::shared_ptr<T> item);
+
+        /**
+         * removeItem: Remove an item from board. Set GridPoint to null pointer instead.
+         *
+         * Template Requirements:
+         * - Destructor
+         *
+         * @param gp: GridPoint to remove item from.
+         */
+        void removeItem(const GridPoint& gp);
+
+        /**
+         * moveItem: Move an item on board.
+         *
+         * @param src_gp: move item from
+         * @param dst_gp: move item into
+         * @throw IllegalCell: given GridPoints aren't in board
+         * @throw CellEmpty: there is no item in the source GridPoint
+         * @throw CellOccupied: there is already an item in the destination GridPoint
+         */
+        void moveItem(const GridPoint& src_gp, const GridPoint& dst_gp);
+
+        /**
+         * isCellLegal: Check if a GridPoint is legal, means that it's inside board.
+         *
+         * @param gp: GridPoint to test validity
+         * @return true if cell is legal, false otherwise.
+         */
+        bool isCellLegal(const GridPoint& gp);
     };
 
     // Implementation of `Board` methods
@@ -86,7 +189,7 @@ namespace mtm {
     }
 
     template<class T>
-    Board<T>& Board<T>::operator=(const Board<T>& other) {
+    Board<T>& Board<T>::operator=(const Board& other) {
         if(this==&other){
             return *this;
         }
@@ -146,4 +249,4 @@ namespace mtm {
         return this->height * this->width;
     }
 }
-#endif //BOARD_H
+#endif //EX2_BOARD_H
