@@ -19,17 +19,11 @@ namespace mtm{
     static const char CPP_SNIPER='N';
     static const char PYTHON_SNIPER='n';
 
-    /**
-     * characterRepresentation: Match a unique char to character type from a given team.
-     * @param Ptr to character
-     * @return appropriate char, considering Team and CharacterType.
-     */
-    static char characterRepresentation(const std::shared_ptr<Character>& character);
-
     Game::Game(int height, int width): gameBoard(Board<Character>(height, width)) {}
 
     std::shared_ptr<Character> Game::makeCharacter(CharacterType type, Team team, units_t health,
-                                                   units_t ammo, units_t range, units_t power){
+                                                   units_t ammo, units_t range, units_t power)
+   {
         if(health<=0||ammo<0||range<0||power<0){
             throw IllegalArgument();
         }
@@ -42,11 +36,13 @@ namespace mtm{
         return std::make_shared<Sniper>(Sniper(team, health, ammo, range, power));
     }
 
-    void Game::addCharacter(const GridPoint& gp, std::shared_ptr<Character> character_ptr){
+    void Game::addCharacter(const GridPoint& gp, std::shared_ptr<Character> character_ptr)
+    {
         this->gameBoard.addItem(gp, character_ptr);
     }
 
-    std::ostream& operator<<(std::ostream &os, const mtm::Game& game) {
+    std::ostream& operator<<(std::ostream &os, const mtm::Game& game)
+    {
         int gameBoardHeight = game.gameBoard.getHeight();
         int gameBoardWidth = game.gameBoard.getWidth();
         int gameBoardSize = gameBoardHeight * gameBoardWidth;
@@ -55,7 +51,7 @@ namespace mtm{
         for (int i=0;i<gameBoardHeight;i++){
             for (int j=0;j<gameBoardWidth;j++){
                 const GridPoint gp(i,j);
-                char_board[count++]= characterRepresentation(game.gameBoard(gp));
+                char_board[count++] = Game::characterRepresentation(game.gameBoard(gp));
             }
         }
 
@@ -65,7 +61,8 @@ namespace mtm{
     }
 
 
-    void Game::move(const GridPoint & src_coordinates, const GridPoint & dst_coordinates){
+    void Game::move(const GridPoint & src_coordinates, const GridPoint & dst_coordinates)
+    {
         if(!(this->gameBoard.isCellLegal(src_coordinates) && this->gameBoard.isCellLegal(dst_coordinates))){
             throw IllegalCell();
         }
@@ -80,7 +77,8 @@ namespace mtm{
     }
 
 
-    void Game::attack(const GridPoint & src_coordinates, const GridPoint & dst_coordinates){
+    void Game::attack(const GridPoint & src_coordinates, const GridPoint & dst_coordinates)
+    {
         if(!(this->gameBoard.isCellLegal(src_coordinates) && this->gameBoard.isCellLegal(dst_coordinates))){
             throw IllegalCell();
         }
@@ -108,7 +106,8 @@ namespace mtm{
         clearDead();
     }
 
-    void Game::reload(const GridPoint& coordinates){
+    void Game::reload(const GridPoint& coordinates)
+    {
         if(!this->gameBoard.isCellLegal(coordinates)){
             throw IllegalCell();
         }
@@ -119,7 +118,8 @@ namespace mtm{
         (*character).reload();
     }
 
-    void Game::clearDead() {
+    void Game::clearDead()
+    {
         for(int i=0; i < gameBoard.getHeight(); i++){
             for(int j=0; j < gameBoard.getWidth(); j++){
                 const GridPoint gp(i,j);
@@ -132,7 +132,8 @@ namespace mtm{
     }
 
     void Game::fillSecondaryTargetsList(const GridPoint src_coordinates, const GridPoint dst_coordinates,
-                                        std::list<std::shared_ptr<Character>>& secondary_targets){
+                                        std::list<std::shared_ptr<Character>>& secondary_targets)
+    {
         Character& attacker= *(this->gameBoard(src_coordinates));
         for(int i=0; i < this->gameBoard.getHeight(); i++) {
             for (int j = 0; j < this->gameBoard.getWidth(); j++) {
@@ -145,7 +146,8 @@ namespace mtm{
         }
     }
 
-    bool Game::isOver(Team* winningTeam) const{
+    bool Game::isOver(Team* winningTeam) const
+    {
         int countCPP=0, countPython=0;
         for(int i=0; i < gameBoard.getHeight(); i++) {
             for (int j = 0; j < gameBoard.getWidth(); j++) {
@@ -171,7 +173,8 @@ namespace mtm{
         return true;
     }
 
-    static char characterRepresentation(const std::shared_ptr<Character>& character) {
+    char Game::characterRepresentation(const std::shared_ptr<Character>& character)
+    {
         if (character == nullptr) {
             return EMPTY_CELL;
         }

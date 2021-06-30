@@ -24,7 +24,6 @@ set(CPP_FILES
         Medic.cpp
         Sniper.cpp
         Soldier.cpp
-        Auxiliaries.cpp
         Exceptions.cpp
         test/testAlmogIDE/testAlmog.cpp)
 

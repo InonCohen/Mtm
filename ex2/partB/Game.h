@@ -12,6 +12,7 @@
 namespace mtm{
     class Game{
         Board<Character> gameBoard;
+
         /**
          * clearDead: Checks all character's health on the board.
          * Character is being removed from the Board if its health equals zero.
@@ -29,7 +30,15 @@ namespace mtm{
         void fillSecondaryTargetsList(GridPoint src_coordinates, GridPoint dst_coordinates,
                                       std::list<std::shared_ptr<Character>>& secondary_targets);
 
+        /**
+         * characterRepresentation: Match a unique char to character type from a given team.
+         * @param Ptr to character
+         * @return appropriate char, considering Team and CharacterType.
+         */
+        static char characterRepresentation(const std::shared_ptr<Character>& character);
+
     public:
+
         /**
          * Game Constructor. Receives dimensions of Game's Board,
          * constructs Board<std::shared_ptr<Character>> data structure.
@@ -37,7 +46,7 @@ namespace mtm{
          * @param height: Height of game board.
          * @param width: Width of game board.
          *
-         * @throw IllegalArgument:
+         * @throw IllegalArgument: height or width aren't positive integers.
          */
         Game(int height, int width);
 
@@ -66,7 +75,7 @@ namespace mtm{
          * @param character: Ptr to Character object to-be added
          *
          * @throw IllegalCell: coordinates aren't in gameBoard.
-         * @throw CellOccupied
+         * @throw CellOccupied: GridPoint isn't empty.
          */
         void addCharacter(const GridPoint& coordinates, std::shared_ptr<Character> character);
 
@@ -82,7 +91,7 @@ namespace mtm{
          *
          * @throw IllegalArgument: one of the arguments is non-positive number (notice that except `health` all
          * arguments should be greater than 0).
-         * @return Shared ptr to the new Character
+         * @return Shared ptr to the new Character.
          */
         static std::shared_ptr<Character> makeCharacter(CharacterType type, Team team, units_t health,
                                                         units_t ammo, units_t range, units_t power);
@@ -127,7 +136,8 @@ namespace mtm{
          * isOver: Receives a pointer to a Team. Checks if the games is over according to the rules.
          *
          * @param winningTeam: Ptr contains winning `Team` enum, or nullptr if game isn't finished
-         * @return true if the game is over. false, otherwise.
+         * @return true if the game is over.
+         * @return false, otherwise.
          */
         bool isOver(Team* winningTeam=nullptr) const;
 
@@ -137,6 +147,7 @@ namespace mtm{
          * @param os: std::ostream object to print output into
          * @param game: const reference to object to print
          * @return
+         *      Updated received outstream, with all required information of game in the required formatting.
          */
         friend std::ostream& operator<<(std::ostream &os, const Game& game);
     };
