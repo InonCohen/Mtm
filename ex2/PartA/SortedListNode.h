@@ -1,5 +1,5 @@
-#ifndef GENERICTWLIST_TWLIST_NODE_H
-#define GENERICTWLIST_TWLIST_NODE_H
+#ifndef EX2_SORTEDLISTNODE_H
+#define EX2_SORTEDLISTNODE_H
 
 #include <cstdlib>
 #include <cstdio>
@@ -27,8 +27,8 @@ namespace mtm{
         /**
            * Constructor of class SortedListNode<T>.
            *
-           * @param value - of type T.
-           * @param next - pointer of the next SortedListNode<T>.
+           * @tparam value.
+           * @tparam next - pointer of the next SortedListNode<T>.
            *
            * Template Requirements:
            *    Copy constructor
@@ -39,7 +39,7 @@ namespace mtm{
         /**
            * Copy Constructor of class SortedListNode<T>.
            *
-           * @param node - a SortedListNode<T> object to be copied to caller object.
+           * @tparam node - a SortedListNode<T> object to be copied to caller object.
            *
            * Template Requirements:
            *    Copy constructor
@@ -59,7 +59,7 @@ namespace mtm{
         /**
             * operator= : Assignment Operator of class SortedListNode<T>.
             *
-            * @param other - a SortedList<T> object to be copied to caller object.
+            * @tparam other - a SortedList<T> object to be copied to caller object.
             *
             * Template Requirements:
             *    Assignment operator
@@ -94,6 +94,8 @@ namespace mtm{
         /**
             * setValue : Sets the value of the caller node to the received value of type T val.
             *
+            * @tparam val - value to be set as the new value of the caller node.
+            *
             * Template Requirements:
             *    Assignment operator
             *
@@ -103,7 +105,8 @@ namespace mtm{
         /**
             * operator== : Returns whether a received SortedListNode<T> object equals the caller object .
             *
-            * @param to_compare - a SortedListNode<T> object to compare with *this
+            * @tparam to_compare - a SortedListNode<T> object to compare with *this.
+            *
             * @return
             *      true - if both objects' values are equal, and they both have same follower Node
             *      false - otherwise.
@@ -130,6 +133,9 @@ namespace mtm{
         /**
             * deleteRecursively : Deletes the received node and all its following nodes.
             *
+            * @tparam node - a pointer to a SortedListNode<T>, which is to be deleted
+            *                   with all its following nodes.
+            *
             * Template Requirements:
             *    Destructor.
             *
@@ -144,7 +150,8 @@ namespace mtm{
     SortedListNode<T>::SortedListNode(const SortedListNode<T> &node) : value(node.value), next(nullptr){}
 
     template <class T>
-    SortedListNode<T>& SortedListNode<T>::operator=(const SortedListNode<T>& other){
+    SortedListNode<T>& SortedListNode<T>::operator=(const SortedListNode<T>& other)
+    {
         if(this == &other){
             return *this;
         }
@@ -154,7 +161,8 @@ namespace mtm{
     }
 
     template <class T>
-    SortedListNode<T>::~SortedListNode<T>() {
+    SortedListNode<T>::~SortedListNode<T>()
+    {
         if (next){
             next = nullptr;
         }
@@ -185,7 +193,8 @@ namespace mtm{
     }
 
     template <class T>
-    bool SortedListNode<T>::operator==(SortedListNode<T> &to_compare) {
+    bool SortedListNode<T>::operator==(SortedListNode<T> &to_compare)
+    {
         return (!(value < to_compare.value) && !(to_compare.value < value) && next == to_compare.next);
     }
 
@@ -211,7 +220,8 @@ namespace mtm{
     }
 
     template <class T>
-    void SortedListNode<T>::deleteRecursively(SortedListNode<T>* node){
+    void SortedListNode<T>::deleteRecursively(SortedListNode<T>* node)
+    {
         while(node != nullptr){
             SortedListNode<T>* temp = node->getNext();
             delete node;
@@ -222,4 +232,4 @@ namespace mtm{
 
 }
 
-#endif //GENERICTWLIST_TWLIST_NODE_H
+#endif //EX2_SORTEDLISTNODE_H

@@ -8,47 +8,55 @@ namespace mtm{
 
     Medic::Medic(const Medic& other): mtm::Character(other.team, other.health, other.ammo, other.range, other.power){}
 
-    Character* Medic::clone() const {
+    Character* Medic::clone() const
+    {
         return new Medic(*this);
     }
 
-    CharacterType Medic::getType(){
+    CharacterType Medic::getType()
+    {
         return MEDIC;
     }
 
-    bool Medic::isMoveLegal(const units_t distance){
+    bool Medic::isMoveLegal(const units_t distance)
+    {
         if (distance>MEDIC_MAX_MOVE||distance<0){
             return false;
         }
         return true;
     }
 
-    bool Medic::isAttackLegal(const GridPoint& src, const GridPoint& dest){//distance-wise
+    bool Medic::isAttackLegal(const GridPoint& src, const GridPoint& dest)
+    {
         if(GridPoint::distance(src,dest)>range){
             return false;
         }
         return true;
     }
 
-    bool Medic::isTargetLegal(const std::shared_ptr<Character>& target){//type-wise
+    bool Medic::isTargetLegal(const std::shared_ptr<Character>& target)
+    {
         if(target== nullptr || target.get() == this ){
             return false;
         }
         return true;
     }
 
-    bool Medic::isTargetPositionLegal(const GridPoint &src, const GridPoint &dest) {
+    bool Medic::isTargetPositionLegal(const GridPoint &src, const GridPoint &dest)
+    {
         return true;
     }
 
-    bool Medic::isAmmoSufficient(const std::shared_ptr<Character>& target){
+    bool Medic::isAmmoSufficient(const std::shared_ptr<Character>& target)
+    {
         if (target==nullptr||(*target).getTeam() != team){
             return ammo>=1;
         }
         return true;
     }
 
-    void Medic::attack(std::shared_ptr<Character>& target){
+    void Medic::attack(std::shared_ptr<Character>& target)
+    {
         if(target->getTeam()==team){
             (*target).heal(power);
         }
@@ -58,7 +66,8 @@ namespace mtm{
         }
     }
 
-    void Medic::reload(){
+    void Medic::reload()
+    {
         ammo+=MEDIC_CHARGE;
     }
 

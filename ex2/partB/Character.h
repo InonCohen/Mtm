@@ -1,14 +1,14 @@
-#ifndef CHARACTER_H
-#define CHARACTER_H
+#ifndef EX2_CHARACTER_H
+#define EX2_CHARACTER_H
 
-#include "Auxiliaries.h"
 #include <iostream>
 #include <memory>
 #include <list>
+#include "Auxiliaries.h"
 
 namespace mtm{
-    class Character{
-
+    class Character
+    {
     protected:
         Team team;
         units_t health;
@@ -41,140 +41,173 @@ namespace mtm{
            * @param other - a Character object to be copied.
            */
         Character& operator=(const Character& other) = default;
-
+        
         /**
-             * operator== : Comparison operator.
-             *              Returns whether the caller Character object starts and the Character object
-             *             received by the function are equal.
-             *
-             * @param other - a Character to compare with the caller Character object.
-             *
-             * @return
-             *      true - if both Characters are equal.
-             *      false - otherwise.
-             *
-             * @throw
-             *      IllegalArgument - if other is NULL
-         */
+           * operator== : Comparison operator.
+           *              Returns whether the caller Character object starts and the Character object
+           *             received by the function are equal.
+           *
+           * @param other - a Character to compare with the caller Character object.
+           *
+           * @return true - if both Characters are equal.
+           * @return false - otherwise.
+           *
+           * @throw
+           *      IllegalArgument - if other is NULL.
+           */
         bool operator==(const Character& other);
 
         /**
            * Destructor of class Character.
            */
         virtual ~Character() = default;
-
+        
         /**
-            * getType: Returns the type of the
-            * returns the derived Character type of this
-        */
+           * getType: Returns the type of the calling Character.
+           *
+           * @return SOLDIER - if the calling derived object is a Soldier object.
+           * @return MEDIC - if the calling derived object is a Medic object.
+           * @return SNIPER - if the calling derived object is a Sniper object.
+           */
         virtual CharacterType getType()=0;
 
         /**
-            * //Team getTeam() const//:
-            * returns the derived Character team of this
-        */
+           * getTeam: Returns the team of the calling Character.
+           *
+           * @return CROSSFITTERS - if the calling Character is on the Crossfitters team.
+           * @return POWERLIFTERS - if the calling Character is on the Powerlifters team.
+           */
         Team getTeam() const;
-
+        
         /**
-            * //Character* clone() const =0//:
-            * clones this (the Soldier who called the function).
-            * constructs a new Soldier holding the same stats as this.
-            * returns a pointer 
-        */
+            * clone:  Constructs a new Character holding the same stats as the calling Character,
+            *           and returns a pointer to it.
+            *
+            * @return
+            *       A pointer to a replica of the calling Character.
+            */
         virtual Character* clone() const = 0;
 
-        /**
-              * //bool isMoveLegal(units_t distance)//:
-              * Receives units_t parameter of distance.
-              * returns true if move is legal distance- wise
-              * otherwise returns false
-         */
+         /**
+			* isMoveLegal: Checks if a received distance is legal for the calling Character.
+            *
+			* @param distance - the distance of which to check validity.
+            *
+			* @return true  - if distance is smaller than or equal to the Character's moving range.
+            * @return false - otherwise.
+		    */
         virtual bool isMoveLegal(units_t distance)=0;
 
-        /**
-			 * //bool isAttackLegal(const GridPoint& src, const GridPoint& dest)//:
-			 * receives GridPoint reference parameter of source attack and of dest of attack.
-			 * returns true if attack is legal range- wise
-             * otherwise returns false
-		*/
+         /**
+			* isAttackLegal: Checks if a received cell contains a Character for which it is legal to
+            *                   attack the destination cell in the matter of distance between the two,
+            *                   meaning the target is not too far from the attacker nor too close to it.
+			*
+            * @param src  - GridPoint reference of the potential attacker.
+            * @param dest - GridPoint reference of the potential attack target.
+            *
+			* @return true  - if attack is legal range-wise.
+            * @return false - otherwise.
+		    */
         virtual bool isAttackLegal(const GridPoint& src,const GridPoint& dest)=0;
 
         /**
-			 * //bool isTargetLegal (const std::shared_ptr<Character>& target)//:
-			 * receives shared_ptr Character (reference) of target.
-			 * returns true if target is legal type- wise
-             * otherwise returns false
-		*/
+           * isTargetLegal: Checks if a received cell contains a Character, for which it is legal to
+           *                   attack the destination cell in the matter of type and team.
+           *
+           * @param src  - GridPoint reference of the potential attacker.
+           * @param dest - GridPoint reference of the potential attack target.
+           *
+           * @return true  - if attack is legal type-wise.
+           * @return false - otherwise.
+           */
         virtual bool isTargetLegal(const std::shared_ptr<Character>& target)=0;
 
         /**
-			 * //bool isTargetPositionLegal(const GridPoint &src, const GridPoint &dest) override//:
-			 * receives const GridPoint reference of source and destination.
-			 * returns true if target position is legal direction- wise
-             * otherwise returns false
-		*/
+           * isTargetPositionLegal: Checks if a received cell contains a Character, for which it is legal to
+           *                        attack the destination cell in the matter of direction.
+           *
+           * @param src  - GridPoint reference of the potential attacker.
+           * @param dest - GridPoint reference of the potential attack target.
+           *
+           * @return true  - if attack is legal position-wise.
+           * @return false - otherwise.
+           */
         virtual bool isTargetPositionLegal(const GridPoint& src, const GridPoint& dest)=0;
 
         /**
-            * //bool isAmmoSufficient(const std::shared_ptr<Character>& target)//:
-            * receives shared_ptr Character reference (target).
-            * returns true if Character's ammo is sufficient.
-            * otherwise returns false
-       */
+           * isAmmoSufficient: Checks if the caller Character has enough ammunition to attack the received target.
+           *
+           * @param target - smart pointer to the target.
+           *
+           * @return true  - if the caller Character has enough ammunition to launch the attack.
+           * @return false - otherwise.
+           */
         virtual bool isAmmoSufficient(const std::shared_ptr<Character>& target);
 
         /**
-             * //void attack(std::shared_ptr<Character>& target)//: 
-             * pure virtual function.
-        */
+           * attack: Launches an attack of the caller Character on the received target.
+           *
+           * @param target - smart pointer to the target.
+           */
         virtual void attack(std::shared_ptr<Character>& target)=0;
+
         /**
-             * //virtual void attackSecondary(std::shared_ptr<Character>& target) 
-             *  receives shared_ptr Character reference (target)
-             *  if soldier is attacking creates list of secondary targets and attacks them.
-             * 
-        */
+           * attackSecondary: Applies the damage of the collateral damage caused by an attack
+           *                    launched by a soldier to the target character.
+           *
+           * @param target - smart pointer to the target.
+           */
         virtual void attackSecondary(std::shared_ptr<Character>& target);
 
         /**
-             * //void attack(std::list<std::shared_ptr<Character>>& secondary_targets)//: 
-             *  receives list of pointers and according to demands of exercise weakens the upcoming attack.
-        */
+           * attack: Launches an attack of the caller Character on the received target.
+           *
+           * @param secondary_targets - a list of smart pointers of Characters that are in range
+           *                            of the collateral damage caused by an attack launched
+           *                            by a soldier.
+           */
         void attack(std::list<std::shared_ptr<Character>>& secondary_targets);
+
         /**
-             * //void hurt(units_t damage)//
-             *  receives units_t damage parameter.
-             *  decreases attacked characters health points according to attack.
-             * if health points are negative, sets them to zero.
-             * 
-        */
+           * hurt: Decreases caller Character's health points by damage.
+           *        If after the decrease the Character health points are negative, they are zeroed.
+           *
+           * @param damage - number of health points to be taken from the caller Character.
+           */
         void hurt(units_t damage);
+
         /**
-             * //void heal(units_t healing_points)//
-             *  receives units_t healing points
-             *  increases target characters health points according to rules.
-        */
+           * heal: Increases caller Character's health points by healing_points.
+           *
+           * @param healing_points - number of health points to be added to the caller Character.
+           */
         void heal(units_t healing_points);
+
         /**
-             * //bool isAlive()//
-             *  returns true if character health is greater than zero
-             *  otherwise returns false
-        */
+           * isAlive: Checks if the caller Character has more than 0 health points.
+           *
+           * @return true  - if the caller Character has more than 0 health points.
+           * @return false - otherwise.
+           */
         bool isAlive() const;
+
         /**
-             * //virtual void reload()=0//
-             *  pure virtual reload function
-        */
+           * reload: Increases caller Character's ammo by the relevant amount according to its type.
+           */
         virtual void reload()=0;
 
         /**
-             * //virtual bool isSecondaryTarget(const GridPoint direct_target, const GridPoint gp)//
-             *  receives two coordinates (constant GridPoint) ,initial hit point and possible secondary hitPoint.
-             *  if the secondary hitPoint was hit, returns true.
-             * otherwise returns false.
-        */
-        virtual bool isSecondaryTarget(const GridPoint& direct_target,
-                                       const GridPoint& gp);
+           * isSecondaryTarget: Checks if a received GridPoint (gp) is in range of collateral damage of an attack
+           *                    launched on direct_target.
+           *
+           * @param direct_target - GridPoint of the target of the attack that was launched.
+           * @param gp - GridPoint to be checked if in range of collateral damage of the attack.
+           *
+           * @return true  - if gp is in range of collateral damage of the attack that was launched on direct_target.
+           * @return false - otherwise.
+           */
+        virtual bool isSecondaryTarget(const GridPoint& direct_target, const GridPoint& gp);
 
     };
 }
