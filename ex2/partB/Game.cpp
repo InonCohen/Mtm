@@ -19,17 +19,11 @@ namespace mtm{
     static const char CPP_SNIPER='N';
     static const char PYTHON_SNIPER='n';
 
-    /**
-     * //static char characterRepresentation(const std::shared_ptr<Character>& character)//:
-     * receives a shared pointer to Character named character
-     * returns the letter symbolizes the character on the Board
-     */
-    static char characterRepresentation(const std::shared_ptr<Character>& character);
-
     Game::Game(int height, int width): gameBoard(Board<Character>(height, width)) {}
 
     std::shared_ptr<Character> Game::makeCharacter(CharacterType type, Team team, units_t health,
-                                                   units_t ammo, units_t range, units_t power){
+                                                   units_t ammo, units_t range, units_t power)
+   {
         if(health<=0||ammo<0||range<0||power<0){
             throw IllegalArgument();
         }
@@ -42,36 +36,13 @@ namespace mtm{
         return std::make_shared<Sniper>(Sniper(team, health, ammo, range, power));
     }
 
-    void Game::addCharacter(const GridPoint& gp, std::shared_ptr<Character> character_ptr){
+    void Game::addCharacter(const GridPoint& gp, std::shared_ptr<Character> character_ptr)
+    {
         this->gameBoard.addItem(gp, character_ptr);
     }
 
-    static char characterRepresentation(const std::shared_ptr<Character>& character) {
-        if (character == nullptr) {
-            return EMPTY_CELL;
-        }
-        if ((character.get())->getTeam() == POWERLIFTERS) {
-            if ((character.get())->getType() == SOLDIER) {
-                return CPP_SOLDIER;
-            }
-            if ((character.get())->getType() == MEDIC) {
-                return CPP_MEDIC;
-            }
-            return CPP_SNIPER;
-        }
-        else
-        {
-            if ((character.get())->getType() == SOLDIER) {
-                return PYTHON_SOLDIER;
-            }
-            if ((character.get())->getType() == MEDIC) {
-                return PYTHON_MEDIC;
-            }
-            return PYTHON_SNIPER;
-        }
-    }
-
-    std::ostream& operator<<(std::ostream &os, const mtm::Game& game) {
+    std::ostream& operator<<(std::ostream &os, const mtm::Game& game)
+    {
         int gameBoardHeight = game.gameBoard.getHeight();
         int gameBoardWidth = game.gameBoard.getWidth();
         int gameBoardSize = gameBoardHeight * gameBoardWidth;
@@ -80,7 +51,7 @@ namespace mtm{
         for (int i=0;i<gameBoardHeight;i++){
             for (int j=0;j<gameBoardWidth;j++){
                 const GridPoint gp(i,j);
-                char_board[count++]= characterRepresentation(game.gameBoard(gp));
+                char_board[count++] = Game::characterRepresentation(game.gameBoard(gp));
             }
         }
 
@@ -89,8 +60,9 @@ namespace mtm{
         return print;
     }
 
-    // TODO: CHECK FOR EXCEPTION THROWING ORDER
-    void Game::move(const GridPoint & src_coordinates, const GridPoint & dst_coordinates){
+
+    void Game::move(const GridPoint & src_coordinates, const GridPoint & dst_coordinates)
+    {
         if(!(this->gameBoard.isCellLegal(src_coordinates) && this->gameBoard.isCellLegal(dst_coordinates))){
             throw IllegalCell();
         }
@@ -104,8 +76,9 @@ namespace mtm{
         this->gameBoard.moveItem(src_coordinates, dst_coordinates);
     }
 
-    // TODO: CHECK FOR EXCEPTION THROWING ORDER
-    void Game::attack(const GridPoint & src_coordinates, const GridPoint & dst_coordinates){
+
+    void Game::attack(const GridPoint & src_coordinates, const GridPoint & dst_coordinates)
+    {
         if(!(this->gameBoard.isCellLegal(src_coordinates) && this->gameBoard.isCellLegal(dst_coordinates))){
             throw IllegalCell();
         }
@@ -121,7 +94,7 @@ namespace mtm{
             throw OutOfAmmo();
         }
         if(!((attacker_ptr.get())->isTargetLegal(target_ptr))||
-        !(attacker_ptr->isTargetPositionLegal(src_coordinates,dst_coordinates))){
+           !(attacker_ptr->isTargetPositionLegal(src_coordinates,dst_coordinates))){
             throw IllegalTarget();
         }
         (attacker_ptr.get())->attack(target_ptr);
@@ -133,7 +106,8 @@ namespace mtm{
         clearDead();
     }
 
-    void Game::reload(const GridPoint& coordinates){
+    void Game::reload(const GridPoint& coordinates)
+    {
         if(!this->gameBoard.isCellLegal(coordinates)){
             throw IllegalCell();
         }
@@ -144,33 +118,36 @@ namespace mtm{
         (*character).reload();
     }
 
-    void Game::clearDead() {
+    void Game::clearDead()
+    {
         for(int i=0; i < gameBoard.getHeight(); i++){
             for(int j=0; j < gameBoard.getWidth(); j++){
                 const GridPoint gp(i,j);
                 Character* current_character_ptr = gameBoard(gp).get();
                 if(gameBoard(gp) != nullptr && !(current_character_ptr->isAlive())){
-                    gameBoard(gp)=nullptr;
+                    gameBoard.removeItem(gp);
                 }
             }
         }
     }
 
-     void Game::fillSecondaryTargetsList(const GridPoint src_coordinates, const GridPoint dst_coordinates,
-            std::list<std::shared_ptr<Character>>& secondary_targets){
+    void Game::fillSecondaryTargetsList(const GridPoint src_coordinates, const GridPoint dst_coordinates,
+                                        std::list<std::shared_ptr<Character>>& secondary_targets)
+    {
         Character& attacker= *(this->gameBoard(src_coordinates));
         for(int i=0; i < this->gameBoard.getHeight(); i++) {
             for (int j = 0; j < this->gameBoard.getWidth(); j++) {
                 const GridPoint gp(i,j);
                 if(this->gameBoard(gp) != nullptr && attacker.isSecondaryTarget(dst_coordinates, gp) &&
-                (*(this->gameBoard(gp))).getTeam()!=attacker.getTeam()){
+                   (*(this->gameBoard(gp))).getTeam()!=attacker.getTeam()){
                     secondary_targets.push_back(this->gameBoard(gp));
                 }
             }
         }
     }
 
-    bool Game::isOver(Team* winningTeam) const{
+    bool Game::isOver(Team* winningTeam) const
+    {
         int countCPP=0, countPython=0;
         for(int i=0; i < gameBoard.getHeight(); i++) {
             for (int j = 0; j < gameBoard.getWidth(); j++) {
@@ -194,5 +171,31 @@ namespace mtm{
             }
         }
         return true;
+    }
+
+    char Game::characterRepresentation(const std::shared_ptr<Character>& character)
+    {
+        if (character == nullptr) {
+            return EMPTY_CELL;
+        }
+        if ((character.get())->getTeam() == POWERLIFTERS) {
+            if ((character.get())->getType() == SOLDIER) {
+                return CPP_SOLDIER;
+            }
+            if ((character.get())->getType() == MEDIC) {
+                return CPP_MEDIC;
+            }
+            return CPP_SNIPER;
+        }
+        else
+        {
+            if ((character.get())->getType() == SOLDIER) {
+                return PYTHON_SOLDIER;
+            }
+            if ((character.get())->getType() == MEDIC) {
+                return PYTHON_MEDIC;
+            }
+            return PYTHON_SNIPER;
+        }
     }
 }

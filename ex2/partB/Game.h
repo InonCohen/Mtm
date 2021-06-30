@@ -1,5 +1,5 @@
-#ifndef GAME_H
-#define GAME_H
+#ifndef EX2_GAME_H
+#define EX2_GAME_H
 #include <vector>
 #include <iostream>
 #include <memory>
@@ -12,30 +12,41 @@
 namespace mtm{
     class Game{
         Board<Character> gameBoard;
+
         /**
          * clearDead: Checks all character's health on the board.
-         * Character is being removed from the Board if its health is zero.
+         * Character is being removed from the Board if its health equals zero.
          */
         void clearDead();
-        
+
         /**
          * fillSecondaryTargetsList: Called when a soldier character is attacking.
          * Builds secondary_target list - shared pointers to characters in the range of damage from a Soldier's attack.
+         *
          * @param src_coordinates: Soldier's coordination
          * @param dst_coordinates: Target's coordination
          * @param secondary_targets: Pointer to secondary_targets list
          */
         void fillSecondaryTargetsList(GridPoint src_coordinates, GridPoint dst_coordinates,
-        std::list<std::shared_ptr<Character>>& secondary_targets);
-    
+                                      std::list<std::shared_ptr<Character>>& secondary_targets);
+
+        /**
+         * characterRepresentation: Match a unique char to character type from a given team.
+         * @param Ptr to character
+         * @return appropriate char, considering Team and CharacterType.
+         */
+        static char characterRepresentation(const std::shared_ptr<Character>& character);
+
     public:
+
         /**
          * Game Constructor. Receives dimensions of Game's Board,
          * constructs Board<std::shared_ptr<Character>> data structure.
+         *
          * @param height: Height of game board.
          * @param width: Width of game board.
          *
-         * @throw IllegalArgument:
+         * @throw IllegalArgument: height or width aren't positive integers.
          */
         Game(int height, int width);
 
@@ -52,25 +63,25 @@ namespace mtm{
 
         /**
          * Game Assignment Operator.
-         * receives a param Game named other
-         * makes this' Board identical to the Board of other
-         * @param other
+         * @param other: Game& to assign to.
          * @return Game& of the assigned game.
          */
         Game& operator=(const Game& other)=default;
 
         /**
-         * addCharacter: Adds character to the game's Board in a given gridpoint
+         * addCharacter: Adds character to the game's Board in a given GridPoint.
+         *
          * @param coordinates: GridPoint on game board to add the character into.
          * @param character: Ptr to Character object to-be added
          *
-         * @throw IllegalCell
-         * @throw CellOccupied
+         * @throw IllegalCell: coordinates aren't in gameBoard.
+         * @throw CellOccupied: GridPoint isn't empty.
          */
         void addCharacter(const GridPoint& coordinates, std::shared_ptr<Character> character);
-        
-        /** 
-         * makeCharacter: Creates a character from the following params
+
+        /**
+         * makeCharacter: Creates a character from the following params.
+         *
          * @param type: One of the following: Medic, Sniper, Soldier
          * @param team: One of Team enum teams
          * @param health: Initial health units of the character. Positive integer.
@@ -78,13 +89,14 @@ namespace mtm{
          * @param range: attack range of the character.
          * @param power: Power attack of the character.
          *
-         * @throw IllegalArgument:
-         * @return Shared ptr to the new Character
+         * @throw IllegalArgument: one of the arguments is non-positive number (notice that except `health` all
+         * arguments should be greater than 0).
+         * @return Shared ptr to the new Character.
          */
         static std::shared_ptr<Character> makeCharacter(CharacterType type, Team team, units_t health,
-            units_t ammo, units_t range, units_t power);
-        
-        /** 
+                                                        units_t ammo, units_t range, units_t power);
+
+        /**
          * move: Moves character currently in src_coordinates to dst_coordinates.
          *
          * @param src_coordinates: GridPoint character is currently in.
@@ -95,52 +107,47 @@ namespace mtm{
          * @throw MoveTooFar: defined max range of move for character of the given type isn't enough
          */
         void move(const GridPoint & src_coordinates, const GridPoint & dst_coordinates);
-        
-        /** 
+
+        /**
          * attack: Apply attack of a character on a destination on board.
          *
          * @param src_coordinates: GridPoint of the attacking character
-         * @param dst_coordinates:
+         * @param dst_coordinates: GridPoint of the target
          *
-         * @throw IllegalCell:
-         * @throw CellEmpty:
-         * @throw OutOfRange:
-         * @throw OutOfAmmo:
-         * @throw IllegalTarget:
+         * @throw IllegalCell: coordinates aren't in gameBoard
+         * @throw CellEmpty: src_coordinates is empty
+         * @throw OutOfRange: target is out of character's attack defined range
+         * @throw OutOfAmmo: attacking character doesn't have enough ammunition in order to execute attack
+         * @throw IllegalTarget: dst_coordinates is empty or contains invalid target
          */
         void attack(const GridPoint & src_coordinates, const GridPoint & dst_coordinates);
-        
-        /** 
-         * //void reload(const GridPoint & coordinates)//:
-         * receives a GridPoint named coordinates
-         * reloads the ammo of the character at the given coordinates
+
+        /**
+         * reload: Receives a GridPoint named coordinates, reloads the ammo of the character at the given coordinates.
          *
-         * @param coordinates
+         * @param coordinates: GridPoint of the character to be reloaded
          *
-         * @throw IllegalCell:
-         * @throw CellEmpty:
+         * @throw IllegalCell: coordinates aren't in gameBoard.
+         * @throw CellEmpty: coordinates is empty
          */
         void reload(const GridPoint & coordinates);
-        
-        /** 
-         * //isOver(Team* winningTeam=NULL) const//:
-         * receives a pointer to a Team
-         * checks if the games is over according to the rules.
-         * returns true if the game is over. false, otherwise.
+
+        /**
+         * isOver: Receives a pointer to a Team. Checks if the games is over according to the rules.
          *
-         * @param winningTeam
-         * @return
+         * @param winningTeam: Ptr contains winning `Team` enum, or nullptr if game isn't finished
+         * @return true if the game is over.
+         * @return false, otherwise.
          */
         bool isOver(Team* winningTeam=nullptr) const;
-         
-        /** 
-         * //std::ostream& operator<<(std::ostream &os, const Game& game)//:
-         * receives ostream os and a game
-         * prints the given game
+
+        /**
+         * operator<<: Receives ostream os and a game and prints the given game.
          *
-         * @param os
-         * @param game
+         * @param os: std::ostream object to print output into
+         * @param game: const reference to object to print
          * @return
+         *      Updated received outstream, with all required information of game in the required formatting.
          */
         friend std::ostream& operator<<(std::ostream &os, const Game& game);
     };
@@ -149,4 +156,4 @@ namespace mtm{
     std::ostream& operator<<(std::ostream &os, const Game& game);
 }
 
-#endif // GAME_H
+#endif // EX2_GAME_H

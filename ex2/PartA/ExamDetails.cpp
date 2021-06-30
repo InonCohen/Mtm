@@ -1,7 +1,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <cmath>
-#include "ExamDetails.h"
+#include "examDetails.h"
 
 #define EPSILON (0.000001)
 #define HALF_AN_HOUR (0.5)
@@ -33,21 +33,24 @@ namespace mtm{
 
     ExamDetails& ExamDetails::operator=(const ExamDetails& other) = default;
 
-    std::string ExamDetails::getLink() const{
+    std::string ExamDetails::getLink() const
+    {
         if(!this){
             throw ExamDetails::InvalidArgsException();
         }
         return zoom_link;
     }
 
-    void ExamDetails::setLink(const std::string new_link){
+    void ExamDetails::setLink(const std::string new_link)
+    {
         if(!this){
             throw ExamDetails::InvalidArgsException();
         }
         zoom_link=new_link;
     }
 
-    int ExamDetails::operator-(const ExamDetails& other) const{
+    int ExamDetails::operator-(const ExamDetails& other) const
+    {
         if(!this || !&other){
             throw ExamDetails::InvalidArgsException();
         }
@@ -56,7 +59,8 @@ namespace mtm{
         return month_diff*30+day_diff;
     }
 
-    bool ExamDetails::operator<(const ExamDetails& other) const{
+    bool ExamDetails::operator<(const ExamDetails& other) const
+    {
         if(!this || !&other){
             throw InvalidArgsException();
         }
@@ -67,13 +71,15 @@ namespace mtm{
         return (time-other.time < 0);
     }
 
-    ExamDetails ExamDetails::makeMatamExam(){
+    ExamDetails ExamDetails::makeMatamExam()
+    {
         ExamDetails to_return(MTM_COURSE_NUM, MTM_EXAM_MONTH, MTM_EXAM_DAY,
                               MTM_EXAM_HOUR, MTM_EXAM_DURATION, MTM_EXAM_ZOOM_LINK);
         return to_return;
     }
 
-    bool ExamDetails::timeIsValid(const double time){
+    bool ExamDetails::timeIsValid(const double time)
+    {
         if(time<0-EPSILON || time>LAST_HOUR_ACCEPTED+EPSILON){
             return false;
         }
@@ -84,11 +90,13 @@ namespace mtm{
         }
         return false;
     }
+
     //End of ExamDetails Methods Implementation//
 
 
     //Output Operator, friend of class ExamDeatils//
-    std::ostream& operator<<(std::ostream& os, const ExamDetails& exam){
+    std::ostream& operator<<(std::ostream& os, const ExamDetails& exam)
+    {
         if(!&os || !&exam){
             throw ExamDetails::InvalidArgsException();
         }

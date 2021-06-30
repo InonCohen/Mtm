@@ -1,15 +1,15 @@
-#ifndef MEDIC_H
-#define MEDIC_H
+#ifndef EX2_MEDIC_H
+#define EX2_MEDIC_H
 #include "Auxiliaries.h"
 #include "Character.h"
 
 
-
-
 namespace mtm{
-    class Medic: public Character{
+    class Medic: public Character
+    {
         static const units_t MEDIC_MAX_MOVE=5;
         static const units_t MEDIC_CHARGE=5;
+
     public:
 
         /**
@@ -37,18 +37,53 @@ namespace mtm{
 
         CharacterType getType() override;
 
-        bool isMoveLegal(units_t distance) override;//distance-wise
+        /**
+           * isMoveLegal: Checks if a received distance is between 0 and 5.
+           *
+           * @param distance - the distance of which to check validity.
+           *
+           * @return true  - if distance is non negative and smaller than 6.
+           * @return false - otherwise.
+           */
+        bool isMoveLegal(units_t distance) override;
 
-        bool isAttackLegal(const GridPoint& src, const GridPoint& dest) override;//range-wise
+        /**
+           * isAttackLegal: Checks if a received cells are not too far from one another.
+           *
+           * @param src  - GridPoint reference of the potential attacker.
+           * @param dest - GridPoint reference of the potential attack target.
+           *
+           * @return true  - if the distance between the two received cells is not too long.
+           * @return false - otherwise.
+           */
+        bool isAttackLegal(const GridPoint& src, const GridPoint& dest) override;
 
-        bool isTargetLegal (const std::shared_ptr<Character>& target) override;//type-wise
+        /**
+           * isTargetLegal: Checks if a received cell contains a Character, and that the two cells are different.
+           *
+           * @param src  - GridPoint reference of the potential attacker.
+           * @param dest - GridPoint reference of the potential attack target.
+           *
+           * @return true  - if dest contains a Character that is not the caller Medic.
+           * @return false - otherwise.
+           */
+        bool isTargetLegal (const std::shared_ptr<Character>& target) override;
 
-        bool isTargetPositionLegal(const GridPoint &src, const GridPoint &dest) override;//direction-wise
+        bool isTargetPositionLegal(const GridPoint &src, const GridPoint &dest) override;
 
         bool isAmmoSufficient(const std::shared_ptr<Character>& target) override;
 
+        /**
+           * attack: If the target is a Character that is on the same team as the caller Medic,
+           *            the target is healed by Medic. Otherwise, the target is attacked by Medic.
+           *
+           * @param target - smart pointer to the target.
+           */
         void attack(std::shared_ptr<Character>& target) override;
 
+        /**
+           * reload: Increases caller Medic's ammo by 5.
+           */
         void reload() override;
 
         Character* clone() const override;
@@ -56,4 +91,4 @@ namespace mtm{
 }
 
 
-#endif //MEDIC_H
+#endif //EX2_MEDIC_H

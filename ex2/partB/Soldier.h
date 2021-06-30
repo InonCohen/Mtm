@@ -1,5 +1,5 @@
-#ifndef SOLDIER_H
-#define SOLDIER_H
+#ifndef EX2_SOLDIER_H
+#define EX2_SOLDIER_H
 
 #include "Auxiliaries.h"
 #include "Character.h"
@@ -42,20 +42,49 @@ namespace mtm{
 
         Character* clone() const override ;
 
+        /**
+           * isMoveLegal: Checks if a received distance is between 0 and 3.
+           *
+           * @param distance - the distance of which to check validity.
+           *
+           * @return true  - if distance is non negative and smaller than 4.
+           * @return false - otherwise.
+           */
         bool isMoveLegal(units_t distance) override;
 
+        /**
+           * isAttackLegal: Checks if a received cells are not too far from one another.
+           *
+           * @param src  - GridPoint reference of the potential attacker.
+           * @param dest - GridPoint reference of the potential attack target.
+           *
+           * @return true  - if the distance between the two received cells is not too long.
+           * @return false - otherwise.
+           */
         bool isAttackLegal(const GridPoint& src, const GridPoint& dest) override;
 
         bool isTargetLegal (const std::shared_ptr<Character>& target) override;
 
+        /**
+           * isTargetPositionLegal: Checks if the received cells are on the same row or column
+           *
+           * @param src  - GridPoint reference of the potential attacker.
+           * @param dest - GridPoint reference of the potential attack target.
+           *
+           * @return true  - if src and dest are on the same row or column .
+           * @return false - otherwise.
+           */
         bool isTargetPositionLegal(const GridPoint &src, const GridPoint &dest) override;
 
         void attack(std::shared_ptr<Character>& target) override;
 
         void attackSecondary(std::shared_ptr<Character>& target) override;
 
+        /**
+           * reload: Increases caller Soldier's ammo by 3.
+           */
         void reload() override;
     };
 }
 
-#endif //SOLDIER_H
+#endif //EX2_SOLDIER_H

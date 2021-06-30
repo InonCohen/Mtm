@@ -18,10 +18,9 @@ namespace mtm{
         /**
          * timeIsValid : Returns whether a received double makes a valid starting time of an exam.
          *
-         * @param time - a new examDetails potential starting time for the exam
-         * @return
-         *      true - if time is between 00:00 and 23:30, and ends with .0 or .5 .
-         *      false - otherwise.
+         * @param time - a new examDetails potential starting time for the exam.
+         * @return true - if time is between 00:00 and 23:30, and ends with .0 or .5 .
+         * @return false - otherwise.
          */
         static bool timeIsValid(const double time);
     public:
@@ -30,19 +29,24 @@ namespace mtm{
 
         class InvalidDateException: public std::exception{
         public:
-            const char* what() const noexcept {
+            const char* what() const noexcept
+            {
                 return "invalid date";
             }
         };
-        class InvalidTimeException: public std::exception{
+        class InvalidTimeException: public std::exception
+        {
         public:
-            const char* what() const noexcept {
+            const char* what() const noexcept
+            {
                 return "invalid time";
             }
         };
-        class InvalidArgsException: public std::exception{
+        class InvalidArgsException: public std::exception
+        {
         public:
-            const char* what() const noexcept {
+            const char* what() const noexcept
+            {
                 return "invalid argument";
             }
         };
@@ -60,6 +64,10 @@ namespace mtm{
            * @param time - the exam starting hour. Must be 00:00 to 23:30 in lapses of 30 minutes.
            * @param duration - the exam duration, in hours.
            * @param zoom_link - the link to the zoom room in which the exam will take place.
+           *
+           * @throw InvalidDateException - if month is not between 1 and 12, or if day is not between 1 to 30.
+           * @throw InvalidTimeException - if the starting time of the exam is neither on the hour nor is it
+           *                                on the half hour, or if the duration of the exam is negative.
            */
         ExamDetails(int course_number, int month, int day, double time, int duration, std::string zoom_link="");
 
@@ -87,6 +95,8 @@ namespace mtm{
            *
            * @return
            *    A copy of the link to the zoom meeting of the exam.
+           *
+           * @throw InvalidArgsException - if the caller object is invalid
            */
         std::string getLink() const;
 
@@ -94,6 +104,8 @@ namespace mtm{
            * setLink : Changes the zoom link to connect to the exam.
            *
            * @param new_link - a new link to which the zoom link is to be changed.
+           *
+           * @throw InvalidArgsException - if the caller object is invalid
            */
         void setLink(const std::string new_link);
 
@@ -104,7 +116,9 @@ namespace mtm{
            * @param other - an ExamDetails object, of which time difference from the current Exam is to be calculated.
            *
            * @return
-           *        the difference in days between the current ExamDetails object and the other ExamDetails object
+           *        The difference in days between the current ExamDetails object and the other ExamDetails object
+           *
+           * @throw InvalidArgsException - if the caller object or the received object are invalid
            */
         int operator-(const ExamDetails& other) const;
 
@@ -114,9 +128,10 @@ namespace mtm{
            *
            * @param other - an ExamDetails object, to which the caller ExamDetails object is to be compared .
            *
-           * @return
-           *        true - if the caller ExamDetails exam starts before the other's.
-           *        false - otherwise.
+           * @return true - if the caller ExamDetails exam starts before the other's.
+           * @return false - otherwise.
+           *
+           * @throw InvalidArgsException - if the caller object or the received object are invalid
            */
         bool operator<(const ExamDetails& other) const;
 
@@ -124,8 +139,9 @@ namespace mtm{
            * makeMatamExam : Creates a new ExamDetails object with the information of Matam's exam.
            *
            * @return
-           *        an ExamDetails object with course number 234124, which takes place on July 28th,
-           *        at 1pm, for 3 hours. The zoom link is: https://tinyurl.com/59hzps6m.
+           *        An ExamDetails object with course number 234124, which takes place on July 28th,
+           *        at 1pm, for 3 hours.
+           *        The zoom link is: https://tinyurl.com/59hzps6m.
            */
         static ExamDetails makeMatamExam();
 
@@ -138,6 +154,8 @@ namespace mtm{
              *
              * @return
              *      Updated received outstream, with all required information of exam in the required formatting.
+             *
+             * @throw InvalidArgsException - if the ostream object or the ExamDetails object are invalid
         */
         friend std::ostream& operator<<(std::ostream& os, const ExamDetails& exam);
 

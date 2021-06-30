@@ -8,22 +8,26 @@ namespace mtm{
 
     Sniper::Sniper(const Sniper& other): Character(other.team, other.health, other.ammo, other.range, other.power){}
 
-    Character* Sniper::clone() const {
+    Character* Sniper::clone() const
+    {
         return new Sniper(*this);
     }
 
-    CharacterType Sniper::getType(){
+    CharacterType Sniper::getType()
+    {
         return SNIPER;
     }
 
-    bool Sniper::isMoveLegal(const units_t distance){//distance-wise
+    bool Sniper::isMoveLegal(const units_t distance)
+    {
         if (distance>SNIPER_MAX_MOVE||distance<0){
             return false;
         }
         return true;
     }
 
-    bool Sniper::isAttackLegal(const GridPoint& src, const GridPoint& dest){//range-wise
+    bool Sniper::isAttackLegal(const GridPoint& src, const GridPoint& dest)
+    {
         units_t min_range=ceil(double(range)/SNIPER_MIN_RANGE);
         units_t distance=GridPoint::distance(src,dest);
         if(distance<min_range||distance>range){
@@ -32,18 +36,21 @@ namespace mtm{
         return true;
     }
 
-    bool Sniper::isTargetLegal(const std::shared_ptr<Character>& target){//type-wise
+    bool Sniper::isTargetLegal(const std::shared_ptr<Character>& target)
+    {
         if(target == nullptr || ((target).get())->getTeam()== team){
             return false;
         }
         return true;
     }
 
-    bool Sniper::isTargetPositionLegal(const GridPoint &src, const GridPoint &dest) {
+    bool Sniper::isTargetPositionLegal(const GridPoint &src, const GridPoint &dest)
+    {
         return true;
     }
 
-    void Sniper::attack(std::shared_ptr<Character>& target){
+    void Sniper::attack(std::shared_ptr<Character>& target)
+    {
         if(attack_counter==SNIPER_DOUBLE_POWER){
             (target.get())->hurt(power*SNIPER_DOUBLE_POWER);
             attack_counter=0;
@@ -55,7 +62,8 @@ namespace mtm{
         ammo--;
     }
 
-    void Sniper::reload(){
+    void Sniper::reload()
+    {
         ammo+=SNIPER_CHARGE;
     }
 
