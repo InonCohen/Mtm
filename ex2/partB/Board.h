@@ -2,11 +2,19 @@
 #define BOARD_H
 #include <vector>
 #include <memory>
-#include "Character.h"
 #include "Exceptions.h"
 
 
 namespace mtm {
+    /**Board template class.
+     * Create a 2-dim board contains items of general type T.
+     *
+     * Template Requirements:
+     *      A copy constructor.
+     *      A destructor.
+     *      clone() method.
+    */
+
     template <class T>
     class Board{
         int height;
