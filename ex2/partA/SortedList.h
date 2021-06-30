@@ -95,7 +95,9 @@ namespace mtm {
             *
             * @param to_add - a T element to be inserted to the list
             *
-            *  * Template Requirements (derived from SortedListNode<T> template requirements):
+            * @throw bad_alloc - if an allocation failed
+            *
+            * Template Requirements (derived from SortedListNode<T> template requirements):
             *    Assignment operator
             *    operator<
             */
@@ -173,6 +175,8 @@ namespace mtm {
             *
             * @return
             *       const_iterator pointing to the 'indexth' node in the list.
+            *
+            * @throw out_of_range - if index is negative or bigger than than the size of sorted_list.
             */
         const_iterator(const SortedList *sorted_list, int index);
 
@@ -233,6 +237,8 @@ namespace mtm {
            *
            * @return
            *       A reference of the following node of the received const_iterator object.
+           *
+           * @throw out_of_range - if caller iterator is at the end of the list.
            */
         const_iterator& operator++();
 
@@ -242,6 +248,8 @@ namespace mtm {
            *
            * @return
            *       A reference of the node of the received const_iterator object, prior to its advancement.
+           *
+           * @throw out_of_range - if caller iterator is at the end of the list.
            */
         const_iterator operator++(int);
 
@@ -399,7 +407,7 @@ namespace mtm {
 
     template<class T>
     SortedList<T>::const_iterator::const_iterator(const SortedList *sorted_list, int index): sorted_list(sorted_list),
-                                                                                             index(index < 0 || index > sorted_list->length() ? throw std::out_of_range("Iterator is Illegal") : index) {
+                                                                                             index(index < 0 || index > sorted_list->length() ? throw std::out_of_range("Iterator is Illegal") : index){
         if(index == sorted_list->length()){
             current_node = nullptr;
         }

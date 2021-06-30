@@ -37,13 +37,23 @@ namespace mtm{
 
         CharacterType getType() override;
 
-        bool isMoveLegal(units_t distance) override;//distance-wise
+        bool isMoveLegal(units_t distance) override;
 
-        bool isAttackLegal(const GridPoint& src, const GridPoint& dest) override;//range-wise
+        /**
+           * isAttackLegal: Checks if a received cells are not too far from one another.
+           *
+           * @param src  - GridPoint reference of the potential attacker.
+           * @param dest - GridPoint reference of the potential attack target.
+           *
+           * @return
+           *        true  - if the distance between the two received cells is not too long.
+           *        false - otherwise.
+           */
+        bool isAttackLegal(const GridPoint& src, const GridPoint& dest) override;
 
-        bool isTargetLegal (const std::shared_ptr<Character>& target) override;//type-wise
+        bool isTargetLegal (const std::shared_ptr<Character>& target) override;
 
-        bool isTargetPositionLegal(const GridPoint &src, const GridPoint &dest) override;//direction-wise
+        bool isTargetPositionLegal(const GridPoint &src, const GridPoint &dest) override;
 
         bool isAmmoSufficient(const std::shared_ptr<Character>& target) override;
 

@@ -26,19 +26,19 @@ namespace mtm{
         return true;
     }
 
-    bool Soldier::isAttackLegal(const GridPoint& src, const GridPoint& dest){//distance-wise
+    bool Soldier::isAttackLegal(const GridPoint& src, const GridPoint& dest){
         if(GridPoint::distance(src, dest)>range){
             return false;
         }
         return true;
     }
 
-    bool Soldier::isTargetLegal(const std::shared_ptr<Character>& target){//type-wise
+    bool Soldier::isTargetLegal(const std::shared_ptr<Character>& target){
         return true;
     }
 
     bool Soldier::isTargetPositionLegal(const GridPoint &src, const GridPoint &dest) {
-        if (src.row!=dest.row&&src.col!=dest.col){
+        if (src.row!=dest.row && src.col!=dest.col){
             return false;
         }
         return true;
@@ -60,7 +60,7 @@ namespace mtm{
     bool Soldier::isSecondaryTarget(const GridPoint& initial_hit_point, const GridPoint& possible_secondary_hit_point){
         int distance_from_direct_target=GridPoint::distance(possible_secondary_hit_point,initial_hit_point);
         return  ((0 < distance_from_direct_target) &&
-                (distance_from_direct_target <= ceil(double(range)/SOLDIER_SECONDARY_RANGE)));
+                 (distance_from_direct_target <= ceil(double(range)/SOLDIER_SECONDARY_RANGE)));
     }
 
     void Soldier::reload(){

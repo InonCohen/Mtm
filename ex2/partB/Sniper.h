@@ -44,8 +44,30 @@ namespace mtm{
 
         bool isMoveLegal(units_t distance) override;
 
-        bool isAttackLegal(const GridPoint& src, const GridPoint& dest) override;
+        /**
+           * isAttackLegal: Checks if a received cells are not too far from one another,
+           *                and not too close to one another.
+           *
+           * @param src  - GridPoint reference of the potential attacker.
+           * @param dest - GridPoint reference of the potential attack target.
+           *
+           * @return
+           *        true  - if the distance between the two received cells is in legal range.
+           *        false - otherwise.
+           */
+        bool isAttackLegal(const GridPoint& src, const GridPoint& dest) override;//range-wise
 
+        /**
+           * isTargetLegal: Checks if a received cell contains a Character that is from
+           *                the rival team of the caller Sniper
+           *
+           * @param src  - GridPoint reference of the potential attacker.
+           * @param dest - GridPoint reference of the potential attack target.
+           *
+           * @return
+           *        true  - if dest contains a Character of the opposite team.
+           *        false - otherwise.
+           */
         bool isTargetLegal(const std::shared_ptr<Character>& target) override;
 
         bool isTargetPositionLegal(const GridPoint &src, const GridPoint &dest) override;

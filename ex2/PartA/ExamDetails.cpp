@@ -1,7 +1,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <cmath>
-#include "ExamDetails.h"
+#include "examDetails.h"
 
 #define EPSILON (0.000001)
 #define HALF_AN_HOUR (0.5)
