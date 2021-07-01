@@ -1,4 +1,0 @@
-/home/mtm/cmake-3.17.0-Linux-x86_64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=/usr/bin/gcc -G "CodeBlocks - Unix Makefiles" /tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/dry
--- Configuring done
--- Generating done
--- Build files have been written to: /tmp/tmp.YVaeKa3iS7/tmp/tmp.YVaeKa3iS7/dry/cmake-build-debug-csl3
